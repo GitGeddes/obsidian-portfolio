@@ -4,7 +4,7 @@ import NoteButton from "./components/NoteButton";
 
 export default function NotesList() {
     return (
-        <List sx={{bgcolor: "#262626"}}>
+        <List>
             <FolderButton title="Notes">
                 <FolderButton title="Projects">
                     <NoteButton title="Portfolio"/>
