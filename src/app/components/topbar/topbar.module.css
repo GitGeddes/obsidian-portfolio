@@ -1,0 +1,9 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    background-color: #363636;
+}
+
+.tab_button {
+    padding: 1em;
+}
