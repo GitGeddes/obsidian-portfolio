@@ -8,13 +8,13 @@ export default function SideBarTopButtonsList() {
     return (
         <div className={"topbar bottomBorder row"}>
             <SideBarTopButton>
-                <FolderOpenOutlinedIcon />
+                <FolderOpenOutlinedIcon fontSize='small' />
             </SideBarTopButton>
             <SideBarTopButton>
-                <SearchOutlinedIcon />
+                <SearchOutlinedIcon fontSize='small' />
             </SideBarTopButton>
             <SideBarTopButton>
-                <BookmarkBorderOutlinedIcon />
+                <BookmarkBorderOutlinedIcon fontSize='small' />
             </SideBarTopButton>
         </div>
     );

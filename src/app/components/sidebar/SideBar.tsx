@@ -23,7 +23,7 @@ export default function SideBar() {
             <div className="rightBorder">
                 <div className="topbar row">
                     <ListItemButton onClick={handleClick}>
-                        <ViewSidebarOutlinedIcon />
+                        <ViewSidebarOutlinedIcon fontSize='small' />
                     </ListItemButton>
                 </div>
                 <SideButtonList />

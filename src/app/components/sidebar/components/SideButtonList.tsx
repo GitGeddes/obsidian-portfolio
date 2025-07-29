@@ -13,22 +13,22 @@ export default function SideButtonList() {
         <List>
             <ListItemButton>
                 {/* lol I just HAD to use this one */}
-                <PlagiarismOutlined />
+                <PlagiarismOutlined fontSize='small' />
             </ListItemButton>
             <ListItemButton>
-                <HubOutlinedIcon />
+                <HubOutlinedIcon fontSize='small' />
             </ListItemButton>
             <ListItemButton>
-                <ContentCopyOutlinedIcon />
+                <ContentCopyOutlinedIcon fontSize='small' />
             </ListItemButton>
             <ListItemButton>
-                <TerminalIcon />
+                <TerminalIcon fontSize='small' />
             </ListItemButton>
             <ListItemButton>
-                <WidgetsOutlinedIcon />
+                <WidgetsOutlinedIcon fontSize='small' />
             </ListItemButton>
             <ListItemButton>
-                <CalendarTodayOutlinedIcon />
+                <CalendarTodayOutlinedIcon fontSize='small' />
             </ListItemButton>
         </List>
     );
