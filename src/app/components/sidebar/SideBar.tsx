@@ -20,7 +20,7 @@ export default function SideBar() {
 
     return (
         <div className="row secondaryBackground">
-            <div className="rightBorder fullHeight">
+            <div className="rightBorder">
                 <div className="topbar row">
                     <ListItemButton onClick={handleClick}>
                         <ViewSidebarOutlinedIcon fontSize='small' />

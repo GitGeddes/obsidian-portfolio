@@ -4,7 +4,7 @@ export default function TopBar() {
     return (
         <div className="topbar row">
             <TopBarButton title="Portfolio"/>
-            <TopBarButton title="Video Clipper"/>
+            <TopBarButton title="VideoClipper"/>
             <TopBarButton title="test"/>
         </div>
     );
