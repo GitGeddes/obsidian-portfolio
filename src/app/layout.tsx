@@ -27,9 +27,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <div className="row">
+        <div className="row secondaryBackground">
           <SideBar/>
-          <div>
+          <div className="fillWidth">
             <TopBar/>
             {children}
           </div>
