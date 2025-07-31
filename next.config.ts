@@ -4,7 +4,7 @@ import remarkGfm from "remark-gfm";
 
 const nextConfig: NextConfig = {
   output: 'export',
-  pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
+  pageExtensions: ['md', 'mdx', 'ts', 'tsx'],
   experimental: {
     mdxRs: true
   }
