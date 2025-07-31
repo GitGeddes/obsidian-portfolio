@@ -11,7 +11,7 @@ import UnfoldLessOutlinedIcon from '@mui/icons-material/UnfoldLessOutlined';
 export default function NoteListTopBar() {
     return (
         <List className="row">
-            <Link href={""}>
+            <Link href={"/"}>
                 <ListItemButton>
                     <EditNoteOutlinedIcon fontSize='small' />
                 </ListItemButton>
