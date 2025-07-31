@@ -3,8 +3,6 @@
 import { PropsWithChildren, useState } from "react";
 import ListItemButton from "@mui/material/ListItemButton";
 import Collapse from "@mui/material/Collapse";
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ExpandMore from '@mui/icons-material/ExpandMore';
 import ListItemText from "@mui/material/ListItemText";
 import styles from '../noteslist.module.css';
 import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
