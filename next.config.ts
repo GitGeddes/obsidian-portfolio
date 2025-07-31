@@ -1,20 +1,19 @@
 import type { NextConfig } from "next";
-import createMDX from '@next/mdx'
-import remarkGfm from "remark-gfm";
+import nextMdx from '@next/mdx'
 
 const nextConfig: NextConfig = {
   output: 'export',
-  pageExtensions: ['md', 'mdx', 'ts', 'tsx'],
+  // Support MDX files as pages:
+  pageExtensions: ['md', 'mdx', 'tsx', 'ts', 'jsx', 'js'],
   experimental: {
     mdxRs: true
   }
 };
 
-const withMDX = createMDX({
+const withMdx = nextMdx({
+  // By default only the `.mdx` extension is supported.
   extension: /\.(md|mdx)$/,
-  options: {
-    remarkPlugins: [remarkGfm]
-  }
+  options: {/* otherOptions… */}
 });
 
-export default withMDX(nextConfig);
+export default withMdx(nextConfig);

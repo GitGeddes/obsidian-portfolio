@@ -1,10 +1,6 @@
 import type { MDXComponents } from 'mdx/types'
 
-const components: MDXComponents = {
-    h1: ({ children }) => {
-        <h1 style={{ fontSize: '24px' }}>{children}</h1>
-    },
-}
+const components: MDXComponents = {}
 
 export function useMDXComponents(): MDXComponents {
     return components;
