@@ -3,6 +3,7 @@ import nextMdx from '@next/mdx'
 
 const nextConfig: NextConfig = {
   output: 'export',
+  basePath: '/obsidian-portfolio',
   // Support MDX files as pages:
   pageExtensions: ['md', 'mdx', 'tsx', 'ts', 'jsx', 'js'],
   experimental: {
