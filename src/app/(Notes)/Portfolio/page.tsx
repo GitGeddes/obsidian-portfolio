@@ -1,11 +1,17 @@
+'use client'
+
 import NoteText from "@/app/components/note/NoteText";
+import Note from "@/app/components/note/Note";
+
+import Markdown from './Obsidian Portfolio.md';
 
 export default function Portfolio() {
     return (
-        <div className="font-sans items-center justify-items-center">
+        <Note>
             <NoteText>
                 Portfolio page
             </NoteText>
-        </div>
+            <Markdown />
+        </Note>
     );
 }

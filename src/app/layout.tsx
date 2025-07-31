@@ -29,7 +29,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <div className="row noteBackground">
           <SideBar/>
-          <div className="fillWidth fullHeight">
+          <div className="fillWidth fullHeight column">
             <TopBar/>
             {children}
           </div>

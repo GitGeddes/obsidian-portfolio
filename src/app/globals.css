@@ -83,8 +83,9 @@ p {
 }
 
 .note {
+  flex: 1 1 auto;
   padding: 0 20em;
-  /* background-color:rgba(240, 128, 128, 0.664); */
+  overflow-y: scroll;
 }
 
 .lineNumbers {
