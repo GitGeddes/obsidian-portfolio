@@ -10,7 +10,7 @@ type NoteButtonProps = {
 
 export default function NoteButton(props: NoteButtonProps) {
     return (
-        <Link href={`${props.title}`}>
+        <Link href={`/${props.title}`}>
             <ListItemButton>
                 <ListItemText primary={props.title} />
             </ListItemButton>

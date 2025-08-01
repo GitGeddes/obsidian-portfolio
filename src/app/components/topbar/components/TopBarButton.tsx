@@ -9,7 +9,7 @@ type TopBarButtonProps = {
 
 export default function TopBarButton(props: TopBarButtonProps) {
     return (
-        <Link className={styles.top_button} href={`${props.title}`}>
+        <Link className={styles.top_button} href={`/${props.title}`}>
             <ListItemButton>
                 <ListItemText primary={props.title} />
             </ListItemButton>

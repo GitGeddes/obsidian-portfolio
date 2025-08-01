@@ -32,6 +32,10 @@ p {
   text-wrap: wrap;
 }
 
+a {
+  color: #8a5cf5;
+}
+
 .row {
   display: flex;
   flex-direction: row;
