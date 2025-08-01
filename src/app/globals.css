@@ -98,4 +98,8 @@ p {
   padding: 0 0.5em;
   margin: 0 0.5em 0 0;
   text-align: right;
+  align-self: center;
+  font-size: 12px;
+  font-weight: normal;
+  color: #666666;
 }
