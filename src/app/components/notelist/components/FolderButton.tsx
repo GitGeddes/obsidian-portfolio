@@ -9,13 +9,18 @@ import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
 
 type FolderButtonProps = {
     title: string;
+    canOpen?: boolean;
 }
 
-export default function FolderButton(props: FolderButtonProps & PropsWithChildren) {
-    const [isOpen, setIsOpen] = useState(true);
+export default function FolderButton({
+  title,
+  canOpen = true,
+  children
+}: FolderButtonProps & PropsWithChildren) {
+    const [isOpen, setIsOpen] = useState(canOpen);
 
     const handleClick = () => {
-        setIsOpen(!isOpen);
+        setIsOpen(!isOpen && canOpen);
     }
 
     return (
@@ -37,11 +42,11 @@ export default function FolderButton(props: FolderButtonProps & PropsWithChildre
                         },
                   ]}
                 />
-                <ListItemText primary={props.title} />
+                <ListItemText primary={title} />
             </ListItemButton>
             <div className={`${styles.folder_list} leftBorder`}>
                 <Collapse in={isOpen} timeout={"auto"}>
-                    {props.children}
+                    {children}
                 </Collapse>
             </div>
         </div>

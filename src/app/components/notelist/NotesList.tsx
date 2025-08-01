@@ -8,12 +8,14 @@ export default function NotesList() {
         <>
             <NoteListTopBar />
             <List>
+                <FolderButton title="Daily" canOpen={false}/>
                 <FolderButton title="Notes">
                     <FolderButton title="Projects">
                         <NoteButton title="Portfolio"/>
                         <NoteButton title="VideoClipper"/>
                     </FolderButton>
                 </FolderButton>
+                <FolderButton title="Templates" canOpen={false}/>
             </List>
         </>
     );
