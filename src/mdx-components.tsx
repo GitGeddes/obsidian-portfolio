@@ -2,6 +2,7 @@ import type { MDXComponents } from 'mdx/types'
 import Link from 'next/link';
 import { ComponentPropsWithoutRef } from 'react';
 import LineNumbers from './app/components/LineNumbers';
+import ExternalLink from './app/components/ExternalLink';
 
 const components: MDXComponents = {}
 
@@ -14,28 +15,28 @@ export function useMDXComponents(): MDXComponents { return {
       </LineNumbers>
     ),
     h2: ({ children, ...props }: ComponentPropsWithoutRef<"h2">) => (
-      <LineNumbers style={{ ["--line-margin-top" as string]: "1em" }}>
+      <LineNumbers style={{ ["--line-margin-top" as string]: "0.8em" }}>
         <h2 className="mb-2 mt-4" style={{ fontSize: 'revert', fontWeight: 'revert' }} {...props}>
           {children}
         </h2>
       </LineNumbers>
     ),
     h3: ({ children, ...props }: ComponentPropsWithoutRef<"h3">) => (
-      <LineNumbers style={{ ["--line-margin-top" as string]: "1em" }}>
+      <LineNumbers style={{ ["--line-margin-top" as string]: "0.4em" }}>
         <h3 className="mb-2 mt-3" style={{ fontSize: 'revert', fontWeight: 'revert' }} {...props}>
           {children}
         </h3>
       </LineNumbers>
     ),
     h4: ({ children, ...props }: ComponentPropsWithoutRef<"h4">) => (
-      <LineNumbers style={{ ["--line-margin-top" as string]: "0.5em" }}>
+      <LineNumbers>
         <h4 className="mb-2 mt-2" style={{ fontSize: 'revert', fontWeight: 'revert' }} {...props}>
           {children}
         </h4>
       </LineNumbers>
     ),
     h5: ({ children, ...props }: ComponentPropsWithoutRef<"h5">) => (
-      <LineNumbers style={{ ["--line-margin-top" as string]: "0.5em" }}>
+      <LineNumbers>
         <h5 className="mb-2 mt-1" style={{ fontSize: 'revert', fontWeight: 'revert' }} {...props}>
           {children}
         </h5>
@@ -48,11 +49,17 @@ export function useMDXComponents(): MDXComponents { return {
         </h6>
       </LineNumbers>
     ),
-    p: (props: ComponentPropsWithoutRef<"p">) => (
-      <LineNumbers>
-        <p className="leading-snug" style={{ fontSize: 'revert', fontWeight: 'revert' }} {...props} />
-      </LineNumbers>
-    ),
+    p: ({ children, ...props }: ComponentPropsWithoutRef<"p">) => {
+      // TODO: Parse [[note]] links
+
+      return (
+        <LineNumbers>
+          <p className="leading-snug" style={{ fontSize: 'revert', fontWeight: 'revert' }} {...props}>
+            {children}
+          </p>
+        </LineNumbers>
+      );
+    },
     ol: (props: ComponentPropsWithoutRef<"ol">) => (
       <LineNumbers>
         <ol
@@ -99,31 +106,37 @@ export function useMDXComponents(): MDXComponents { return {
       </LineNumbers>
     ),
     a: ({ href, children, ...props }: ComponentPropsWithoutRef<"a">) => {
-      const className = " inline-link linkColor";
+      const className = " inline-link linkColor linkUnderline";
       if (href?.startsWith("/")) {
         return (
-          <Link href={href} className={className} {...props}>
-            {children}
-          </Link>
+          <ExternalLink>
+            <Link href={href} className={className} {...props}>
+              {children}
+            </Link>
+          </ExternalLink>
         );
       }
       if (href?.startsWith("#")) {
         return (
-          <a href={href} className={className} {...props}>
-            {children}
-          </a>
+          <ExternalLink>
+            <a href={href} className={className} {...props}>
+              {children}
+            </a>
+          </ExternalLink>
         );
       }
       return (
-        <a
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={className}
-          {...props}
-        >
-          {children}
-        </a>
+        <ExternalLink>
+          <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={className}
+            {...props}
+          >
+            {children}
+          </a>
+        </ExternalLink>
       );
     },
     table: ({ children, ...props }: ComponentPropsWithoutRef<"table">) => (

@@ -84,7 +84,7 @@ p {
 
 .note {
   flex: 1 1 auto;
-  padding: 0 20em;
+  padding: 0 20em 45vh 20em;
   overflow-y: scroll;
 }
 
@@ -100,12 +100,23 @@ p {
   text-align: right;
   font-size: 12px;
   font-weight: normal;
-  color: #666666;
   margin-top: var(--line-margin-top);
   align-self: center;
   font-family: monospace;
 }
 
-.linkColor {
+.lineNumbers::before, .secondaryTextColor {
+  color: #666666;
+}
+
+.accentColor {
   color: #8a5cf5;
+}
+
+.linkColor {
+  color: #a68af9;
+}
+
+.linkUnderline {
+  text-decoration: underline;
 }
