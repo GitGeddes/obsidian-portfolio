@@ -32,10 +32,6 @@ p {
   text-wrap: wrap;
 }
 
-a {
-  color: #8a5cf5;
-}
-
 .row {
   display: flex;
   flex-direction: row;
@@ -96,14 +92,20 @@ a {
   counter-increment: line;
 }
 
-.lineNumbers:before {
+.lineNumbers::before {
   content: counter(line);
   display: inline-block;
-  padding: 0 0.5em;
-  margin: 0 0.5em 0 0;
+  padding-right: 0.5em;
+  margin-right: 0.5em;
   text-align: right;
-  align-self: center;
   font-size: 12px;
   font-weight: normal;
   color: #666666;
+  margin-top: var(--line-margin-top);
+  align-self: center;
+  font-family: monospace;
+}
+
+.linkColor {
+  color: #8a5cf5;
 }

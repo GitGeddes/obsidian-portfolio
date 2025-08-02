@@ -1,5 +1,3 @@
-'use client'
-
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import Link from "next/link";

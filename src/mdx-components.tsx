@@ -1,59 +1,77 @@
 import type { MDXComponents } from 'mdx/types'
 import Link from 'next/link';
 import { ComponentPropsWithoutRef } from 'react';
+import LineNumbers from './app/components/LineNumbers';
 
 const components: MDXComponents = {}
 
 export function useMDXComponents(): MDXComponents { return {
     h1: ({ children, ...props }: ComponentPropsWithoutRef<"h1">) => (
-      <h1 className="mb-2 mt-5 lineNumbers" style={{ fontSize: 'revert', fontWeight: 'revert' }} {...props}>
-        {children}
-      </h1>
+      <LineNumbers style={{ ["--line-margin-top" as string]: "1em" }}>
+        <h1 className="mb-2 mt-5" style={{ fontSize: 'revert', fontWeight: 'revert' }} {...props}>
+          {children}
+        </h1>
+      </LineNumbers>
     ),
     h2: ({ children, ...props }: ComponentPropsWithoutRef<"h2">) => (
-      <h2 className="mb-2 mt-5 lineNumbers" style={{ fontSize: 'revert', fontWeight: 'revert' }} {...props}>
-        {children}
-      </h2>
+      <LineNumbers style={{ ["--line-margin-top" as string]: "1em" }}>
+        <h2 className="mb-2 mt-4" style={{ fontSize: 'revert', fontWeight: 'revert' }} {...props}>
+          {children}
+        </h2>
+      </LineNumbers>
     ),
     h3: ({ children, ...props }: ComponentPropsWithoutRef<"h3">) => (
-      <h3 className="mb-2 mt-5 lineNumbers" style={{ fontSize: 'revert', fontWeight: 'revert' }} {...props}>
-        {children}
-      </h3>
+      <LineNumbers style={{ ["--line-margin-top" as string]: "1em" }}>
+        <h3 className="mb-2 mt-3" style={{ fontSize: 'revert', fontWeight: 'revert' }} {...props}>
+          {children}
+        </h3>
+      </LineNumbers>
     ),
     h4: ({ children, ...props }: ComponentPropsWithoutRef<"h4">) => (
-      <h4 className="mb-2 mt-5 lineNumbers" style={{ fontSize: 'revert', fontWeight: 'revert' }} {...props}>
-        {children}
-      </h4>
+      <LineNumbers style={{ ["--line-margin-top" as string]: "0.5em" }}>
+        <h4 className="mb-2 mt-2" style={{ fontSize: 'revert', fontWeight: 'revert' }} {...props}>
+          {children}
+        </h4>
+      </LineNumbers>
     ),
     h5: ({ children, ...props }: ComponentPropsWithoutRef<"h5">) => (
-      <h5 className="mb-2 mt-5 lineNumbers" style={{ fontSize: 'revert', fontWeight: 'revert' }} {...props}>
-        {children}
-      </h5>
+      <LineNumbers style={{ ["--line-margin-top" as string]: "0.5em" }}>
+        <h5 className="mb-2 mt-1" style={{ fontSize: 'revert', fontWeight: 'revert' }} {...props}>
+          {children}
+        </h5>
+      </LineNumbers>
     ),
     h6: ({ children, ...props }: ComponentPropsWithoutRef<"h6">) => (
-      <h6 className="mb-2 mt-5 lineNumbers" style={{ fontSize: 'revert', fontWeight: 'revert' }} {...props}>
-        {children}
-      </h6>
+      <LineNumbers>
+        <h6 className="mb-2" style={{ fontSize: 'revert', fontWeight: 'revert' }} {...props}>
+          {children}
+        </h6>
+      </LineNumbers>
     ),
     p: (props: ComponentPropsWithoutRef<"p">) => (
-      <p className="mb-2 leading-snug lineNumbers" style={{ fontSize: 'revert', fontWeight: 'revert' }} {...props} />
+      <LineNumbers>
+        <p className="leading-snug" style={{ fontSize: 'revert', fontWeight: 'revert' }} {...props} />
+      </LineNumbers>
     ),
     ol: (props: ComponentPropsWithoutRef<"ol">) => (
-      <ol
-        className="space-y-1 lineNumbers"
-        style={{
-          listStyleType: "revert",
-          listStyle: "revert",
-          padding: "revert",
-          fontSize: 'revert',
-          fontWeight: 'revert'
-        }}
-        {...props}
-      />
+      <LineNumbers>
+        <ol
+          className="space-y-1"
+          style={{
+            listStyleType: "revert",
+            listStyle: "revert",
+            fontSize: 'revert',
+            fontWeight: 'revert'
+          }}
+          {...props}
+        />
+      </LineNumbers>
     ),
     ul: (props: ComponentPropsWithoutRef<"ul">) => {
       if (props.className === "contains-task-list") {
-        return <ul className="space-y-1" {...props} />;
+        return (
+          <ul className="space-y-1" {...props} />
+        );
       }
 
       return (
@@ -62,7 +80,6 @@ export function useMDXComponents(): MDXComponents { return {
           style={{
             listStyleType: "revert",
             listStyle: "revert",
-            padding: "revert",
             fontSize: 'revert',
             fontWeight: 'revert'
           }}
@@ -71,10 +88,18 @@ export function useMDXComponents(): MDXComponents { return {
       );
     },
     li: (props: ComponentPropsWithoutRef<"li">) => (
-      <li className='lineNumbers' style={{ fontSize: 'revert', fontWeight: 'revert' }} {...props} />
+      <LineNumbers>
+        <li
+          style={{
+            paddingLeft: "20px",
+            listStylePosition: "inside"
+          }}
+          {...props}
+        />
+      </LineNumbers>
     ),
     a: ({ href, children, ...props }: ComponentPropsWithoutRef<"a">) => {
-      const className = " inline-link lineNumbers";
+      const className = " inline-link linkColor";
       if (href?.startsWith("/")) {
         return (
           <Link href={href} className={className} {...props}>
@@ -102,47 +127,62 @@ export function useMDXComponents(): MDXComponents { return {
       );
     },
     table: ({ children, ...props }: ComponentPropsWithoutRef<"table">) => (
-      <span>
-        <table {...props}>{children}</table>
-      </span>
+      <LineNumbers>
+        <span>
+          <table {...props}>{children}</table>
+        </span>
+      </LineNumbers>
     ),
     tr: ({ children, ...props }: ComponentPropsWithoutRef<"tr">) => (
-      <tr
-        {...props}
-        className="odd:bg-white even:bg-gray-100 odd:dark:bg-gray-900 even:dark:bg-gray-800"
-      >
-        {children}
-      </tr>
+      <LineNumbers>
+        <tr
+          {...props}
+          className="odd:bg-white even:bg-gray-100 odd:dark:bg-gray-900 even:dark:bg-gray-800"
+        >
+          {children}
+        </tr>
+      </LineNumbers>
     ),
     th: ({ children, ...props }: ComponentPropsWithoutRef<"th">) => (
-      <th
-        {...props}
-        className="border border-gray-300 p-2 dark:border-gray-700"
-      >
-        {children}
-      </th>
+      <LineNumbers>
+        <th
+          {...props}
+          className="border border-gray-300 p-2 dark:border-gray-700"
+        >
+          {children}
+        </th>
+      </LineNumbers>
     ),
     td: ({ children, ...props }: ComponentPropsWithoutRef<"td">) => (
-      <td
-        {...props}
-        className="border border-gray-300 p-2 dark:border-gray-700"
-      >
-        {children}
-      </td>
+      <LineNumbers>
+        <td
+          {...props}
+          className="border border-gray-300 p-2 dark:border-gray-700"
+        >
+          {children}
+        </td>
+      </LineNumbers>
+    ),
+    hr: ({ children, ...props }: ComponentPropsWithoutRef<"hr">) => (
+      <hr className='lineNumbers' {...props}>{children}</hr>
     ),
     blockquote: (props: ComponentPropsWithoutRef<"blockquote">) => (
-      <blockquote
-        className={
-          "ml-[0.075em] border-l-4 " +
-          "border-gray-300 pl-4 text-gray-700 dark:border-zinc-600 dark:text-zinc-300"
-        }
-        {...props}
-      />
+      <LineNumbers>
+        <blockquote
+          className={
+            "ml-[0.075em] border-l-4 " +
+            "border-gray-300 pl-4 text-gray-700 dark:border-zinc-600 dark:text-zinc-300"
+          }
+          {...props}
+        />
+      </LineNumbers>
     ),
     pre: ({ children, ...props }: ComponentPropsWithoutRef<"pre">) => (
-      <pre {...props} className="mb-2 lineNumbers">
-        {children}
-      </pre>
+      <LineNumbers>
+        <pre {...props} className="mb-2 lineNumbers">
+          {children}
+        </pre>
+      </LineNumbers>
     ),
     ...components,
   };
