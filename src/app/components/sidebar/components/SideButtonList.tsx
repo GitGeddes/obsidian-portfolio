@@ -7,6 +7,7 @@ import WidgetsOutlinedIcon from '@mui/icons-material/WidgetsOutlined';
 
 import List from "@mui/material/List";
 import ListItemButton from '@mui/material/ListItemButton';
+import Link from 'next/link';
 
 export default function SideButtonList() {
     return (
@@ -15,9 +16,17 @@ export default function SideButtonList() {
                 {/* lol I just HAD to use this one */}
                 <PlagiarismOutlined fontSize='small' />
             </ListItemButton>
-            <ListItemButton>
-                <HubOutlinedIcon fontSize='small' />
-            </ListItemButton>
+            <Link href={'Graph'}>
+                <ListItemButton
+                    sx={{
+                        ":hover": {
+                            backgroundColor: "#454545"
+                        }
+                    }}
+                >
+                    <HubOutlinedIcon fontSize='small' />
+                </ListItemButton>
+            </Link>
             <ListItemButton>
                 <ContentCopyOutlinedIcon fontSize='small' />
             </ListItemButton>
