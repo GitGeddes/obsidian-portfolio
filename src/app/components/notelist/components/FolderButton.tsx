@@ -24,10 +24,19 @@ export default function FolderButton({
     }
 
     return (
-        <div>
-            <ListItemButton onClick={handleClick}>
+        <div className="mt-1">
+            <ListItemButton onClick={handleClick}
+              sx={{
+                height: 25,
+                ":hover": {
+                  backgroundColor: "#454545"
+                }
+              }}
+            >
                 {/* https://mui.com/material-ui/react-list/#customization */}
                 <KeyboardArrowDown
+                  className="secondaryTextColor"
+                  fontSize="small"
                   sx={[
                     {
                       ml: -1, // margin left
@@ -42,7 +51,7 @@ export default function FolderButton({
                         },
                   ]}
                 />
-                <ListItemText primary={title} />
+                <ListItemText primary={title} slotProps={{ primary: { fontSize: 14 }}} />
             </ListItemButton>
             <div className={`${styles.folder_list} leftBorder`}>
                 <Collapse in={isOpen} timeout={"auto"}>

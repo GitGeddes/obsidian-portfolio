@@ -10,7 +10,13 @@ type TopBarButtonProps = {
 export default function TopBarButton(props: TopBarButtonProps) {
     return (
         <Link className={styles.top_button} href={`/${props.title}`}>
-            <ListItemButton>
+            <ListItemButton
+              sx={{
+                ":hover": {
+                  backgroundColor: "#454545"
+                }
+              }}
+            >
                 <ListItemText primary={props.title} />
             </ListItemButton>
         </Link>

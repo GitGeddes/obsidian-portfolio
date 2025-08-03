@@ -22,8 +22,14 @@ export default function SideBar() {
         <div className="row secondaryBackground">
             <div className="rightBorder">
                 <div className="topbar row">
-                    <ListItemButton onClick={handleClick}>
-                        <ViewSidebarOutlinedIcon fontSize='small' />
+                    <ListItemButton onClick={handleClick}
+                        sx={{
+                            ":hover": {
+                                backgroundColor: "#454545"
+                            }
+                        }}
+                    >
+                        <ViewSidebarOutlinedIcon fontSize='small'/>
                     </ListItemButton>
                 </div>
                 <SideButtonList />

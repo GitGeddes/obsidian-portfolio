@@ -12,7 +12,13 @@ export default function NoteListTopBar() {
     return (
         <List className="row">
             <Link href={"/"}>
-                <ListItemButton>
+                <ListItemButton
+                    sx={{
+                        ":hover": {
+                            backgroundColor: "#454545"
+                        }
+                    }}
+                >
                     <EditNoteOutlinedIcon fontSize='small' />
                 </ListItemButton>
             </Link>

@@ -84,7 +84,7 @@ p {
 
 .note {
   flex: 1 1 auto;
-  padding: 0 20em 45vh 20em;
+  padding: 0 20em 50vh 20em;
   overflow-y: scroll;
 }
 
@@ -101,7 +101,7 @@ p {
   font-size: 12px;
   font-weight: normal;
   margin-top: var(--line-margin-top);
-  align-self: center;
+  align-self: var(--line-align-self);
   font-family: monospace;
 }
 

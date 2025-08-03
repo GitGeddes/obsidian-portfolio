@@ -8,42 +8,42 @@ const components: MDXComponents = {}
 
 export function useMDXComponents(): MDXComponents { return {
     h1: ({ children, ...props }: ComponentPropsWithoutRef<"h1">) => (
-      <LineNumbers style={{ ["--line-margin-top" as string]: "1em" }}>
+      <LineNumbers style={{ ["--line-margin-top" as string]: "1em", ["--line-align-self" as string]: "center" }}>
         <h1 className="mb-2 mt-5" style={{ fontSize: 'revert', fontWeight: 'revert' }} {...props}>
           {children}
         </h1>
       </LineNumbers>
     ),
     h2: ({ children, ...props }: ComponentPropsWithoutRef<"h2">) => (
-      <LineNumbers style={{ ["--line-margin-top" as string]: "0.8em" }}>
+      <LineNumbers style={{ ["--line-margin-top" as string]: "0.8em", ["--line-align-self" as string]: "center" }}>
         <h2 className="mb-2 mt-4" style={{ fontSize: 'revert', fontWeight: 'revert' }} {...props}>
           {children}
         </h2>
       </LineNumbers>
     ),
     h3: ({ children, ...props }: ComponentPropsWithoutRef<"h3">) => (
-      <LineNumbers style={{ ["--line-margin-top" as string]: "0.4em" }}>
+      <LineNumbers style={{ ["--line-margin-top" as string]: "0.4em", ["--line-align-self" as string]: "center" }}>
         <h3 className="mb-2 mt-3" style={{ fontSize: 'revert', fontWeight: 'revert' }} {...props}>
           {children}
         </h3>
       </LineNumbers>
     ),
     h4: ({ children, ...props }: ComponentPropsWithoutRef<"h4">) => (
-      <LineNumbers>
+      <LineNumbers style={{ ["--line-align-self" as string]: "center" }}>
         <h4 className="mb-2 mt-2" style={{ fontSize: 'revert', fontWeight: 'revert' }} {...props}>
           {children}
         </h4>
       </LineNumbers>
     ),
     h5: ({ children, ...props }: ComponentPropsWithoutRef<"h5">) => (
-      <LineNumbers>
+      <LineNumbers style={{ ["--line-align-self" as string]: "center" }}>
         <h5 className="mb-2 mt-1" style={{ fontSize: 'revert', fontWeight: 'revert' }} {...props}>
           {children}
         </h5>
       </LineNumbers>
     ),
     h6: ({ children, ...props }: ComponentPropsWithoutRef<"h6">) => (
-      <LineNumbers>
+      <LineNumbers style={{ ["--line-align-self" as string]: "center" }}>
         <h6 className="mb-2" style={{ fontSize: 'revert', fontWeight: 'revert' }} {...props}>
           {children}
         </h6>
@@ -53,7 +53,7 @@ export function useMDXComponents(): MDXComponents { return {
       // TODO: Parse [[note]] links
 
       return (
-        <LineNumbers>
+        <LineNumbers style={{ ["--line-margin-top" as string]: "0.2em" }}>
           <p className="leading-snug" style={{ fontSize: 'revert', fontWeight: 'revert' }} {...props}>
             {children}
           </p>
@@ -61,18 +61,16 @@ export function useMDXComponents(): MDXComponents { return {
       );
     },
     ol: (props: ComponentPropsWithoutRef<"ol">) => (
-      <LineNumbers>
-        <ol
-          className="space-y-1"
-          style={{
-            listStyleType: "revert",
-            listStyle: "revert",
-            fontSize: 'revert',
-            fontWeight: 'revert'
-          }}
-          {...props}
-        />
-      </LineNumbers>
+      <ol
+        className="space-y-1"
+        style={{
+          listStyleType: "revert",
+          listStyle: "revert",
+          fontSize: 'revert',
+          fontWeight: 'revert'
+        }}
+        {...props}
+      />
     ),
     ul: (props: ComponentPropsWithoutRef<"ul">) => {
       if (props.className === "contains-task-list") {
@@ -95,7 +93,7 @@ export function useMDXComponents(): MDXComponents { return {
       );
     },
     li: (props: ComponentPropsWithoutRef<"li">) => (
-      <LineNumbers>
+      <LineNumbers style={{ ["--line-margin-top" as string]: "0.2em" }}>
         <li
           style={{
             paddingLeft: "20px",
