@@ -10,6 +10,11 @@ export default function NotesList() {
             <List>
                 <FolderButton title="Daily" canOpen={false}/>
                 <FolderButton title="Notes">
+                    <FolderButton title="Areas" canOpen={false}/>
+                    <FolderButton title="Experience">
+                        <NoteButton title="Amazon"/>
+                        <NoteButton title="Groupie"/>
+                    </FolderButton>
                     <FolderButton title="Projects">
                         <NoteButton title="Portfolio"/>
                         <NoteButton title="VideoClipper"/>
