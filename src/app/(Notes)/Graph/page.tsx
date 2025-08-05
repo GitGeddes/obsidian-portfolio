@@ -3,7 +3,6 @@
 
 import * as d3 from 'd3';
 import { useEffect, useRef } from 'react';
-import { quests, QuestType } from './quests';
 import { notes, NoteType } from './notes';
 
 // https://observablehq.com/@d3/disjoint-force-directed-graph/2
@@ -28,36 +27,27 @@ type NodeType = d3.SimulationNodeDatum & {
 }
 
 type LinkType = {
-    source: string
-    target: string
+    source: d3.SimulationLinkDatum<NodeType>;
+    target: d3.SimulationLinkDatum<NodeType>;
 }
 
-function loadAndProcess(svgRef: d3.Selection<SVGElement, unknown, null, undefined>) {
+function loadAndProcess(svgRef: d3.Selection<SVGSVGElement, unknown, null, undefined>) {
     const nodes: NodeType[] = [];
     const links: LinkType[] = [];
 
-    function parseQuest(quest: QuestType) {
-        nodes.push({ "name": quest.name });
-        quest.reqs.forEach(req => {
-            links.push({ "source": quest.name, "target": req.name });
+    function parseNote(key: string, value: NoteType) {
+        nodes.push({ "name": key })
+        value.links.forEach(link => {
+            links.push({ source: key, target: link });
+        });
+        value.tags.forEach(tag => {
+            links.push({ source: key, target: tag });
         });
     }
 
-    // Load and parse data from JSON file
-    for (const key in quests) {
-        parseQuest(quests[key]);
+    for (const key in notes) {
+        parseNote(key, notes[key]);
     }
-
-    // function parseNote(key: string, value: NoteType) {
-    //     nodes.push({ "name": key })
-    //     value.links.forEach(link => {
-    //         links.push({ "source": {name: key}, "target": {name: link} });
-    //     });
-    // }
-
-    // for (const key in notes) {
-    //     parseNote(key, notes[key]);
-    // }
 
     // Select SVG element in DOM.
     // Requires local HTTP server to load local files. Opening index.html as a file doesn't work.
@@ -79,7 +69,7 @@ function loadAndProcess(svgRef: d3.Selection<SVGElement, unknown, null, undefine
 
     // Build force simulation with given parameters.
     const simulation = d3.forceSimulation(nodes)
-        .force("link", d3.forceLink(links).id(d => d.name).strength(LINK_STRENGTH).distance(LINK_DISTANCE))
+        .force("link", d3.forceLink<NodeType, d3.SimulationLinkDatum<NodeType>>(links).id(d => d.name).strength(LINK_STRENGTH).distance(LINK_DISTANCE))
         .force("charge", d3.forceManyBody().strength(CHARGE_STRENGTH))
         .force("center", d3.forceCenter(width / 2, height / 2).strength(CENTER_STRENGTH))
         .force("forceX", d3.forceX(width / 2).strength(GRAVITY_STRENGTH))
@@ -116,7 +106,7 @@ function loadAndProcess(svgRef: d3.Selection<SVGElement, unknown, null, undefine
     node.on("mouseover", d => {
         const name = d.target.__data__.name;
         const neighbors = getNeighbors(name);
-        d3.selectAll("circle")
+        d3.selectAll<d3.BaseType, NodeType>("circle")
             // .filter(c => c.name === d.target.__data__.name)
             .transition()
             .duration(1)
@@ -124,7 +114,7 @@ function loadAndProcess(svgRef: d3.Selection<SVGElement, unknown, null, undefine
                 if (name === n.name || neighbors.includes(n.name)) return HOVER_NODE_RADIUS_INCREASE;
                 else return HOVER_NODE_RADIUS_DECREASE;
             });
-        d3.selectAll("circle")
+        d3.selectAll<d3.BaseType, NodeType>("circle")
             .filter(c => c.name === d.target.__data__.name)
             .append("text")
             .attr("class", "tooltip")

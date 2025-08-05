@@ -30,7 +30,8 @@ export const notes: NotesType = {
     },
     'Groupie': {
         tags: [
-            '#projects'
+            '#projects',
+            '#experience'
         ],
         links: [
             'React Native',
@@ -38,12 +39,16 @@ export const notes: NotesType = {
         ]
     },
     'Amazon': {
-        tags: [],
+        tags: [
+            '#experience'
+        ],
         links: []
     },
     'React': {
         tags: [],
-        links: []
+        links: [
+            'React Native'
+        ]
     },
     'Tauri': {
         tags: [],
@@ -51,13 +56,27 @@ export const notes: NotesType = {
     },
     'React Native': {
         tags: [],
-        links: []
+        links: [
+            'React'
+        ]
     },
     'Firebase': {
         tags: [],
         links: []
     },
     'Next.js': {
+        tags: [],
+        links: []
+    },
+    '#projects': {
+        tags: [],
+        links: []
+    },
+    '#projects/GitHub': {
+        tags: [],
+        links: []
+    },
+    '#experience': {
         tags: [],
         links: []
     }
