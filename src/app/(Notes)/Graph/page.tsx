@@ -2,25 +2,30 @@
 'use client'
 
 import * as d3 from 'd3';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { notes, NoteType } from './notes';
 
 // https://observablehq.com/@d3/disjoint-force-directed-graph/2
 
-const LINK_STRENGTH = 0.5;
-const LINK_DISTANCE = 30;
-const CHARGE_STRENGTH = -50;
+const LINK_STRENGTH = 0.4;
+const LINK_DISTANCE = 45;
+const CHARGE_STRENGTH = -150;
 const CENTER_STRENGTH = 0.1;
 const GRAVITY_STRENGTH = 0.07;
 const BOUNDS_PADDING = 0.05;
 
-const LINK_WIDTH_NORMAL = 1;
+const LINK_WIDTH_NORMAL = 2;
 const HOVER_LINK_INCREASE = 5;
 const HOVER_LINK_DECREASE = 0.5
 
 const NODE_RADIUS_NORMAL = 5;
-const HOVER_NODE_RADIUS_INCREASE = 10;
+const NODE_RADIUS_ADDITIONAL = 3;
+const HOVER_NODE_RADIUS_INCREASE = 2;
 const HOVER_NODE_RADIUS_DECREASE = 4;
+
+const COLOR_TAG = '#44cf6e';
+const COLOR_NOTE = '#d75252';
+
 
 type NodeType = d3.SimulationNodeDatum & {
     name: string;
@@ -31,194 +36,226 @@ type LinkType = {
     target: d3.SimulationLinkDatum<NodeType>;
 }
 
-function loadAndProcess(svgRef: d3.Selection<SVGSVGElement, unknown, null, undefined>) {
-    const nodes: NodeType[] = [];
-    const links: LinkType[] = [];
-
-    function parseNote(key: string, value: NoteType) {
-        nodes.push({ "name": key })
-        value.links.forEach(link => {
-            links.push({ source: key, target: link });
-        });
-        value.tags.forEach(tag => {
-            links.push({ source: key, target: tag });
-        });
-    }
-
-    for (const key in notes) {
-        parseNote(key, notes[key]);
-    }
-
-    // Select SVG element in DOM.
-    // Requires local HTTP server to load local files. Opening index.html as a file doesn't work.
-    const svg = svgRef,
-        width = +svg.attr("width"),
-        height = +svg.attr("height");
-
-    // Zoom
-    // function handleZoom(e) {
-    //     svg.attr('transform', e.transform);
-    // }
-    // svg.call(d3.zoom()
-    //     .extent([[0, 0], [width, height]])
-    //     .scaleExtent([1, 8])
-    //     .on("zoom", handleZoom));
-
-    // Call-able color method to generate a color for a given string.
-    const color = d3.scaleOrdinal(d3.schemeCategory10);
-
-    // Build force simulation with given parameters.
-    const simulation = d3.forceSimulation(nodes)
-        .force("link", d3.forceLink<NodeType, d3.SimulationLinkDatum<NodeType>>(links).id(d => d.name).strength(LINK_STRENGTH).distance(LINK_DISTANCE))
-        .force("charge", d3.forceManyBody().strength(CHARGE_STRENGTH))
-        .force("center", d3.forceCenter(width / 2, height / 2).strength(CENTER_STRENGTH))
-        .force("forceX", d3.forceX(width / 2).strength(GRAVITY_STRENGTH))
-        .force("forceY", d3.forceY(height / 2). strength(GRAVITY_STRENGTH));
-
-    // Add links to the SVG.
-    const link = svg.append("g")
-        .attr("stroke", "#999")
-        .attr("stroke-opacity", 0.6)
-        .selectAll("line")
-        .data(links)
-        .enter().append("line")
-            .attr("stroke-width", 1);
-
-    // Add nodes to the SVG.
-    const node = svg.append("g")
-        .attr("stroke", "#fff")
-        .attr("stroke-width", 1.5)
-        .selectAll("circle")
-        .data(nodes)
-        .enter().append("circle")
-            .attr("r", NODE_RADIUS_NORMAL)
-            .attr("fill", d => color(d.name));
-
-    // Show node name on hover.
-    node.append("title")
-        .text(d => d.name);
-    node.append("text")
-        .style("position", "absolute")
-        .style("visibility", "visible")
-        .text(d => d.name);
-
-    // Change styling on hover.
-    node.on("mouseover", d => {
-        const name = d.target.__data__.name;
-        const neighbors = getNeighbors(name);
-        d3.selectAll<d3.BaseType, NodeType>("circle")
-            // .filter(c => c.name === d.target.__data__.name)
-            .transition()
-            .duration(1)
-            .attr("r", n => {
-                if (name === n.name || neighbors.includes(n.name)) return HOVER_NODE_RADIUS_INCREASE;
-                else return HOVER_NODE_RADIUS_DECREASE;
-            });
-        d3.selectAll<d3.BaseType, NodeType>("circle")
-            .filter(c => c.name === d.target.__data__.name)
-            .append("text")
-            .attr("class", "tooltip")
-        link.style("stroke-width", l => {
-            const name = d.target.__data__.name;
-            if (name === l.source.name || name === l.target.name) return HOVER_LINK_INCREASE;
-            else return HOVER_LINK_DECREASE;
-        });
-    }).on("mouseout", (d) => {
-        d3.selectAll("circle")
-            // .filter(c => c.name === d.target.__data__.name)
-            .transition()
-            .duration(1)
-            .attr("r", NODE_RADIUS_NORMAL);
-        link.style("stroke-width", LINK_WIDTH_NORMAL);
-    });
-
-    // Add a drag behavior.
-    node.call(d3.drag()
-        .on("start", dragstarted)
-        .on("drag", dragged)
-        .on("end", dragended));
-
-    // Set the position attributes of links and nodes each time the simulation ticks.
-    simulation.on("tick", () => tick(link, node));
-
-    // Reheat the simulation when drag starts, and fix the subject position.
-    function dragstarted(event) {
-        if (!event.active) simulation.alphaTarget(0.3).restart();
-        event.subject.fx = event.subject.x;
-        event.subject.fy = event.subject.y;
-    }
-
-    // Update the subject (dragged node) position during drag.
-    function dragged(event) {
-        event.subject.fx = event.x;
-        event.subject.fy = event.y;
-    }
-
-    // Restore the target alpha so the simulation cools after dragging ends.
-    // Unfix the subject position now that it’s no longer being dragged.
-    function dragended(event) {
-        if (!event.active) simulation.alphaTarget(0);
-        event.subject.fx = null;
-        event.subject.fy = null;
-    }
-
-    function checkBounds(d) {
-        if (d.x < width * BOUNDS_PADDING) d.x = width * BOUNDS_PADDING;
-        if (d.x > width * (1 - BOUNDS_PADDING)) d.x = width * (1 - BOUNDS_PADDING);
-        if (d.y < height * BOUNDS_PADDING) d.y = height * BOUNDS_PADDING;
-        if (d.y > height * (1 - BOUNDS_PADDING)) d.y = height * (1 - BOUNDS_PADDING);
-    }
-
-    function tick(link: d3.Selection<SVGLineElement, LinkType, SVGGElement, unknown>, node: d3.Selection<SVGCircleElement, NodeType, SVGGElement, unknown>) {
-        // link.attr("x1", d => d.source.x)
-        //     .attr("y1", d => d.source.y)
-        //     .attr("x2", d => d.target.x)
-        //     .attr("y2", d => d.target.y);
-
-        // node.attr("cx", d => d.x)
-        //     .attr("cy", d => d.y);
-
-        link.attr("x1", d => { 
-            checkBounds(d.source);
-            return d.source.x;
-        })
-        .attr("y1", d => d.source.y)
-        .attr("x2", d => { 
-            checkBounds(d.target);
-            return d.target.x;
-        })
-        .attr("y2", d => d.target.y);
-
-        node.attr("transform", d => {
-            checkBounds(d);
-            return "translate(" + d.x + ", " + d.y + ")";
-        });
-    }
-
-    function getNeighbors(name: string) {
-        const neighbors: string[] = [];
-        links.forEach(link => {
-            if (link.source.name === name) {
-                neighbors.push(link.target.name);
-            } else if (link.target.name === name) {
-                neighbors.push(link.source.name);
-            }
-        });
-        return neighbors;
-    }
-}
-
-
 export default function Graph() {
     const ref = useRef<SVGSVGElement>(null);
     const parentRef = useRef<HTMLDivElement>(null);
+
+    const [isMouseDown, setIsMouseDown] = useState(false);
 
     useEffect(() => {
         if (ref.current !== null && ref.current.childNodes.length === 0) {
             const svgElement = d3.select(ref.current);
             loadAndProcess(svgElement);
         }
-    }, []);
+    }, [loadAndProcess]);
+
+    function loadAndProcess(svgRef: d3.Selection<SVGSVGElement, unknown, null, undefined>) {
+        const nodes: NodeType[] = [];
+        const links: LinkType[] = [];
+
+        function parseNote(key: string, value: NoteType) {
+            nodes.push({ "name": key })
+            value.links.forEach(link => {
+                links.push({ source: key, target: link });
+            });
+            value.tags.forEach(tag => {
+                links.push({ source: key, target: tag });
+            });
+        }
+
+        for (const key in notes) {
+            parseNote(key, notes[key]);
+        }
+
+        // Select SVG element in DOM.
+        // Requires local HTTP server to load local files. Opening index.html as a file doesn't work.
+        const svg = svgRef,
+            width = +svg.attr("width"),
+            height = +svg.attr("height");
+
+        // Zoom
+        // function handleZoom(e) {
+        //     svg.attr('transform', e.transform);
+        // }
+        // svg.call(d3.zoom()
+        //     .extent([[0, 0], [width, height]])
+        //     .scaleExtent([1, 8])
+        //     .on("zoom", handleZoom));
+
+        // Build force simulation with given parameters.
+        const simulation = d3.forceSimulation(nodes)
+            .force("link", d3.forceLink<NodeType, d3.SimulationLinkDatum<NodeType>>(links).id(d => d.name).strength(LINK_STRENGTH).distance(LINK_DISTANCE))
+            .force("charge", d3.forceManyBody().strength(CHARGE_STRENGTH))
+            .force("center", d3.forceCenter(width / 2, height / 2).strength(CENTER_STRENGTH))
+            .force("forceX", d3.forceX(width / 2).strength(GRAVITY_STRENGTH))
+            .force("forceY", d3.forceY(height / 2). strength(GRAVITY_STRENGTH));
+
+        // Add links to the SVG.
+        const link = svg.append("g")
+            .attr("stroke", "#999")
+            .attr("stroke-opacity", 0.6)
+            .selectAll("line")
+            .data(links)
+            .enter().append("line")
+                .attr("stroke-width", 1);
+
+        // Add nodes to the SVG.
+        const node = svg.append("g")
+            .attr("stroke", "#fff")
+            .attr("stroke-width", 1.5)
+            .selectAll("circle")
+            .data(nodes)
+            .enter().append("circle")
+                .attr("r", d => getNodeRadius(d.name))
+                .attr("fill", d => getNodeColor(d.name));
+
+        // Show node name on hover.
+        node.append("title")
+            .text(d => d.name);
+        node.append("text")
+            .style("position", "absolute")
+            .style("visibility", "visible")
+            .text(d => d.name);
+
+        // Change styling on hover.
+        node.on("mouseover", d => onMouseDown(d))
+            .on("mouseout", () => onMouseUp());
+
+        // Change styling on mouse click
+        node.on("mousedown", d => {
+            setIsMouseDown(true);
+            onMouseDown(d);
+        }).on("mouseup", () => {
+            setIsMouseDown(false);
+            onMouseUp();
+        });
+
+        // Add a drag behavior.
+        node.call(d3.drag()
+            .on("start", dragstarted)
+            .on("drag", dragged)
+            .on("end", dragended));
+
+        // Set the position attributes of links and nodes each time the simulation ticks.
+        simulation.on("tick", () => tick(link, node));
+
+        // Reheat the simulation when drag starts, and fix the subject position.
+        function dragstarted(event) {
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            event.subject.fx = event.subject.x;
+            event.subject.fy = event.subject.y;
+        }
+
+        // Update the subject (dragged node) position during drag.
+        function dragged(event) {
+            event.subject.fx = event.x;
+            event.subject.fy = event.y;
+        }
+
+        // Restore the target alpha so the simulation cools after dragging ends.
+        // Unfix the subject position now that it’s no longer being dragged.
+        function dragended(event) {
+            if (!event.active) simulation.alphaTarget(0);
+            event.subject.fx = null;
+            event.subject.fy = null;
+        }
+
+        function checkBounds(d) {
+            if (d.x < width * BOUNDS_PADDING) d.x = width * BOUNDS_PADDING;
+            if (d.x > width * (1 - BOUNDS_PADDING)) d.x = width * (1 - BOUNDS_PADDING);
+            if (d.y < height * BOUNDS_PADDING) d.y = height * BOUNDS_PADDING;
+            if (d.y > height * (1 - BOUNDS_PADDING)) d.y = height * (1 - BOUNDS_PADDING);
+        }
+
+        function tick(link: d3.Selection<SVGLineElement, LinkType, SVGGElement, unknown>, node: d3.Selection<SVGCircleElement, NodeType, SVGGElement, unknown>) {
+            // link.attr("x1", d => d.source.x)
+            //     .attr("y1", d => d.source.y)
+            //     .attr("x2", d => d.target.x)
+            //     .attr("y2", d => d.target.y);
+
+            // node.attr("cx", d => d.x)
+            //     .attr("cy", d => d.y);
+
+            link.attr("x1", d => { 
+                checkBounds(d.source);
+                return d.source.x;
+            })
+            .attr("y1", d => d.source.y)
+            .attr("x2", d => { 
+                checkBounds(d.target);
+                return d.target.x;
+            })
+            .attr("y2", d => d.target.y);
+
+            node.attr("transform", d => {
+                checkBounds(d);
+                return "translate(" + d.x + ", " + d.y + ")";
+            });
+        }
+
+        function getNeighbors(name: string): string[] {
+            const neighbors: string[] = [];
+            links.forEach(link => {
+                if (link.source.name === name) {
+                    neighbors.push(link.target.name);
+                } else if (link.target.name === name) {
+                    neighbors.push(link.source.name);
+                }
+            });
+            return neighbors;
+        }
+
+        function getNodeRadius(name: string): number {
+            const neighbors = getNeighbors(name);
+            return NODE_RADIUS_NORMAL + (NODE_RADIUS_ADDITIONAL * (neighbors.length - 1));
+        }
+
+        function getNodeColor(name: string): string {
+            if (name.charAt(0) === '#') return COLOR_TAG;
+            else return COLOR_NOTE;
+        }
+
+        function onMouseDown(d) {
+            const name = d.target.__data__.name;
+            const neighbors = getNeighbors(name);
+            d3.selectAll<d3.BaseType, NodeType>("circle")
+                // .filter(c => c.name === d.target.__data__.name)
+                .transition()
+                .duration(100)
+                .attr("r", n => {
+                    if (name === n.name || neighbors.includes(n.name)) return HOVER_NODE_RADIUS_INCREASE + getNodeRadius(n.name);
+                    else return HOVER_NODE_RADIUS_DECREASE;
+                }).style("fill", n => {
+                    if (name === n.name) return '#8a5cf5';
+                    else getNodeColor(n.name);
+                });
+            d3.selectAll<d3.BaseType, NodeType>("circle")
+                .filter(c => c.name === d.target.__data__.name)
+                .append("text")
+                .attr("class", "tooltip")
+            link.style("stroke", l => {
+                const name = d.target.__data__.name;
+                if (name === l.source.name || name === l.target.name) return '#8a5cf5';
+                else return '#999';
+            }).style("stroke-width", l => {
+                const name = d.target.__data__.name;
+                if (name === l.source.name || name === l.target.name) return HOVER_LINK_INCREASE;
+                else return HOVER_LINK_DECREASE;
+            });
+        }
+
+        function onMouseUp() {
+            if (isMouseDown) return;
+            d3.selectAll("circle")
+                // .filter(c => c.name === d.target.__data__.name)
+                .transition()
+                .duration(1)
+                .attr("r", n => getNodeRadius(n.name))
+                .style("fill", n => getNodeColor(n.name));
+            link.style("stroke", "#999")
+                .style("stroke-width", LINK_WIDTH_NORMAL);
+        }
+    }
 
     return (
         <div ref={parentRef}>
