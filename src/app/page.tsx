@@ -3,7 +3,7 @@ import NoteText from "./components/note/NoteText";
 
 export default function Home() {
     return (
-        <Note>
+        <Note title="Home">
             <NoteText>
                 test
             </NoteText>

@@ -3,7 +3,7 @@ import NoteText from "@/app/components/note/NoteText";
 
 export default function GroupieNote() {
     return (
-        <Note>
+        <Note title='Groupie'>
             <NoteText>Groupie</NoteText>
         </Note>
     );

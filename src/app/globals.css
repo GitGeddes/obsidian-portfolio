@@ -120,3 +120,9 @@ p {
 .linkUnderline {
   text-decoration: underline;
 }
+
+.breadcrumb {
+  margin-top: 5;
+  margin-bottom: 10;
+  align-items: center;
+}

@@ -4,6 +4,7 @@
 import * as d3 from 'd3';
 import { useEffect, useRef, useState } from 'react';
 import { notes, NoteType } from './notes';
+import NoteBreadcrumb from '@/app/components/note/components/NoteBreadcrumb';
 
 // https://observablehq.com/@d3/disjoint-force-directed-graph/2
 
@@ -25,7 +26,7 @@ const HOVER_NODE_RADIUS_DECREASE = 4;
 
 const COLOR_TAG = '#44cf6e';
 const COLOR_NOTE = '#d75252';
-
+const COLOR_HIGHLIGHT = '#8a5cf5';
 
 type NodeType = d3.SimulationNodeDatum & {
     name: string;
@@ -97,12 +98,10 @@ export default function Graph() {
             .selectAll("line")
             .data(links)
             .enter().append("line")
-                .attr("stroke-width", 1);
+                .attr("stroke-width", LINK_WIDTH_NORMAL);
 
         // Add nodes to the SVG.
         const node = svg.append("g")
-            .attr("stroke", "#fff")
-            .attr("stroke-width", 1.5)
             .selectAll("circle")
             .data(nodes)
             .enter().append("circle")
@@ -226,7 +225,7 @@ export default function Graph() {
                     if (name === n.name || neighbors.includes(n.name)) return HOVER_NODE_RADIUS_INCREASE + getNodeRadius(n.name);
                     else return HOVER_NODE_RADIUS_DECREASE;
                 }).style("fill", n => {
-                    if (name === n.name) return '#8a5cf5';
+                    if (name === n.name) return COLOR_HIGHLIGHT;
                     else getNodeColor(n.name);
                 });
             d3.selectAll<d3.BaseType, NodeType>("circle")
@@ -235,7 +234,7 @@ export default function Graph() {
                 .attr("class", "tooltip")
             link.style("stroke", l => {
                 const name = d.target.__data__.name;
-                if (name === l.source.name || name === l.target.name) return '#8a5cf5';
+                if (name === l.source.name || name === l.target.name) return COLOR_HIGHLIGHT;
                 else return '#999';
             }).style("stroke-width", l => {
                 const name = d.target.__data__.name;
@@ -258,7 +257,8 @@ export default function Graph() {
     }
 
     return (
-        <div ref={parentRef}>
+        <div ref={parentRef} className='column' style={{ alignItems: 'center' }}>
+            <NoteBreadcrumb path='Graph view'/>
             <svg
                 ref={ref}
                 width={1200}

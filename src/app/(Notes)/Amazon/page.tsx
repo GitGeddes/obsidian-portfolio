@@ -3,7 +3,7 @@ import NoteText from "@/app/components/note/NoteText";
 
 export default function AmazonNote() {
     return (
-        <Note>
+        <Note title='Amazon'>
             <NoteText>Amazon</NoteText>
         </Note>
     );

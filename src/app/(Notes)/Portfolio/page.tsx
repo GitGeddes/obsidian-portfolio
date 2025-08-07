@@ -4,7 +4,7 @@ import Markdown from './Obsidian Portfolio.md';
 
 export default function Portfolio() {
     return (
-        <Note>
+        <Note title='Portfolio'>
             <Markdown />
         </Note>
     );
