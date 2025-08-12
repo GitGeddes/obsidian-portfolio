@@ -9,6 +9,7 @@ export default function CalendarEntry(props: CalendarEntryProps) {
         <p
             style={{
                 color: !props.isCurrentMonth ? '#494949' : !props.isToday ? 'inherit' : '#8a5cf5',
+                fontSize: 12,
                 textAlign: 'center',
                 alignSelf: 'center'
             }}

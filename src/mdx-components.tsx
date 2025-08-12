@@ -106,12 +106,11 @@ export function useMDXComponents(): MDXComponents { return {
     a: ({ href, children, ...props }: ComponentPropsWithoutRef<"a">) => {
       const className = " inline-link linkColor linkUnderline";
       if (href?.startsWith("/")) {
+        // Internal link
         return (
-          <ExternalLink>
-            <Link href={href} className={className} {...props}>
-              {children}
-            </Link>
-          </ExternalLink>
+          <Link href={href} className={className} {...props}>
+            {children}
+          </Link>
         );
       }
       if (href?.startsWith("#")) {

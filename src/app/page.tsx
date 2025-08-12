@@ -4,7 +4,7 @@ import Markdown from './index.md';
 
 export default function Index() {
     return (
-        <Note title="Index">
+        <Note title="index">
             <Markdown />
         </Note>
     );
