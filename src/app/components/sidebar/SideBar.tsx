@@ -10,6 +10,8 @@ import ViewSidebarOutlinedIcon from '@mui/icons-material/ViewSidebarOutlined';
 
 import ListItemButton from '@mui/material/ListItemButton';
 import SideBarTopButtonsList from "./components/SideBarTopButtonsList";
+import Calendar from "./components/Calendar";
+import NoteListTopBar from "../notelist/components/NoteListTopBar";
 
 export default function SideBar() {
     const [isOpen, setIsOpen] = useState(true);
@@ -39,8 +41,14 @@ export default function SideBar() {
                 in={isOpen}
                 timeout={"auto"}
                 orientation={"horizontal"}>
-                <SideBarTopButtonsList />
-                <NotesList />
+                    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+                        <SideBarTopButtonsList />
+                        <NoteListTopBar />
+                        <div className="calendarParent">
+                            <NotesList />
+                            <Calendar />
+                        </div>
+                    </div>
             </Collapse>
         </div>
     );

@@ -1,12 +1,10 @@
 import List from "@mui/material/List";
 import FolderButton from "./components/FolderButton";
 import NoteButton from "./components/NoteButton";
-import NoteListTopBar from "./components/NoteListTopBar";
 
 export default function NotesList() {
     return (
-        <>
-            <NoteListTopBar />
+        <div className="notesList bottomBorder" >
             <List>
                 <FolderButton title="Daily" canOpen={false}/>
                 <FolderButton title="Notes">
@@ -22,6 +20,6 @@ export default function NotesList() {
                 </FolderButton>
                 <FolderButton title="Templates" canOpen={false}/>
             </List>
-        </>
+        </div>
     );
 }

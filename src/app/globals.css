@@ -117,6 +117,10 @@ p {
   color: #a68af9;
 }
 
+.fadedTextColor {
+  color: #494949;
+}
+
 .linkUnderline {
   text-decoration: underline;
 }
@@ -125,4 +129,27 @@ p {
   margin-top: 5;
   margin-bottom: 10;
   align-items: center;
+}
+
+.calendarParent {
+  display: grid;
+  flex-grow: 1;
+  grid-template-rows: 65fr 35fr;
+}
+
+.notesList {
+  flex-grow: 1;
+}
+
+.calendar {
+  display: grid;
+  flex-grow: 1;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+.calendarContainer {
+  display: flex;
+  flex-direction: column;
+  margin: 10;
 }
