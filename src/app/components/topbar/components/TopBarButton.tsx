@@ -5,11 +5,12 @@ import Link from "next/link";
 
 type TopBarButtonProps = {
     title: string;
+    href?: string;
 }
 
 export default function TopBarButton(props: TopBarButtonProps) {
     return (
-        <Link className={styles.top_button} href={`/${props.title}`}>
+        <Link className={styles.top_button} href={props.href ? props.href : `/${props.title}`}>
             <ListItemButton
               sx={{
                 ":hover": {

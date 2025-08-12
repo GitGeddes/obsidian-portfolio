@@ -1,12 +1,11 @@
 import Note from "./components/note/Note";
-import NoteText from "./components/note/NoteText";
 
-export default function Home() {
+import Markdown from './index.md';
+
+export default function Index() {
     return (
-        <Note title="Home">
-            <NoteText>
-                test
-            </NoteText>
+        <Note title="Index">
+            <Markdown />
         </Note>
     );
 }
