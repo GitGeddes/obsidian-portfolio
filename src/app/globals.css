@@ -49,6 +49,7 @@ p {
 .topbar {
   background-color: #363636;
   height: 3em;
+  align-items: center;
 }
 
 .bottomBorder {
