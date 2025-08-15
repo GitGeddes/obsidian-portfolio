@@ -227,19 +227,23 @@ export default function Graph() {
                 }).style("fill", n => {
                     if (name === n.name) return COLOR_HIGHLIGHT;
                     else getNodeColor(n.name);
+                }).style('fill-opacity', n => {
+                    if (name === n.name || neighbors.includes(n.name)) return 1;
+                    else return 0.4;
                 });
             d3.selectAll<d3.BaseType, NodeType>("circle")
                 .filter(c => c.name === d.target.__data__.name)
                 .append("text")
-                .attr("class", "tooltip")
+                .attr("class", "tooltip");
             link.style("stroke", l => {
-                const name = d.target.__data__.name;
                 if (name === l.source.name || name === l.target.name) return COLOR_HIGHLIGHT;
                 else return '#999';
             }).style("stroke-width", l => {
-                const name = d.target.__data__.name;
                 if (name === l.source.name || name === l.target.name) return HOVER_LINK_INCREASE;
                 else return HOVER_LINK_DECREASE;
+            }).style('stroke-opacity', l => {
+                if (name === l.source.name || name === l.target.name) return 1;
+                else return 0.4;
             });
         }
 
@@ -250,9 +254,11 @@ export default function Graph() {
                 .transition()
                 .duration(1)
                 .attr("r", n => getNodeRadius(n.name))
-                .style("fill", n => getNodeColor(n.name));
+                .style("fill", n => getNodeColor(n.name))
+                .style('fill-opacity', 1);
             link.style("stroke", "#999")
-                .style("stroke-width", LINK_WIDTH_NORMAL);
+                .style("stroke-width", LINK_WIDTH_NORMAL)
+                .style('stroke-opacity', 0.6);
         }
     }
 
