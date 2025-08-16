@@ -4,7 +4,7 @@ import Markdown from './Video Clipper.md';
 
 export default function VideoClipper() {
     return (
-        <Note title='Video Clipper'>
+        <Note title='VideoClipper'>
             <Markdown />
         </Note>
     );

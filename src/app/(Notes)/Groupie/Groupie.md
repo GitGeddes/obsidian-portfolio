@@ -1,3 +1,8 @@
+---
+tags:
+- experience
+- projects
+---
 # Groupie
 ### Co-Founder, Full Stack Engineer
 #### July 2020 - January 2025
