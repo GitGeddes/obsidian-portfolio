@@ -4,9 +4,9 @@ This is a GitHub portfolio styled like the note-taking app [Obsidian](https://ob
 Every page is authored and rendered from Markdown files, just like Obsidian.
 
 ## Experience
-[Amazon](/Amazon)
+[Amazon](/Amazon), Software Development Engineer
 
-[Groupie](/Groupie)
+[Groupie App](/Groupie), Co-Founder & Full Stack Engineer
 
 ## Projects
 [Obsidian Portfolio](/Portfolio) (this project)

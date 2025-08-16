@@ -1,10 +1,11 @@
 import Note from "@/app/components/note/Note";
-import NoteText from "@/app/components/note/NoteText";
+
+import Markdown from './Amazon.md';
 
 export default function AmazonNote() {
     return (
         <Note title='Amazon'>
-            <NoteText>Amazon</NoteText>
+            <Markdown />
         </Note>
     );
 }
