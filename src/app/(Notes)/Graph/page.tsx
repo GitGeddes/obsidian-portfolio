@@ -5,6 +5,7 @@ import * as d3 from 'd3';
 import { useEffect, useRef, useState } from 'react';
 import { notes, NoteType } from './notes';
 import NoteBreadcrumb from '@/app/components/note/components/NoteBreadcrumb';
+import { useRouter } from 'next/navigation';
 
 // https://observablehq.com/@d3/disjoint-force-directed-graph/2
 
@@ -28,31 +29,31 @@ const COLOR_TAG = '#44cf6e';
 const COLOR_NOTE = '#d75252';
 const COLOR_HIGHLIGHT = '#8a5cf5';
 
+const TOOLTIP_OFFSET_Y = 30;
+const TOOLTIP_OFFSET_X = -30;
+
 type NodeType = d3.SimulationNodeDatum & {
     name: string;
 }
 
-type LinkType = {
-    source: d3.SimulationLinkDatum<NodeType>;
-    target: d3.SimulationLinkDatum<NodeType>;
-}
-
 export default function Graph() {
+    const router = useRouter();
+
     const ref = useRef<SVGSVGElement>(null);
     const parentRef = useRef<HTMLDivElement>(null);
 
-    const [isMouseDown, setIsMouseDown] = useState(false);
+    const [nodes] = useState<NodeType[]>([]);
+    const [links] = useState<d3.SimulationLinkDatum<NodeType>[]>([]);
 
     useEffect(() => {
-        if (ref.current !== null && ref.current.childNodes.length === 0) {
-            const svgElement = d3.select(ref.current);
-            loadAndProcess(svgElement);
+        if (ref.current !== null && ref.current.childNodes.length === 0 && parentRef.current !== null) {
+            loadAndProcess(ref.current, parentRef.current);
         }
     }, [loadAndProcess]);
 
-    function loadAndProcess(svgRef: d3.Selection<SVGSVGElement, unknown, null, undefined>) {
-        const nodes: NodeType[] = [];
-        const links: LinkType[] = [];
+    function loadAndProcess(svgRef: SVGSVGElement, divRef: HTMLDivElement) {
+        const svgElement = d3.select(svgRef);
+        const divElement = d3.select(divRef);
 
         function parseNote(key: string, value: NoteType) {
             nodes.push({ "name": key })
@@ -70,7 +71,7 @@ export default function Graph() {
 
         // Select SVG element in DOM.
         // Requires local HTTP server to load local files. Opening index.html as a file doesn't work.
-        const svg = svgRef,
+        const svg = svgElement,
             width = +svg.attr("width"),
             height = +svg.attr("height");
 
@@ -108,32 +109,26 @@ export default function Graph() {
                 .attr("r", d => getNodeRadius(d.name))
                 .attr("fill", d => getNodeColor(d.name));
 
-        // Show node name on hover.
-        node.append("title")
-            .text(d => d.name);
-        node.append("text")
-            .style("position", "absolute")
-            .style("visibility", "visible")
-            .text(d => d.name);
-
         // Change styling on hover.
-        node.on("mouseover", d => onMouseDown(d))
-            .on("mouseout", () => onMouseUp());
+        node.on("mouseover", (n) => onMouseOver(n))
+            .on('mousemove', (n) => onMouseMove(n))
+            .on("mouseout", () => onMouseOut());
 
-        // Change styling on mouse click
-        node.on("mousedown", d => {
-            setIsMouseDown(true);
-            onMouseDown(d);
-        }).on("mouseup", () => {
-            setIsMouseDown(false);
-            onMouseUp();
-        });
+        // Add click behavior
+        node.on('click', (n) => router.push(n.target.__data__.name));
 
         // Add a drag behavior.
         node.call(d3.drag()
             .on("start", dragstarted)
             .on("drag", dragged)
             .on("end", dragended));
+
+        // Add a tooltip
+        // https://d3-graph-gallery.com/graph/interactivity_tooltip.html
+        const tooltip = divElement.append("div")
+            .style("position", "absolute")
+            .style("visibility", "hidden")
+            .text("I'm a tooltip!");
 
         // Set the position attributes of links and nodes each time the simulation ticks.
         simulation.on("tick", () => tick(link, node));
@@ -149,6 +144,9 @@ export default function Graph() {
         function dragged(event) {
             event.subject.fx = event.x;
             event.subject.fy = event.y;
+            tooltip
+                .style('top', (event.sourceEvent.pageY + TOOLTIP_OFFSET_Y) + 'px')
+                .style('left', (event.sourceEvent.pageX + TOOLTIP_OFFSET_X) + 'px');
         }
 
         // Restore the target alpha so the simulation cools after dragging ends.
@@ -159,14 +157,18 @@ export default function Graph() {
             event.subject.fy = null;
         }
 
-        function checkBounds(d) {
-            if (d.x < width * BOUNDS_PADDING) d.x = width * BOUNDS_PADDING;
-            if (d.x > width * (1 - BOUNDS_PADDING)) d.x = width * (1 - BOUNDS_PADDING);
-            if (d.y < height * BOUNDS_PADDING) d.y = height * BOUNDS_PADDING;
-            if (d.y > height * (1 - BOUNDS_PADDING)) d.y = height * (1 - BOUNDS_PADDING);
+        function checkBounds(n: NodeType) {
+            if (!n.x || !n.y) return;
+            if (n.x < width * BOUNDS_PADDING) n.x = width * BOUNDS_PADDING;
+            if (n.x > width * (1 - BOUNDS_PADDING)) n.x = width * (1 - BOUNDS_PADDING);
+            if (n.y < height * BOUNDS_PADDING) n.y = height * BOUNDS_PADDING;
+            if (n.y > height * (1 - BOUNDS_PADDING)) n.y = height * (1 - BOUNDS_PADDING);
         }
 
-        function tick(link: d3.Selection<SVGLineElement, LinkType, SVGGElement, unknown>, node: d3.Selection<SVGCircleElement, NodeType, SVGGElement, unknown>) {
+        function tick(
+            link: d3.Selection<SVGLineElement, d3.SimulationLinkDatum<NodeType>, SVGGElement, unknown>,
+            node: d3.Selection<SVGCircleElement, NodeType, SVGGElement, unknown>
+        ) {
             // link.attr("x1", d => d.source.x)
             //     .attr("y1", d => d.source.y)
             //     .attr("x2", d => d.target.x)
@@ -175,20 +177,20 @@ export default function Graph() {
             // node.attr("cx", d => d.x)
             //     .attr("cy", d => d.y);
 
-            link.attr("x1", d => { 
-                checkBounds(d.source);
-                return d.source.x;
-            })
-            .attr("y1", d => d.source.y)
-            .attr("x2", d => { 
-                checkBounds(d.target);
-                return d.target.x;
-            })
-            .attr("y2", d => d.target.y);
+            link.attr("x1", (n) => { 
+                    checkBounds(n.source);
+                    return n.source.x;
+                })
+                .attr("y1", (n) => n.source.y)
+                .attr("x2", (n) => { 
+                    checkBounds(n.target);
+                    return n.target.x;
+                })
+                .attr("y2", (n) => n.target.y);
 
-            node.attr("transform", d => {
-                checkBounds(d);
-                return "translate(" + d.x + ", " + d.y + ")";
+            node.attr("transform", (n) => {
+                checkBounds(n);
+                return "translate(" + n.x + ", " + n.y + ")";
             });
         }
 
@@ -214,11 +216,10 @@ export default function Graph() {
             else return COLOR_NOTE;
         }
 
-        function onMouseDown(d) {
+        function onMouseOver(d) {
             const name = d.target.__data__.name;
             const neighbors = getNeighbors(name);
             d3.selectAll<d3.BaseType, NodeType>("circle")
-                // .filter(c => c.name === d.target.__data__.name)
                 .transition()
                 .duration(100)
                 .attr("r", n => {
@@ -226,15 +227,17 @@ export default function Graph() {
                     else return HOVER_NODE_RADIUS_DECREASE;
                 }).style("fill", n => {
                     if (name === n.name) return COLOR_HIGHLIGHT;
-                    else getNodeColor(n.name);
+                    else return getNodeColor(n.name);
                 }).style('fill-opacity', n => {
                     if (name === n.name || neighbors.includes(n.name)) return 1;
                     else return 0.4;
                 });
+
             d3.selectAll<d3.BaseType, NodeType>("circle")
-                .filter(c => c.name === d.target.__data__.name)
+                .filter(c => c.name === name)
                 .append("text")
                 .attr("class", "tooltip");
+
             link.style("stroke", l => {
                 if (name === l.source.name || name === l.target.name) return COLOR_HIGHLIGHT;
                 else return '#999';
@@ -245,20 +248,30 @@ export default function Graph() {
                 if (name === l.source.name || name === l.target.name) return 1;
                 else return 0.4;
             });
+
+            tooltip.style('visibility', 'visible');
         }
 
-        function onMouseUp() {
-            if (isMouseDown) return;
+        function onMouseMove(n) {
+            tooltip
+                .style('top', (n.clientY + TOOLTIP_OFFSET_Y) + 'px')
+                .style('left', (n.clientX + TOOLTIP_OFFSET_X) + 'px')
+                .text(n.target.__data__.name);
+        }
+
+        function onMouseOut() {
             d3.selectAll("circle")
-                // .filter(c => c.name === d.target.__data__.name)
                 .transition()
                 .duration(1)
                 .attr("r", n => getNodeRadius(n.name))
                 .style("fill", n => getNodeColor(n.name))
                 .style('fill-opacity', 1);
+
             link.style("stroke", "#999")
                 .style("stroke-width", LINK_WIDTH_NORMAL)
                 .style('stroke-opacity', 0.6);
+
+            tooltip.style('visibility', 'hidden');
         }
     }
 

@@ -20,8 +20,8 @@ export const notes: NotesType = {
             'Next.js'
         ]
     },
-    'Video Clipper': {
-        path: 'Notes/Projects/Video Clipper',
+    'VideoClipper': {
+        path: 'Notes/Projects/VideoClipper',
         tags: [
             '#projects',
             '#projects/GitHub'
