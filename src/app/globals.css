@@ -67,6 +67,11 @@ p {
   border-left-width: thin;
 }
 
+.allBorder {
+  border-width: thin;
+  border-color: #363636;
+}
+
 .fillWidth {
   flex-grow: 1;
 }

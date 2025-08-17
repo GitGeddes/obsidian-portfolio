@@ -9,12 +9,15 @@ import { useRouter } from 'next/navigation';
 
 // https://observablehq.com/@d3/disjoint-force-directed-graph/2
 
+const DEFAULT_WIDTH = 1200;
+const DEFAULT_HEIGHT = 800;
+
 const LINK_STRENGTH = 0.4;
 const LINK_DISTANCE = 45;
 const CHARGE_STRENGTH = -150;
 const CENTER_STRENGTH = 0.1;
 const GRAVITY_STRENGTH = 0.07;
-const BOUNDS_PADDING = 0.05;
+const BOUNDS_PADDING = 0.03;
 
 const LINK_WIDTH_NORMAL = 2;
 const HOVER_LINK_INCREASE = 5;
@@ -276,12 +279,16 @@ export default function Graph() {
     }
 
     return (
-        <div ref={parentRef} className='column' style={{ alignItems: 'center' }}>
+        <div ref={parentRef} className='column fullHeight' style={{ alignItems: 'center' }}>
             <NoteBreadcrumb path='Graph view'/>
             <svg
+                className='allBorder'
                 ref={ref}
-                width={1200}
-                height={800}
+                width={DEFAULT_WIDTH}
+                height={DEFAULT_HEIGHT}
+                style={{
+                    boxShadow: '0px 0px 10px #363636'
+                }}
             />
         </div>
     );
