@@ -17,7 +17,7 @@ export default function TopBarButton(props: TopBarButtonProps) {
 
     const isCurrentPath = useCallback(() => {
         return pathname === props.href || pathname === '/' + props.title;
-    }, [pathname]);
+    }, [pathname, props.href, props.title]);
 
     return (
         <Link className={styles.top_button} href={props.href ? props.href : `/${props.title}`}>

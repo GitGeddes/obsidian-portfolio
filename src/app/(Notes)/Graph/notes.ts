@@ -1,4 +1,5 @@
 export type NoteType = {
+    link?: string;
     path: string;
     tags: string[];
     links: string[];
@@ -10,6 +11,7 @@ type NotesType = {
 
 export const notes: NotesType = {
     'Portfolio': {
+        link: 'Portfolio',
         path: 'Notes/Projects/Portfolio',
         tags: [
             '#projects',
@@ -21,6 +23,7 @@ export const notes: NotesType = {
         ]
     },
     'VideoClipper': {
+        link: 'VideoClipper',
         path: 'Notes/Projects/VideoClipper',
         tags: [
             '#projects',
@@ -32,6 +35,7 @@ export const notes: NotesType = {
         ]
     },
     'Groupie': {
+        link: 'Groupie',
         path: 'Notes/Experience/Groupie',
         tags: [
             '#projects',
@@ -43,6 +47,7 @@ export const notes: NotesType = {
         ]
     },
     'Amazon': {
+        link: 'Amazon',
         path: 'Notes/Experience/Amazon',
         tags: [
             '#experience'

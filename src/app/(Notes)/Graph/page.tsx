@@ -30,6 +30,8 @@ const HOVER_NODE_RADIUS_DECREASE = 4;
 
 const COLOR_TAG = '#44cf6e';
 const COLOR_NOTE = '#d75252';
+const COLOR_NOTE_OUTLINE = '#e07c7cff';
+const COLOR_EMPTY = '#e0b152';
 const COLOR_HIGHLIGHT = '#8a5cf5';
 
 const TOOLTIP_OFFSET_Y = 30;
@@ -37,6 +39,7 @@ const TOOLTIP_OFFSET_X = -30;
 
 type NodeType = d3.SimulationNodeDatum & {
     name: string;
+    path?: string;
 }
 
 export default function Graph() {
@@ -52,231 +55,244 @@ export default function Graph() {
         if (ref.current !== null && ref.current.childNodes.length === 0 && parentRef.current !== null) {
             loadAndProcess(ref.current, parentRef.current);
         }
-    }, [loadAndProcess]);
 
-    function loadAndProcess(svgRef: SVGSVGElement, divRef: HTMLDivElement) {
-        const svgElement = d3.select(svgRef);
-        const divElement = d3.select(divRef);
+        function loadAndProcess(svgRef: SVGSVGElement, divRef: HTMLDivElement) {
+            const svgElement = d3.select(svgRef);
+            const divElement = d3.select(divRef);
 
-        function parseNote(key: string, value: NoteType) {
-            nodes.push({ "name": key })
-            value.links.forEach(link => {
-                links.push({ source: key, target: link });
+            function parseNote(key: string, value: NoteType) {
+                nodes.push({
+                    name: key,
+                    path: value.link
+                });
+                value.links.forEach(link => {
+                    links.push({ source: key, target: link });
+                });
+                value.tags.forEach(tag => {
+                    links.push({ source: key, target: tag });
+                });
+            }
+
+            Object.entries(notes).forEach(([key, value]) => {
+                parseNote(key, value);
             });
-            value.tags.forEach(tag => {
-                links.push({ source: key, target: tag });
-            });
-        }
 
-        for (const key in notes) {
-            parseNote(key, notes[key]);
-        }
+            // Select SVG element in DOM.
+            const svg = svgElement,
+                width = +svg.attr("width"),
+                height = +svg.attr("height");
 
-        // Select SVG element in DOM.
-        // Requires local HTTP server to load local files. Opening index.html as a file doesn't work.
-        const svg = svgElement,
-            width = +svg.attr("width"),
-            height = +svg.attr("height");
+            // Zoom
+            // function handleZoom(e) {
+            //     svg.attr('transform', e.transform);
+            // }
+            // svg.call(d3.zoom()
+            //     .extent([[0, 0], [width, height]])
+            //     .scaleExtent([1, 8])
+            //     .on("zoom", handleZoom));
 
-        // Zoom
-        // function handleZoom(e) {
-        //     svg.attr('transform', e.transform);
-        // }
-        // svg.call(d3.zoom()
-        //     .extent([[0, 0], [width, height]])
-        //     .scaleExtent([1, 8])
-        //     .on("zoom", handleZoom));
+            // Build force simulation with given parameters.
+            const simulation = d3.forceSimulation(nodes)
+                .force("link", d3.forceLink<NodeType, d3.SimulationLinkDatum<NodeType>>(links).id(d => d.name).strength(LINK_STRENGTH).distance(LINK_DISTANCE))
+                .force("charge", d3.forceManyBody().strength(CHARGE_STRENGTH))
+                .force("center", d3.forceCenter(width / 2, height / 2).strength(CENTER_STRENGTH))
+                .force("forceX", d3.forceX(width / 2).strength(GRAVITY_STRENGTH))
+                .force("forceY", d3.forceY(height / 2). strength(GRAVITY_STRENGTH));
 
-        // Build force simulation with given parameters.
-        const simulation = d3.forceSimulation(nodes)
-            .force("link", d3.forceLink<NodeType, d3.SimulationLinkDatum<NodeType>>(links).id(d => d.name).strength(LINK_STRENGTH).distance(LINK_DISTANCE))
-            .force("charge", d3.forceManyBody().strength(CHARGE_STRENGTH))
-            .force("center", d3.forceCenter(width / 2, height / 2).strength(CENTER_STRENGTH))
-            .force("forceX", d3.forceX(width / 2).strength(GRAVITY_STRENGTH))
-            .force("forceY", d3.forceY(height / 2). strength(GRAVITY_STRENGTH));
+            // Add links to the SVG.
+            const link = svg.append("g")
+                .attr("stroke", "#999")
+                .attr("stroke-opacity", 0.6)
+                .selectAll("line")
+                .data(links)
+                .enter().append("line")
+                    .attr("stroke-width", LINK_WIDTH_NORMAL);
 
-        // Add links to the SVG.
-        const link = svg.append("g")
-            .attr("stroke", "#999")
-            .attr("stroke-opacity", 0.6)
-            .selectAll("line")
-            .data(links)
-            .enter().append("line")
-                .attr("stroke-width", LINK_WIDTH_NORMAL);
+            // Add nodes to the SVG.
+            const node = svg.append("g")
+                .selectAll("circle")
+                .data(nodes)
+                .enter().append("circle")
+                    .attr("r", node => getNodeRadius(node.name))
+                    .attr("fill", node => getNodeColor(node))
+                    .attr('stroke', COLOR_NOTE_OUTLINE)
+                    .attr("stroke-width", node => getNodeStrokeWidth(node));
 
-        // Add nodes to the SVG.
-        const node = svg.append("g")
-            .selectAll("circle")
-            .data(nodes)
-            .enter().append("circle")
-                .attr("r", d => getNodeRadius(d.name))
-                .attr("fill", d => getNodeColor(d.name));
+            // Change styling on hover.
+            node.on("mouseover", (event) => onMouseOver(event))
+                .on('mousemove', (event) => onMouseMove(event))
+                .on("mouseout", () => onMouseOut());
 
-        // Change styling on hover.
-        node.on("mouseover", (n) => onMouseOver(n))
-            .on('mousemove', (n) => onMouseMove(n))
-            .on("mouseout", () => onMouseOut());
+            // Add click behavior
+            node.on('click', (event) => onMouseClick(event));
 
-        // Add click behavior
-        node.on('click', (n) => router.push(n.target.__data__.name));
+            // Add a drag behavior.
+            node.call(d3.drag()
+                .on("start", dragstarted)
+                .on("drag", dragged)
+                .on("end", dragended));
 
-        // Add a drag behavior.
-        node.call(d3.drag()
-            .on("start", dragstarted)
-            .on("drag", dragged)
-            .on("end", dragended));
+            // Add a tooltip
+            // https://d3-graph-gallery.com/graph/interactivity_tooltip.html
+            const tooltip = divElement.append("div")
+                .style("position", "absolute")
+                .style("visibility", "hidden")
+                .text("I'm a tooltip!");
 
-        // Add a tooltip
-        // https://d3-graph-gallery.com/graph/interactivity_tooltip.html
-        const tooltip = divElement.append("div")
-            .style("position", "absolute")
-            .style("visibility", "hidden")
-            .text("I'm a tooltip!");
+            // Set the position attributes of links and nodes each time the simulation ticks.
+            simulation.on("tick", () => tick(link, node));
 
-        // Set the position attributes of links and nodes each time the simulation ticks.
-        simulation.on("tick", () => tick(link, node));
+            // Reheat the simulation when drag starts, and fix the subject position.
+            function dragstarted(event) {
+                if (!event.active) simulation.alphaTarget(0.3).restart();
+                event.subject.fx = event.subject.x;
+                event.subject.fy = event.subject.y;
+            }
 
-        // Reheat the simulation when drag starts, and fix the subject position.
-        function dragstarted(event) {
-            if (!event.active) simulation.alphaTarget(0.3).restart();
-            event.subject.fx = event.subject.x;
-            event.subject.fy = event.subject.y;
-        }
+            // Update the subject (dragged node) position during drag.
+            function dragged(event) {
+                event.subject.fx = event.x;
+                event.subject.fy = event.y;
+                tooltip
+                    .style('top', (event.sourceEvent.pageY + TOOLTIP_OFFSET_Y) + 'px')
+                    .style('left', (event.sourceEvent.pageX + TOOLTIP_OFFSET_X) + 'px');
+            }
 
-        // Update the subject (dragged node) position during drag.
-        function dragged(event) {
-            event.subject.fx = event.x;
-            event.subject.fy = event.y;
-            tooltip
-                .style('top', (event.sourceEvent.pageY + TOOLTIP_OFFSET_Y) + 'px')
-                .style('left', (event.sourceEvent.pageX + TOOLTIP_OFFSET_X) + 'px');
-        }
+            // Restore the target alpha so the simulation cools after dragging ends.
+            // Unfix the subject position now that it’s no longer being dragged.
+            function dragended(event) {
+                if (!event.active) simulation.alphaTarget(0);
+                event.subject.fx = null;
+                event.subject.fy = null;
+            }
 
-        // Restore the target alpha so the simulation cools after dragging ends.
-        // Unfix the subject position now that it’s no longer being dragged.
-        function dragended(event) {
-            if (!event.active) simulation.alphaTarget(0);
-            event.subject.fx = null;
-            event.subject.fy = null;
-        }
+            // Modify node to stay within bounds
+            function checkBounds(n: NodeType) {
+                if (!n.x || !n.y) return;
+                if (n.x < width * BOUNDS_PADDING) n.x = width * BOUNDS_PADDING;
+                if (n.x > width * (1 - BOUNDS_PADDING)) n.x = width * (1 - BOUNDS_PADDING);
+                if (n.y < height * BOUNDS_PADDING) n.y = height * BOUNDS_PADDING;
+                if (n.y > height * (1 - BOUNDS_PADDING)) n.y = height * (1 - BOUNDS_PADDING);
+            }
 
-        function checkBounds(n: NodeType) {
-            if (!n.x || !n.y) return;
-            if (n.x < width * BOUNDS_PADDING) n.x = width * BOUNDS_PADDING;
-            if (n.x > width * (1 - BOUNDS_PADDING)) n.x = width * (1 - BOUNDS_PADDING);
-            if (n.y < height * BOUNDS_PADDING) n.y = height * BOUNDS_PADDING;
-            if (n.y > height * (1 - BOUNDS_PADDING)) n.y = height * (1 - BOUNDS_PADDING);
-        }
+            function tick(
+                link: d3.Selection<SVGLineElement, d3.SimulationLinkDatum<NodeType>, SVGGElement, unknown>,
+                node: d3.Selection<SVGCircleElement, NodeType, SVGGElement, unknown>
+            ) {
+                link.attr("x1", (l) => { 
+                        checkBounds(l.source);
+                        return l.source.x;
+                    })
+                    .attr("y1", (n) => n.source.y)
+                    .attr("x2", (n) => { 
+                        checkBounds(n.target);
+                        return n.target.x;
+                    })
+                    .attr("y2", (n) => n.target.y);
 
-        function tick(
-            link: d3.Selection<SVGLineElement, d3.SimulationLinkDatum<NodeType>, SVGGElement, unknown>,
-            node: d3.Selection<SVGCircleElement, NodeType, SVGGElement, unknown>
-        ) {
-            // link.attr("x1", d => d.source.x)
-            //     .attr("y1", d => d.source.y)
-            //     .attr("x2", d => d.target.x)
-            //     .attr("y2", d => d.target.y);
+                node.attr("transform", (n) => {
+                    checkBounds(n);
+                    return "translate(" + n.x + ", " + n.y + ")";
+                });
+            }
 
-            // node.attr("cx", d => d.x)
-            //     .attr("cy", d => d.y);
+            function getNeighbors(name: string): string[] {
+                const neighbors: string[] = [];
+                links.forEach(link => {
+                    if (link.source.name === name) {
+                        neighbors.push(link.target.name);
+                    } else if (link.target.name === name) {
+                        neighbors.push(link.source.name);
+                    }
+                });
+                return neighbors;
+            }
 
-            link.attr("x1", (n) => { 
-                    checkBounds(n.source);
-                    return n.source.x;
-                })
-                .attr("y1", (n) => n.source.y)
-                .attr("x2", (n) => { 
-                    checkBounds(n.target);
-                    return n.target.x;
-                })
-                .attr("y2", (n) => n.target.y);
+            function getNodeRadius(name: string): number {
+                const neighbors = getNeighbors(name);
+                return NODE_RADIUS_NORMAL + (NODE_RADIUS_ADDITIONAL * (neighbors.length - 1));
+            }
 
-            node.attr("transform", (n) => {
-                checkBounds(n);
-                return "translate(" + n.x + ", " + n.y + ")";
-            });
-        }
+            function getNodeColor(node: NodeType): string {
+                if (node.name.charAt(0) === '#') return COLOR_TAG;
+                else if (node.path !== undefined) return COLOR_NOTE;
+                else return COLOR_EMPTY;
+            }
 
-        function getNeighbors(name: string): string[] {
-            const neighbors: string[] = [];
-            links.forEach(link => {
-                if (link.source.name === name) {
-                    neighbors.push(link.target.name);
-                } else if (link.target.name === name) {
-                    neighbors.push(link.source.name);
-                }
-            });
-            return neighbors;
-        }
+            function getNodeStrokeWidth(node: NodeType): number {
+                if (node.path !== undefined) return LINK_WIDTH_NORMAL;
+                else return 0;
+            }
 
-        function getNodeRadius(name: string): number {
-            const neighbors = getNeighbors(name);
-            return NODE_RADIUS_NORMAL + (NODE_RADIUS_ADDITIONAL * (neighbors.length - 1));
-        }
+            // Update styles to reflect the current node the mouse is hovering over
+            function onMouseOver(event) {
+                const name = event.target.__data__.name;
+                const neighbors = getNeighbors(name);
+                d3.selectAll<d3.BaseType, NodeType>("circle")
+                    .transition()
+                    .duration(100)
+                    .attr("r", (node) => {
+                        if (name === node.name || neighbors.includes(node.name)) return HOVER_NODE_RADIUS_INCREASE + getNodeRadius(node.name);
+                        else return HOVER_NODE_RADIUS_DECREASE;
+                    }).style("fill", (node) => {
+                        if (name === node.name) return COLOR_HIGHLIGHT;
+                        else return getNodeColor(node);
+                    }).style('fill-opacity', (node) => {
+                        if (name === node.name || neighbors.includes(node.name)) return 1;
+                        else return 0.4;
+                    });
 
-        function getNodeColor(name: string): string {
-            if (name.charAt(0) === '#') return COLOR_TAG;
-            else return COLOR_NOTE;
-        }
+                d3.selectAll<d3.BaseType, NodeType>("circle")
+                    .filter(c => c.name === name)
+                    .append("text")
+                    .attr("class", "tooltip");
 
-        function onMouseOver(d) {
-            const name = d.target.__data__.name;
-            const neighbors = getNeighbors(name);
-            d3.selectAll<d3.BaseType, NodeType>("circle")
-                .transition()
-                .duration(100)
-                .attr("r", n => {
-                    if (name === n.name || neighbors.includes(n.name)) return HOVER_NODE_RADIUS_INCREASE + getNodeRadius(n.name);
-                    else return HOVER_NODE_RADIUS_DECREASE;
-                }).style("fill", n => {
-                    if (name === n.name) return COLOR_HIGHLIGHT;
-                    else return getNodeColor(n.name);
-                }).style('fill-opacity', n => {
-                    if (name === n.name || neighbors.includes(n.name)) return 1;
+                link.style("stroke", l => {
+                    if (name === l.source.name || name === l.target.name) return COLOR_HIGHLIGHT;
+                    else return '#999';
+                }).style("stroke-width", l => {
+                    if (name === l.source.name || name === l.target.name) return HOVER_LINK_INCREASE;
+                    else return HOVER_LINK_DECREASE;
+                }).style('stroke-opacity', l => {
+                    if (name === l.source.name || name === l.target.name) return 1;
                     else return 0.4;
                 });
 
-            d3.selectAll<d3.BaseType, NodeType>("circle")
-                .filter(c => c.name === name)
-                .append("text")
-                .attr("class", "tooltip");
+                tooltip.style('visibility', 'visible');
+            }
 
-            link.style("stroke", l => {
-                if (name === l.source.name || name === l.target.name) return COLOR_HIGHLIGHT;
-                else return '#999';
-            }).style("stroke-width", l => {
-                if (name === l.source.name || name === l.target.name) return HOVER_LINK_INCREASE;
-                else return HOVER_LINK_DECREASE;
-            }).style('stroke-opacity', l => {
-                if (name === l.source.name || name === l.target.name) return 1;
-                else return 0.4;
-            });
+            function onMouseMove(event) {
+                // Update the tooltip's location
+                tooltip
+                    .style('top', (event.clientY + TOOLTIP_OFFSET_Y) + 'px')
+                    .style('left', (event.clientX + TOOLTIP_OFFSET_X) + 'px')
+                    .text(event.target.__data__.name);
+            }
 
-            tooltip.style('visibility', 'visible');
+            // Revert all styling to defaults
+            function onMouseOut() {
+                d3.selectAll("circle")
+                    .transition()
+                    .duration(1)
+                    .attr("r", (node) => getNodeRadius(node.name))
+                    .style("fill", (node) => getNodeColor(node))
+                    .style('fill-opacity', 1);
+
+                link.style("stroke", "#999")
+                    .style("stroke-width", LINK_WIDTH_NORMAL)
+                    .style('stroke-opacity', 0.6);
+
+                tooltip.style('visibility', 'hidden');
+            }
+
+            function onMouseClick(event) {
+                // Has a valid note
+                if (event.target.__data__.path !== undefined) {
+                    router.push(event.target.__data__.name);
+                }
+            }
         }
-
-        function onMouseMove(n) {
-            tooltip
-                .style('top', (n.clientY + TOOLTIP_OFFSET_Y) + 'px')
-                .style('left', (n.clientX + TOOLTIP_OFFSET_X) + 'px')
-                .text(n.target.__data__.name);
-        }
-
-        function onMouseOut() {
-            d3.selectAll("circle")
-                .transition()
-                .duration(1)
-                .attr("r", n => getNodeRadius(n.name))
-                .style("fill", n => getNodeColor(n.name))
-                .style('fill-opacity', 1);
-
-            link.style("stroke", "#999")
-                .style("stroke-width", LINK_WIDTH_NORMAL)
-                .style('stroke-opacity', 0.6);
-
-            tooltip.style('visibility', 'hidden');
-        }
-    }
+    }, [links, nodes, router]);
 
     return (
         <div ref={parentRef} className='column fullHeight' style={{ alignItems: 'center' }}>
