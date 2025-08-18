@@ -30,7 +30,6 @@ const HOVER_NODE_RADIUS_DECREASE = 4;
 
 const COLOR_TAG = '#44cf6e';
 const COLOR_NOTE = '#d75252';
-const COLOR_NOTE_OUTLINE = '#e07c7cff';
 const COLOR_EMPTY = '#e0b152';
 const COLOR_HIGHLIGHT = '#8a5cf5';
 
@@ -115,8 +114,6 @@ export default function Graph() {
                 .enter().append("circle")
                     .attr("r", node => getNodeRadius(node.name))
                     .attr("fill", node => getNodeColor(node))
-                    .attr('stroke', COLOR_NOTE_OUTLINE)
-                    .attr("stroke-width", node => getNodeStrokeWidth(node));
 
             // Change styling on hover.
             node.on("mouseover", (event) => onMouseOver(event))
@@ -217,11 +214,6 @@ export default function Graph() {
                 if (node.name.charAt(0) === '#') return COLOR_TAG;
                 else if (node.path !== undefined) return COLOR_NOTE;
                 else return COLOR_EMPTY;
-            }
-
-            function getNodeStrokeWidth(node: NodeType): number {
-                if (node.path !== undefined) return LINK_WIDTH_NORMAL;
-                else return 0;
             }
 
             // Update styles to reflect the current node the mouse is hovering over
