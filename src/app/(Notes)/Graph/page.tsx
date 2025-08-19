@@ -52,29 +52,14 @@ export default function Graph() {
 
     useEffect(() => {
         if (ref.current !== null && ref.current.childNodes.length === 0 && parentRef.current !== null) {
+            parseNotes();
+
             loadAndProcess(ref.current, parentRef.current);
         }
 
         function loadAndProcess(svgRef: SVGSVGElement, divRef: HTMLDivElement) {
             const svgElement = d3.select(svgRef);
             const divElement = d3.select(divRef);
-
-            function parseNote(key: string, value: NoteType) {
-                nodes.push({
-                    name: key,
-                    path: value.link
-                });
-                value.links.forEach(link => {
-                    links.push({ source: key, target: link });
-                });
-                value.tags.forEach(tag => {
-                    links.push({ source: key, target: tag });
-                });
-            }
-
-            Object.entries(notes).forEach(([key, value]) => {
-                parseNote(key, value);
-            });
 
             // Select SVG element in DOM.
             const svg = svgElement,
@@ -163,59 +148,6 @@ export default function Graph() {
                 event.subject.fy = null;
             }
 
-            // Modify node to stay within bounds
-            function checkBounds(n: NodeType) {
-                if (!n.x || !n.y) return;
-                if (n.x < width * BOUNDS_PADDING) n.x = width * BOUNDS_PADDING;
-                if (n.x > width * (1 - BOUNDS_PADDING)) n.x = width * (1 - BOUNDS_PADDING);
-                if (n.y < height * BOUNDS_PADDING) n.y = height * BOUNDS_PADDING;
-                if (n.y > height * (1 - BOUNDS_PADDING)) n.y = height * (1 - BOUNDS_PADDING);
-            }
-
-            function tick(
-                link: d3.Selection<SVGLineElement, d3.SimulationLinkDatum<NodeType>, SVGGElement, unknown>,
-                node: d3.Selection<SVGCircleElement, NodeType, SVGGElement, unknown>
-            ) {
-                link.attr("x1", (l) => { 
-                        checkBounds(l.source);
-                        return l.source.x;
-                    })
-                    .attr("y1", (n) => n.source.y)
-                    .attr("x2", (n) => { 
-                        checkBounds(n.target);
-                        return n.target.x;
-                    })
-                    .attr("y2", (n) => n.target.y);
-
-                node.attr("transform", (n) => {
-                    checkBounds(n);
-                    return "translate(" + n.x + ", " + n.y + ")";
-                });
-            }
-
-            function getNeighbors(name: string): string[] {
-                const neighbors: string[] = [];
-                links.forEach(link => {
-                    if (link.source.name === name) {
-                        neighbors.push(link.target.name);
-                    } else if (link.target.name === name) {
-                        neighbors.push(link.source.name);
-                    }
-                });
-                return neighbors;
-            }
-
-            function getNodeRadius(name: string): number {
-                const neighbors = getNeighbors(name);
-                return NODE_RADIUS_NORMAL + (NODE_RADIUS_ADDITIONAL * (neighbors.length - 1));
-            }
-
-            function getNodeColor(node: NodeType): string {
-                if (node.name.charAt(0) === '#') return COLOR_TAG;
-                else if (node.path !== undefined) return COLOR_NOTE;
-                else return COLOR_EMPTY;
-            }
-
             // Update styles to reflect the current node the mouse is hovering over
             function onMouseOver(event) {
                 const name = event.target.__data__.name;
@@ -276,15 +208,87 @@ export default function Graph() {
 
                 tooltip.style('visibility', 'hidden');
             }
-
-            function onMouseClick(event) {
-                // Has a valid note
-                if (event.target.__data__.path !== undefined) {
-                    router.push(event.target.__data__.path);
-                }
-            }
         }
     }, [links, nodes, router]);
+
+    function parseNotes() {
+        function parseNote(key: string, value: NoteType) {
+            nodes.push({
+                name: key,
+                path: value.link
+            });
+            value.links.forEach(link => {
+                links.push({ source: key, target: link });
+            });
+            value.tags.forEach(tag => {
+                links.push({ source: key, target: tag });
+            });
+        }
+
+        Object.entries(notes).forEach(([key, value]) => {
+            parseNote(key, value);
+        });
+    }
+
+    // Modify node to stay within bounds
+    function checkBounds(n: NodeType) {
+        if (!n.x || !n.y) return;
+        if (n.x < DEFAULT_WIDTH * BOUNDS_PADDING) n.x = DEFAULT_WIDTH * BOUNDS_PADDING;
+        if (n.x > DEFAULT_WIDTH * (1 - BOUNDS_PADDING)) n.x = DEFAULT_WIDTH * (1 - BOUNDS_PADDING);
+        if (n.y < DEFAULT_HEIGHT * BOUNDS_PADDING) n.y = DEFAULT_HEIGHT * BOUNDS_PADDING;
+        if (n.y > DEFAULT_HEIGHT * (1 - BOUNDS_PADDING)) n.y = DEFAULT_HEIGHT * (1 - BOUNDS_PADDING);
+    }
+
+    function tick(
+        link: d3.Selection<SVGLineElement, d3.SimulationLinkDatum<NodeType>, SVGGElement, unknown>,
+        node: d3.Selection<SVGCircleElement, NodeType, SVGGElement, unknown>
+    ) {
+        link.attr("x1", (l) => { 
+                checkBounds(l.source);
+                return l.source.x;
+            })
+            .attr("y1", (n) => n.source.y)
+            .attr("x2", (n) => { 
+                checkBounds(n.target);
+                return n.target.x;
+            })
+            .attr("y2", (n) => n.target.y);
+
+        node.attr("transform", (n) => {
+            checkBounds(n);
+            return "translate(" + n.x + ", " + n.y + ")";
+        });
+    }
+
+    function getNeighbors(name: string): string[] {
+        const neighbors: string[] = [];
+        links.forEach(link => {
+            if (link.source.name === name) {
+                neighbors.push(link.target.name);
+            } else if (link.target.name === name) {
+                neighbors.push(link.source.name);
+            }
+        });
+        return neighbors;
+    }
+
+    function getNodeRadius(name: string): number {
+        const neighbors = getNeighbors(name);
+        return NODE_RADIUS_NORMAL + (NODE_RADIUS_ADDITIONAL * (neighbors.length - 1));
+    }
+
+    function getNodeColor(node: NodeType): string {
+        if (node.name.charAt(0) === '#') return COLOR_TAG;
+        else if (node.path !== undefined) return COLOR_NOTE;
+        else return COLOR_EMPTY;
+    }
+
+    function onMouseClick(event) {
+        // Has a valid note
+        if (event.target.__data__.path !== undefined) {
+            router.push(event.target.__data__.path);
+        }
+    }
 
     return (
         <div ref={parentRef} className='column fullHeight' style={{ alignItems: 'center' }}>
