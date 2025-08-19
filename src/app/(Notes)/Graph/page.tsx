@@ -14,7 +14,7 @@ const DEFAULT_HEIGHT = 800;
 
 const LINK_STRENGTH = 0.4;
 const LINK_DISTANCE = 45;
-const CHARGE_STRENGTH = -150;
+const CHARGE_STRENGTH = -50;
 const CENTER_STRENGTH = 0.1;
 const GRAVITY_STRENGTH = 0.07;
 const BOUNDS_PADDING = 0.03;
@@ -30,7 +30,6 @@ const HOVER_NODE_RADIUS_DECREASE = 4;
 
 const COLOR_TAG = '#44cf6e';
 const COLOR_NOTE = '#d75252';
-const COLOR_NOTE_OUTLINE = '#e07c7cff';
 const COLOR_EMPTY = '#e0b152';
 const COLOR_HIGHLIGHT = '#8a5cf5';
 
@@ -53,29 +52,14 @@ export default function Graph() {
 
     useEffect(() => {
         if (ref.current !== null && ref.current.childNodes.length === 0 && parentRef.current !== null) {
+            parseNotes();
+
             loadAndProcess(ref.current, parentRef.current);
         }
 
         function loadAndProcess(svgRef: SVGSVGElement, divRef: HTMLDivElement) {
             const svgElement = d3.select(svgRef);
             const divElement = d3.select(divRef);
-
-            function parseNote(key: string, value: NoteType) {
-                nodes.push({
-                    name: key,
-                    path: value.link
-                });
-                value.links.forEach(link => {
-                    links.push({ source: key, target: link });
-                });
-                value.tags.forEach(tag => {
-                    links.push({ source: key, target: tag });
-                });
-            }
-
-            Object.entries(notes).forEach(([key, value]) => {
-                parseNote(key, value);
-            });
 
             // Select SVG element in DOM.
             const svg = svgElement,
@@ -94,7 +78,7 @@ export default function Graph() {
             // Build force simulation with given parameters.
             const simulation = d3.forceSimulation(nodes)
                 .force("link", d3.forceLink<NodeType, d3.SimulationLinkDatum<NodeType>>(links).id(d => d.name).strength(LINK_STRENGTH).distance(LINK_DISTANCE))
-                .force("charge", d3.forceManyBody().strength(CHARGE_STRENGTH))
+                .force("charge", d3.forceManyBody<NodeType>().strength(n => CHARGE_STRENGTH * getNodeRadius(n.name)))
                 .force("center", d3.forceCenter(width / 2, height / 2).strength(CENTER_STRENGTH))
                 .force("forceX", d3.forceX(width / 2).strength(GRAVITY_STRENGTH))
                 .force("forceY", d3.forceY(height / 2). strength(GRAVITY_STRENGTH));
@@ -115,8 +99,6 @@ export default function Graph() {
                 .enter().append("circle")
                     .attr("r", node => getNodeRadius(node.name))
                     .attr("fill", node => getNodeColor(node))
-                    .attr('stroke', COLOR_NOTE_OUTLINE)
-                    .attr("stroke-width", node => getNodeStrokeWidth(node));
 
             // Change styling on hover.
             node.on("mouseover", (event) => onMouseOver(event))
@@ -164,64 +146,6 @@ export default function Graph() {
                 if (!event.active) simulation.alphaTarget(0);
                 event.subject.fx = null;
                 event.subject.fy = null;
-            }
-
-            // Modify node to stay within bounds
-            function checkBounds(n: NodeType) {
-                if (!n.x || !n.y) return;
-                if (n.x < width * BOUNDS_PADDING) n.x = width * BOUNDS_PADDING;
-                if (n.x > width * (1 - BOUNDS_PADDING)) n.x = width * (1 - BOUNDS_PADDING);
-                if (n.y < height * BOUNDS_PADDING) n.y = height * BOUNDS_PADDING;
-                if (n.y > height * (1 - BOUNDS_PADDING)) n.y = height * (1 - BOUNDS_PADDING);
-            }
-
-            function tick(
-                link: d3.Selection<SVGLineElement, d3.SimulationLinkDatum<NodeType>, SVGGElement, unknown>,
-                node: d3.Selection<SVGCircleElement, NodeType, SVGGElement, unknown>
-            ) {
-                link.attr("x1", (l) => { 
-                        checkBounds(l.source);
-                        return l.source.x;
-                    })
-                    .attr("y1", (n) => n.source.y)
-                    .attr("x2", (n) => { 
-                        checkBounds(n.target);
-                        return n.target.x;
-                    })
-                    .attr("y2", (n) => n.target.y);
-
-                node.attr("transform", (n) => {
-                    checkBounds(n);
-                    return "translate(" + n.x + ", " + n.y + ")";
-                });
-            }
-
-            function getNeighbors(name: string): string[] {
-                const neighbors: string[] = [];
-                links.forEach(link => {
-                    if (link.source.name === name) {
-                        neighbors.push(link.target.name);
-                    } else if (link.target.name === name) {
-                        neighbors.push(link.source.name);
-                    }
-                });
-                return neighbors;
-            }
-
-            function getNodeRadius(name: string): number {
-                const neighbors = getNeighbors(name);
-                return NODE_RADIUS_NORMAL + (NODE_RADIUS_ADDITIONAL * (neighbors.length - 1));
-            }
-
-            function getNodeColor(node: NodeType): string {
-                if (node.name.charAt(0) === '#') return COLOR_TAG;
-                else if (node.path !== undefined) return COLOR_NOTE;
-                else return COLOR_EMPTY;
-            }
-
-            function getNodeStrokeWidth(node: NodeType): number {
-                if (node.path !== undefined) return LINK_WIDTH_NORMAL;
-                else return 0;
             }
 
             // Update styles to reflect the current node the mouse is hovering over
@@ -284,15 +208,87 @@ export default function Graph() {
 
                 tooltip.style('visibility', 'hidden');
             }
-
-            function onMouseClick(event) {
-                // Has a valid note
-                if (event.target.__data__.path !== undefined) {
-                    router.push(event.target.__data__.name);
-                }
-            }
         }
     }, [links, nodes, router]);
+
+    function parseNotes() {
+        function parseNote(key: string, value: NoteType) {
+            nodes.push({
+                name: key,
+                path: value.link
+            });
+            value.links.forEach(link => {
+                links.push({ source: key, target: link });
+            });
+            value.tags.forEach(tag => {
+                links.push({ source: key, target: tag });
+            });
+        }
+
+        Object.entries(notes).forEach(([key, value]) => {
+            parseNote(key, value);
+        });
+    }
+
+    // Modify node to stay within bounds
+    function checkBounds(n: NodeType) {
+        if (!n.x || !n.y) return;
+        if (n.x < DEFAULT_WIDTH * BOUNDS_PADDING) n.x = DEFAULT_WIDTH * BOUNDS_PADDING;
+        if (n.x > DEFAULT_WIDTH * (1 - BOUNDS_PADDING)) n.x = DEFAULT_WIDTH * (1 - BOUNDS_PADDING);
+        if (n.y < DEFAULT_HEIGHT * BOUNDS_PADDING) n.y = DEFAULT_HEIGHT * BOUNDS_PADDING;
+        if (n.y > DEFAULT_HEIGHT * (1 - BOUNDS_PADDING)) n.y = DEFAULT_HEIGHT * (1 - BOUNDS_PADDING);
+    }
+
+    function tick(
+        link: d3.Selection<SVGLineElement, d3.SimulationLinkDatum<NodeType>, SVGGElement, unknown>,
+        node: d3.Selection<SVGCircleElement, NodeType, SVGGElement, unknown>
+    ) {
+        link.attr("x1", (l) => { 
+                checkBounds(l.source);
+                return l.source.x;
+            })
+            .attr("y1", (n) => n.source.y)
+            .attr("x2", (n) => { 
+                checkBounds(n.target);
+                return n.target.x;
+            })
+            .attr("y2", (n) => n.target.y);
+
+        node.attr("transform", (n) => {
+            checkBounds(n);
+            return "translate(" + n.x + ", " + n.y + ")";
+        });
+    }
+
+    function getNeighbors(name: string): string[] {
+        const neighbors: string[] = [];
+        links.forEach(link => {
+            if (link.source.name === name) {
+                neighbors.push(link.target.name);
+            } else if (link.target.name === name) {
+                neighbors.push(link.source.name);
+            }
+        });
+        return neighbors;
+    }
+
+    function getNodeRadius(name: string): number {
+        const neighbors = getNeighbors(name);
+        return NODE_RADIUS_NORMAL + (NODE_RADIUS_ADDITIONAL * (neighbors.length - 1));
+    }
+
+    function getNodeColor(node: NodeType): string {
+        if (node.name.charAt(0) === '#') return COLOR_TAG;
+        else if (node.path !== undefined) return COLOR_NOTE;
+        else return COLOR_EMPTY;
+    }
+
+    function onMouseClick(event) {
+        // Has a valid note
+        if (event.target.__data__.path !== undefined) {
+            router.push(event.target.__data__.path);
+        }
+    }
 
     return (
         <div ref={parentRef} className='column fullHeight' style={{ alignItems: 'center' }}>
