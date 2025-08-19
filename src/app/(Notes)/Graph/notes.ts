@@ -10,6 +10,17 @@ type NotesType = {
 }
 
 export const notes: NotesType = {
+    'index': {
+        link: '/',
+        path: 'index',
+        tags: [],
+        links: [
+            'Portfolio',
+            'VideoClipper',
+            'Groupie',
+            'Amazon'
+        ]
+    },
     'Portfolio': {
         link: 'Portfolio',
         path: 'Notes/Projects/Portfolio',

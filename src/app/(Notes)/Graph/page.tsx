@@ -14,7 +14,7 @@ const DEFAULT_HEIGHT = 800;
 
 const LINK_STRENGTH = 0.4;
 const LINK_DISTANCE = 45;
-const CHARGE_STRENGTH = -150;
+const CHARGE_STRENGTH = -50;
 const CENTER_STRENGTH = 0.1;
 const GRAVITY_STRENGTH = 0.07;
 const BOUNDS_PADDING = 0.03;
@@ -93,7 +93,7 @@ export default function Graph() {
             // Build force simulation with given parameters.
             const simulation = d3.forceSimulation(nodes)
                 .force("link", d3.forceLink<NodeType, d3.SimulationLinkDatum<NodeType>>(links).id(d => d.name).strength(LINK_STRENGTH).distance(LINK_DISTANCE))
-                .force("charge", d3.forceManyBody().strength(CHARGE_STRENGTH))
+                .force("charge", d3.forceManyBody<NodeType>().strength(n => CHARGE_STRENGTH * getNodeRadius(n.name)))
                 .force("center", d3.forceCenter(width / 2, height / 2).strength(CENTER_STRENGTH))
                 .force("forceX", d3.forceX(width / 2).strength(GRAVITY_STRENGTH))
                 .force("forceY", d3.forceY(height / 2). strength(GRAVITY_STRENGTH));
@@ -280,7 +280,7 @@ export default function Graph() {
             function onMouseClick(event) {
                 // Has a valid note
                 if (event.target.__data__.path !== undefined) {
-                    router.push(event.target.__data__.name);
+                    router.push(event.target.__data__.path);
                 }
             }
         }
