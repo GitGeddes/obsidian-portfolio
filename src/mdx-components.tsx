@@ -1,8 +1,9 @@
 import type { MDXComponents } from 'mdx/types'
 import Link from 'next/link';
-import { ComponentPropsWithoutRef } from 'react';
+import { ComponentPropsWithoutRef, ReactNode } from 'react';
 import LineNumbers from './app/components/LineNumbers';
 import ExternalLink from './app/components/ExternalLink';
+import { notes } from './app/(Notes)/Graph/notes';
 
 const components: MDXComponents = {}
 
@@ -50,12 +51,12 @@ export function useMDXComponents(): MDXComponents { return {
       </LineNumbers>
     ),
     p: ({ children, ...props }: ComponentPropsWithoutRef<"p">) => {
-      // TODO: Parse [[note]] links
+      const parsed = parseDoubleBrackets(children);
 
       return (
         <LineNumbers style={{ ["--line-margin-top" as string]: "0.2em" }}>
           <p className="leading-snug" style={{ fontSize: 'revert', fontWeight: 'revert' }} {...props}>
-            {children}
+            {parsed}
           </p>
         </LineNumbers>
       );
@@ -196,4 +197,33 @@ export function useMDXComponents(): MDXComponents { return {
     ),
     ...components,
   };
+}
+
+function parseDoubleBrackets(paragraph: ReactNode): ReactNode[] {
+  if (!paragraph) return [];
+  const regex = /(?:\[\[)([^\]]*?)(?:\]\])/g;
+  const className = " inline-link linkColor linkUnderline";
+  const childrenResult: ReactNode[] = [];
+
+  if (typeof paragraph === 'string') {
+    var res;
+    var lastIndex = 0;
+    do {
+      res = regex.exec(paragraph);
+      childrenResult.push(paragraph.substring(lastIndex, res?.index));
+      lastIndex = regex.lastIndex;
+      if (res) {
+        const linkText = res[1];
+        const noteLink = notes[linkText].link;
+        childrenResult.push(
+          <Link href={noteLink || ''} key={lastIndex} className={className}>
+            {linkText}
+          </Link>
+        );
+      }
+    } while (res);
+  } else {
+    childrenResult.push(paragraph);
+  }
+  return childrenResult;
 }
