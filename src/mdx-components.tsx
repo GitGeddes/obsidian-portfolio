@@ -206,8 +206,8 @@ function parseDoubleBrackets(paragraph: ReactNode): ReactNode[] {
   const childrenResult: ReactNode[] = [];
 
   if (typeof paragraph === 'string') {
-    var res;
-    var lastIndex = 0;
+    let res;
+    let lastIndex = 0;
     do {
       res = regex.exec(paragraph);
       childrenResult.push(paragraph.substring(lastIndex, res?.index));
