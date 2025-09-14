@@ -201,11 +201,11 @@ export function useMDXComponents(): MDXComponents { return {
 
 function parseDoubleBrackets(paragraph: ReactNode): ReactNode[] {
   if (!paragraph) return [];
-  const regex = /(?:\[\[)([^\]]*?)(?:\]\])/g;
-  const className = " inline-link linkColor linkUnderline";
   const childrenResult: ReactNode[] = [];
 
   if (typeof paragraph === 'string') {
+    const regex = /(?:\[\[)([^\]]*?)(?:\]\])/g;
+    const className = " inline-link linkColor linkUnderline";
     let res;
     let lastIndex = 0;
     do {

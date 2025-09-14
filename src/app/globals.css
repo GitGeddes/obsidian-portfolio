@@ -90,7 +90,7 @@ p {
 
 .note {
   flex: 1 1 auto;
-  padding: 0 20em 50vh 20em;
+  padding: 0 20vw 50vh 20vw;
   overflow-y: scroll;
 }
 

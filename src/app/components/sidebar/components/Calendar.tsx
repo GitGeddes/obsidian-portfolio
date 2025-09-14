@@ -1,13 +1,13 @@
 import { useCallback } from "react";
 import CalendarEntry from "./CalendarEntry";
 
-const NUM_ELEMENTS = 42;
+const NUM_CALENDAR_ELEMENTS = 42; // 7 days * 6 weeks
 
 export default function Calendar() {
     const DATE = new Date();
 
     const calendar = useCallback(() => {
-        return generateCalendar();
+        return generateCalendar(DATE);
     }, []);
 
     return (
@@ -47,9 +47,7 @@ type CalendarDateEntryType = {
     isCurrentMonth: boolean;
 }
 
-function generateCalendar(): CalendarDateEntryType[] {
-    const DATE = new Date();
-
+function generateCalendar(DATE: Date): CalendarDateEntryType[] {
     const currentDayOfWeek = DATE.getDay(); // Sunday - Saturday: 0 - 6
     const currentMonth = DATE.getMonth(); // January = 0
     const currentDateOfMonth = DATE.getDate();
@@ -60,7 +58,7 @@ function generateCalendar(): CalendarDateEntryType[] {
 
     const DAYS_PER_MONTH = [
         31, // Jan
-        (currentMonth === 1 && isLeapYear) ? 29 : 28, // Feb
+        (isLeapYear) ? 29 : 28, // Feb
         31, // Mar
         30, // Apr
         31, // May
@@ -76,7 +74,7 @@ function generateCalendar(): CalendarDateEntryType[] {
     const currentDaysPerMonth = DAYS_PER_MONTH[currentMonth];
     const previousDaysPerMonth = DAYS_PER_MONTH[(currentMonth + 12 - 1) % 12];
 
-    const calendar = Array(NUM_ELEMENTS);
+    const calendar = Array<CalendarDateEntryType>(NUM_CALENDAR_ELEMENTS);
 
     let isPreviousMonth = true;
     let isCurrentMonth = false;

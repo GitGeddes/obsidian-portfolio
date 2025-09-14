@@ -4,7 +4,7 @@ This is a GitHub portfolio styled like the note-taking app [Obsidian](https://ob
 Every page is authored and rendered from Markdown files, just like Obsidian.
 
 ## Myself
-I am John Geddes, a Software Engineer with years of experience building highly scalable backend services on AWS as well as cross-platform frontend apps using various TypeScript frameworks.
+I am John Geddes, a Software Engineer with experience building highly scalable backend services on AWS as well as mobile, desktop and web apps using various TypeScript frameworks.
 
 ## Experience
 [Amazon](/Amazon), Software Development Engineer
