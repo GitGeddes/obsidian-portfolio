@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "npx serve@latest out",
-    "lint": "lint ./src"
+    "lint": "lint ./src",
+    "typedoc": "typedoc --options typedoc.json"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

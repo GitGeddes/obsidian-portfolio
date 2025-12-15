@@ -16,10 +16,10 @@ export default function SideButtonList() {
             <HoverButton href='https://github.com/GitGeddes/obsidian-portfolio'>
                 <GitHub fontSize='small' />
             </HoverButton>
-            <ListItemButton>
+            <HoverButton href='docs/index.html'>
                 {/* lol I just HAD to use this one */}
                 <PlagiarismOutlined fontSize='small' />
-            </ListItemButton>
+            </HoverButton>
             <HoverButton href='Graph'>
                 <HubOutlinedIcon fontSize='small' />
             </HoverButton>
