@@ -23,16 +23,16 @@ export default function SideButtonList() {
             <HoverButton href='Graph'>
                 <HubOutlinedIcon fontSize='small' />
             </HoverButton>
-            <ListItemButton>
+            <ListItemButton disabled>
                 <ContentCopyOutlinedIcon fontSize='small' />
             </ListItemButton>
-            <ListItemButton>
+            <ListItemButton disabled>
                 <TerminalIcon fontSize='small' />
             </ListItemButton>
-            <ListItemButton>
+            <ListItemButton disabled>
                 <WidgetsOutlinedIcon fontSize='small' />
             </ListItemButton>
-            <ListItemButton>
+            <ListItemButton disabled>
                 <CalendarTodayOutlinedIcon fontSize='small' />
             </ListItemButton>
         </List>

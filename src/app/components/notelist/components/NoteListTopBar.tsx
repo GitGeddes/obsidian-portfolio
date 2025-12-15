@@ -22,16 +22,16 @@ export default function NoteListTopBar() {
                     <EditNoteOutlinedIcon fontSize='small' />
                 </ListItemButton>
             </Link>
-            <ListItemButton>
+            <ListItemButton disabled>
                 <CreateNewFolderOutlinedIcon fontSize='small' />
             </ListItemButton>
-            <ListItemButton>
+            <ListItemButton disabled>
                 <SortByAlphaOutlinedIcon fontSize='small' />
             </ListItemButton>
-            <ListItemButton>
+            <ListItemButton disabled>
                 <ViewDayOutlinedIcon fontSize='small' />
             </ListItemButton>
-            <ListItemButton>
+            <ListItemButton disabled>
                 <UnfoldLessOutlinedIcon fontSize='small' />
             </ListItemButton>
         </List>

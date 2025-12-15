@@ -4,7 +4,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 export default function SideBarTopButton(props: PropsWithChildren) {
     return (
         <div className='square row'>
-            <ListItemButton>
+            <ListItemButton disabled>
                 {props.children}
             </ListItemButton>
         </div>

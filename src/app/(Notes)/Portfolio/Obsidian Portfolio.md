@@ -12,3 +12,8 @@ An Obsidian-styled GitHub portfolio page.
 
 ## Framework
 Created with [[React]] and [[Next.js]].
+
+## My Obsidian
+This is my real Obsidian Vault that I used as a reference for the styling on my portfolio site.
+
+![screenshot](Obsidian_screenshot.png)

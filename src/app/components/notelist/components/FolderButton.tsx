@@ -25,7 +25,7 @@ export default function FolderButton({
 
     return (
         <div className="mt-1">
-            <ListItemButton onClick={handleClick}
+            <ListItemButton onClick={handleClick} disabled={!canOpen}
               sx={{
                 height: 25,
                 ":hover": {
