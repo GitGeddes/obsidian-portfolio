@@ -1,3 +1,8 @@
+/**
+ * A global layout container modelled after the Obsidian interface.
+ * @module app/RootLayout
+ */
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -14,11 +19,19 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+/**
+ * Metadata about the website.
+ */
 export const metadata: Metadata = {
   title: "Obsidian Portfolio",
   description: "hi :)",
 };
 
+/**
+ * Wrap a given screen with a mock of the Obsidian interface.
+ * @param children a read-only object of React elements.
+ * @returns a React element with the `children` wrapped in a layout.
+ */
 export default function RootLayout({
   children,
 }: Readonly<{

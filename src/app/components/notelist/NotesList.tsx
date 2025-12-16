@@ -1,3 +1,7 @@
+/**
+ * @module app/components/notelist/NotesList
+ */
+
 import List from "@mui/material/List";
 import FolderButton from "./components/FolderButton";
 import NoteButton from "./components/NoteButton";

@@ -1,3 +1,8 @@
+/**
+ * Physical graph of all the notes as nodes using `ForceSimulation` from `d3.js`.
+ * @module app/(Notes)/Graph
+ */
+
 // @ts-nocheck
 'use client'
 
@@ -36,11 +41,16 @@ const COLOR_HIGHLIGHT = '#8a5cf5';
 const TOOLTIP_OFFSET_Y = 30;
 const TOOLTIP_OFFSET_X = -30;
 
+
 type NodeType = d3.SimulationNodeDatum & {
     name: string;
     path?: string;
 }
 
+/**
+ * builds and displays the graph using a list of notes defined in `notes.ts`.
+ * @returns a React element with the `ForceSimulation` graph embedded.
+ */
 export default function Graph() {
     const router = useRouter();
 

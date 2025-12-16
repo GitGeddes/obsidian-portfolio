@@ -2,5 +2,11 @@
     "$schema": "https://typedoc.org/schema.json",
     "entryPoints": ["src"],
     "entryPointStrategy": "expand",
-    "out": "public/docs"
+    "out": "./public/docs",
+    "basePath": "./public",
+    "displayBasePath": "./src",
+    "navigationLinks": {
+        "Portfolio": "https://gitgeddes.github.io/obsidian-portfolio/",
+        "Source": "https://github.com/GitGeddes/obsidian-portfolio"
+    }
 }

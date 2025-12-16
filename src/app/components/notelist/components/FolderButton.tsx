@@ -1,3 +1,7 @@
+/**
+ * A container to create a folder dropdown within the {@link "app/components/notelist/NotesList" | NotesList} sidebar.
+ * @module app/components/notelist/components/FolderButton
+ */
 'use client'
 
 import { PropsWithChildren, useState } from "react";
@@ -7,15 +11,29 @@ import ListItemText from "@mui/material/ListItemText";
 import styles from '../noteslist.module.css';
 import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
 
-type FolderButtonProps = {
+/**
+ * The input properties for the {@link FolderButton} function.
+ * @prop {string} title - the text of the button.
+ * @prop {boolean} canOpen - (optional) whether the folder can be collapsed.
+ */
+export type FolderButtonProps = {
     title: string;
+    /** @defaultValue `true` */
     canOpen?: boolean;
 }
 
+/**
+ * Create a button for a folder that can collapse its contents, given the option.
+ * @param props the function properties, including a React child text element.
+ * @param props.title the title of the folder.
+ * @param props.canOpen (optional) whether the folder can be collapsed.
+ * @param props.children a React text element.
+ * @returns a React element.
+ */
 export default function FolderButton({
-  title,
-  canOpen = true,
-  children
+    title,
+    canOpen = true,
+    children
 }: FolderButtonProps & PropsWithChildren) {
     const [isOpen, setIsOpen] = useState(canOpen);
 

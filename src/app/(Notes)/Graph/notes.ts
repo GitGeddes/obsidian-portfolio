@@ -1,3 +1,11 @@
+/**
+ * The list of notes and connections used by the graph defined in {@link "app/(Notes)/Graph" | Graph}.
+ * @module app/(Notes)/Graph/notes
+ */
+
+/**
+ * a note to be used in the Graph page.
+ */
 export type NoteType = {
     link?: string;
     path: string;
@@ -5,10 +13,17 @@ export type NoteType = {
     links: string[];
 }
 
+/**
+ * a dictionary of `NoteType`.
+ * @internal
+ */
 type NotesType = {
     [key: string]: NoteType;
 }
 
+/**
+ * the list of notes used in the Graph page.
+ */
 export const notes: NotesType = {
     'index': {
         link: '/',

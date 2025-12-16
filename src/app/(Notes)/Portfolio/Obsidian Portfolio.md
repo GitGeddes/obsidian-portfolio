@@ -14,6 +14,9 @@ An Obsidian-styled GitHub portfolio page.
 Created with [[React]] and [[Next.js]].
 
 ## My Obsidian
-This is my real Obsidian Vault that I used as a reference for the styling on my portfolio site.
+This is my real Obsidian Vault that I used as a reference for the styling on my portfolio site:
 
 ![screenshot](Obsidian_screenshot.png)
+
+## Documentation
+I generated a [documentation site](https://gitgeddes.github.io/obsidian-portfolio/docs/index.html) using [TypeDoc](https://typedoc.org/) and manual comments just for fun.
