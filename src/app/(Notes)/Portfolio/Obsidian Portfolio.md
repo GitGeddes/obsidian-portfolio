@@ -4,7 +4,7 @@ tags:
   - projects/GitHub
 ---
 # Obsidian Portfolio
-An Obsidian-styled GitHub portfolio page.
+A GitHub portfolio styled after the [Obsidian](https://obsidian.md/) note-taking app.
 
 **Source code:** [obsidian-portfolio](https://github.com/GitGeddes/obsidian-portfolio)
 
