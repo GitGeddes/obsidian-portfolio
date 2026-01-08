@@ -43,7 +43,6 @@ export default function TopBarButton(props: TopBarButtonProps) {
                         }
                     }}
                 />
-                {/* <p>current path {pathname}</p> */}
             </ListItemButton>
         </Link>
     );
