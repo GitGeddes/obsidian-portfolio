@@ -1,0 +1,237 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`FolderButton test suite snapshot test 1`] = `
+<div>
+  <div
+    class="calendarContainer"
+  >
+    <div
+      class="row"
+      style="margin-left: 10px;"
+    >
+      <h1>
+        January
+      </h1>
+      <h1
+        style="color: rgb(138, 92, 245); margin-left: 5px;"
+      >
+        2026
+      </h1>
+    </div>
+    <div
+      class="calendar"
+    >
+      <p
+        style="color: rgb(73, 73, 73); font-size: 12px; text-align: center; align-self: center;"
+      >
+        28
+      </p>
+      <p
+        style="color: rgb(73, 73, 73); font-size: 12px; text-align: center; align-self: center;"
+      >
+        29
+      </p>
+      <p
+        style="color: rgb(73, 73, 73); font-size: 12px; text-align: center; align-self: center;"
+      >
+        30
+      </p>
+      <p
+        style="color: rgb(73, 73, 73); font-size: 12px; text-align: center; align-self: center;"
+      >
+        31
+      </p>
+      <p
+        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+      >
+        1
+      </p>
+      <p
+        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+      >
+        2
+      </p>
+      <p
+        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+      >
+        3
+      </p>
+      <p
+        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+      >
+        4
+      </p>
+      <p
+        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+      >
+        5
+      </p>
+      <p
+        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+      >
+        6
+      </p>
+      <p
+        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+      >
+        7
+      </p>
+      <p
+        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+      >
+        8
+      </p>
+      <p
+        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+      >
+        9
+      </p>
+      <p
+        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+      >
+        10
+      </p>
+      <p
+        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+      >
+        11
+      </p>
+      <p
+        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+      >
+        12
+      </p>
+      <p
+        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+      >
+        13
+      </p>
+      <p
+        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+      >
+        14
+      </p>
+      <p
+        style="color: rgb(138, 92, 245); font-size: 12px; text-align: center; align-self: center;"
+      >
+        15
+      </p>
+      <p
+        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+      >
+        16
+      </p>
+      <p
+        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+      >
+        17
+      </p>
+      <p
+        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+      >
+        18
+      </p>
+      <p
+        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+      >
+        19
+      </p>
+      <p
+        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+      >
+        20
+      </p>
+      <p
+        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+      >
+        21
+      </p>
+      <p
+        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+      >
+        22
+      </p>
+      <p
+        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+      >
+        23
+      </p>
+      <p
+        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+      >
+        24
+      </p>
+      <p
+        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+      >
+        25
+      </p>
+      <p
+        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+      >
+        26
+      </p>
+      <p
+        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+      >
+        27
+      </p>
+      <p
+        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+      >
+        28
+      </p>
+      <p
+        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+      >
+        29
+      </p>
+      <p
+        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+      >
+        30
+      </p>
+      <p
+        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+      >
+        31
+      </p>
+      <p
+        style="color: rgb(73, 73, 73); font-size: 12px; text-align: center; align-self: center;"
+      >
+        1
+      </p>
+      <p
+        style="color: rgb(73, 73, 73); font-size: 12px; text-align: center; align-self: center;"
+      >
+        2
+      </p>
+      <p
+        style="color: rgb(73, 73, 73); font-size: 12px; text-align: center; align-self: center;"
+      >
+        3
+      </p>
+      <p
+        style="color: rgb(73, 73, 73); font-size: 12px; text-align: center; align-self: center;"
+      >
+        4
+      </p>
+      <p
+        style="color: rgb(73, 73, 73); font-size: 12px; text-align: center; align-self: center;"
+      >
+        5
+      </p>
+      <p
+        style="color: rgb(73, 73, 73); font-size: 12px; text-align: center; align-self: center;"
+      >
+        6
+      </p>
+      <p
+        style="color: rgb(73, 73, 73); font-size: 12px; text-align: center; align-self: center;"
+      >
+        7
+      </p>
+    </div>
+  </div>
+</div>
+`;
