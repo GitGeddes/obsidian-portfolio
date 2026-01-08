@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`FolderButton test suite snapshot test 1`] = `
+<div>
+  <div
+    class="mt-1"
+  >
+    <div
+      aria-disabled="true"
+      class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters Mui-disabled Mui-disabled MuiListItemButton-root MuiListItemButton-gutters Mui-disabled css-skrj7p-MuiButtonBase-root-MuiListItemButton-root"
+      role="button"
+      tabindex="-1"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall secondaryTextColor css-1o9r5k8-MuiSvgIcon-root"
+        data-testid="KeyboardArrowDownIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"
+        />
+      </svg>
+      <div
+        class="MuiListItemText-root css-cfq8qh-MuiListItemText-root"
+      >
+        <span
+          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-jqpuqe-MuiTypography-root"
+        >
+          test
+        </span>
+      </div>
+    </div>
+    <div
+      class="undefined leftBorder"
+    >
+      <div
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-cwrbtg-MuiCollapse-root"
+        data-testid="collapse"
+        style="min-height: 0px;"
+      >
+        <div
+          class="MuiCollapse-wrapper MuiCollapse-vertical css-1x6hinx-MuiCollapse-wrapper"
+        >
+          <div
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical css-1i4ywhz-MuiCollapse-wrapperInner"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

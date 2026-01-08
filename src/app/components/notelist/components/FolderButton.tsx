@@ -72,7 +72,7 @@ export default function FolderButton({
                 <ListItemText primary={title} slotProps={{ primary: { fontSize: 14 }}} />
             </ListItemButton>
             <div className={`${styles.folder_list} leftBorder`}>
-                <Collapse in={isOpen} timeout={"auto"}>
+                <Collapse in={isOpen} timeout={"auto"} data-testid="collapse">
                     {children}
                 </Collapse>
             </div>
