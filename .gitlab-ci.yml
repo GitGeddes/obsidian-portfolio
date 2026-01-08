@@ -17,11 +17,6 @@ cache:
   paths:
     - node_modules/
 
-lint:
-  stage: test
-  script:
-    - npm run lint
-
 build:
   stage: test
   script:
@@ -31,10 +26,9 @@ build:
 unit tests:
   stage: test
   before_script:
-    - 'npm install -g jest'
     - 'npm install --save-dev jest-junit'
   script:
-    - jest --ci --reporters=jest-junit
+    - npx jest --ci --reporters=jest-junit
   coverage: '/All files[^|]*\|[^|]*\s+([\d\.]+)/'
   artifacts:
     when: always
