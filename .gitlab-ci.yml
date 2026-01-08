@@ -17,15 +17,24 @@ cache:
   paths:
     - node_modules/
 
-test_lint:
+lint:
+  stage: test
   script:
     - npm install
     - npm run lint
 
-test_build:
+build:
+  stage: test
   script:
     - npm install
     - npm run build
+
+unit tests:
+  stage: test
+  script:
+    - npm install
+    - npm run test
+  coverage: '/All files[^|]*\|[^|]*\s+([\d\.]+)/'
 
 deploy:
   stage: deploy
