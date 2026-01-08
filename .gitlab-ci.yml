@@ -17,15 +17,24 @@ cache:
   paths:
     - node_modules/
 
-test_lint:
-  script:
-    - npm install
-    - npm run lint
-
-test_build:
+build:
+  stage: test
   script:
     - npm install
     - npm run build
+
+unit tests:
+  stage: test
+  before_script:
+    - 'npm install --save-dev jest-junit'
+  script:
+    - npx jest --ci --reporters=jest-junit
+  coverage: '/All files[^|]*\|[^|]*\s+([\d\.]+)/'
+  artifacts:
+    when: always
+    reports:
+      junit:
+        - junit.xml
 
 deploy:
   stage: deploy
