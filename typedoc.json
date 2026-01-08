@@ -2,6 +2,7 @@
     "$schema": "https://typedoc.org/schema.json",
     "entryPoints": ["src"],
     "entryPointStrategy": "expand",
+    "exclude": ["**/*+(test).tsx"],
     "out": "./public/docs",
     "basePath": "./public",
     "displayBasePath": "./src",
