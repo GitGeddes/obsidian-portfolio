@@ -11,12 +11,12 @@ describe("FolderButton test suite", () => {
         jest.restoreAllMocks();
     });
     test("snapshot test", () => {
-        const { container } = render(<Calendar/>);
+        const { container } = render(<Calendar username={'test'}/>);
 
         expect(container).toMatchSnapshot();
     });
     test("current day displays correctly", () => {
-        render(<Calendar/>);
+        render(<Calendar username={'test'}/>);
 
         expect(screen.getByText("January")).toBeDefined();
         expect(screen.getByText("2026")).toBeDefined();
@@ -26,7 +26,7 @@ describe("FolderButton test suite", () => {
         jest.restoreAllMocks();
         const mockDate = new Date(2024, 1, 29); // Feb 29, 2024, leap year
         jest.spyOn(global, 'Date').mockImplementation(() => mockDate);
-        render(<Calendar/>);
+        render(<Calendar username={'test'}/>);
 
         expect(screen.getByText("February")).toBeDefined();
         expect(screen.getByText("2024")).toBeDefined();

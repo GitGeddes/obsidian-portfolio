@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import { Collapse } from "@mui/material";
 import NotesList from "../notelist/NotesList";
@@ -16,9 +16,9 @@ import NoteListTopBar from "../notelist/components/NoteListTopBar";
 export default function SideBar() {
     const [isOpen, setIsOpen] = useState(true);
 
-    const handleClick = () => {
+    const handleClick = useCallback(() => {
         setIsOpen(!isOpen);
-    }
+    }, [isOpen]);
 
     return (
         <div className="row secondaryBackground">
@@ -44,10 +44,8 @@ export default function SideBar() {
                     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
                         <SideBarTopButtonsList />
                         <NoteListTopBar />
-                        <div className="calendarParent">
-                            <NotesList />
-                            <Calendar />
-                        </div>
+                        <NotesList />
+                        <Calendar username="GitGeddes" />
                     </div>
             </Collapse>
         </div>

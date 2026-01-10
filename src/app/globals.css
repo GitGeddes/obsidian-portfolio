@@ -137,12 +137,6 @@ p {
   align-items: center;
 }
 
-.calendarParent {
-  display: grid;
-  flex-grow: 1;
-  grid-template-rows: 65fr 35fr;
-}
-
 .notesList {
   flex-grow: 1;
 }
@@ -158,4 +152,16 @@ p {
   display: flex;
   flex-direction: column;
   margin: 10;
+}
+
+.calendarDayContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.calendarTextLabel {
+  font-size: 12;
+  text-align: center;
+  align-self: center;
 }

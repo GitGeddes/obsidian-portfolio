@@ -20,7 +20,7 @@ export default function TopBarButton(props: TopBarButtonProps) {
     }, [pathname, props.href, props.title]);
 
     return (
-        <Link className={styles.top_button} href={props.href ? props.href : `/${props.title}`}>
+        <Link className={styles.tab_button} href={props.href ? props.href : `/${props.title}`}>
             <ListItemButton
                 sx={{
                     borderTopLeftRadius: 10,

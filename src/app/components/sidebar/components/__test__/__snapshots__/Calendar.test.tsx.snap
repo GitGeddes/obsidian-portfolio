@@ -17,221 +17,479 @@ exports[`FolderButton test suite snapshot test 1`] = `
       >
         2026
       </h1>
+      <h5>
+        Loading GitHub activity...
+      </h5>
     </div>
     <div
       class="calendar"
     >
-      <p
-        style="color: rgb(73, 73, 73); font-size: 12px; text-align: center; align-self: center;"
+      <div
+        class="calendarDayContainer"
       >
-        28
-      </p>
-      <p
-        style="color: rgb(73, 73, 73); font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: rgb(73, 73, 73);"
+        >
+          28
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        29
-      </p>
-      <p
-        style="color: rgb(73, 73, 73); font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: rgb(73, 73, 73);"
+        >
+          29
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        30
-      </p>
-      <p
-        style="color: rgb(73, 73, 73); font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: rgb(73, 73, 73);"
+        >
+          30
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        31
-      </p>
-      <p
-        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: rgb(73, 73, 73);"
+        >
+          31
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        1
-      </p>
-      <p
-        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: inherit;"
+        >
+          1
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        2
-      </p>
-      <p
-        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: inherit;"
+        >
+          2
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        3
-      </p>
-      <p
-        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: inherit;"
+        >
+          3
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        4
-      </p>
-      <p
-        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: inherit;"
+        >
+          4
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        5
-      </p>
-      <p
-        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: inherit;"
+        >
+          5
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        6
-      </p>
-      <p
-        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: inherit;"
+        >
+          6
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        7
-      </p>
-      <p
-        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: inherit;"
+        >
+          7
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        8
-      </p>
-      <p
-        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: inherit;"
+        >
+          8
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        9
-      </p>
-      <p
-        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: inherit;"
+        >
+          9
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        10
-      </p>
-      <p
-        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: rgb(138, 92, 245);"
+        >
+          10
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        11
-      </p>
-      <p
-        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: inherit;"
+        >
+          11
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        12
-      </p>
-      <p
-        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: inherit;"
+        >
+          12
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        13
-      </p>
-      <p
-        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: inherit;"
+        >
+          13
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        14
-      </p>
-      <p
-        style="color: rgb(138, 92, 245); font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: inherit;"
+        >
+          14
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        15
-      </p>
-      <p
-        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: inherit;"
+        >
+          15
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        16
-      </p>
-      <p
-        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: inherit;"
+        >
+          16
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        17
-      </p>
-      <p
-        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: inherit;"
+        >
+          17
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        18
-      </p>
-      <p
-        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: inherit;"
+        >
+          18
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        19
-      </p>
-      <p
-        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: inherit;"
+        >
+          19
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        20
-      </p>
-      <p
-        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: inherit;"
+        >
+          20
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        21
-      </p>
-      <p
-        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: inherit;"
+        >
+          21
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        22
-      </p>
-      <p
-        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: inherit;"
+        >
+          22
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        23
-      </p>
-      <p
-        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: inherit;"
+        >
+          23
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        24
-      </p>
-      <p
-        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: inherit;"
+        >
+          24
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        25
-      </p>
-      <p
-        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: inherit;"
+        >
+          25
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        26
-      </p>
-      <p
-        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: inherit;"
+        >
+          26
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        27
-      </p>
-      <p
-        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: inherit;"
+        >
+          27
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        28
-      </p>
-      <p
-        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: inherit;"
+        >
+          28
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        29
-      </p>
-      <p
-        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: inherit;"
+        >
+          29
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        30
-      </p>
-      <p
-        style="color: inherit; font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: inherit;"
+        >
+          30
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        31
-      </p>
-      <p
-        style="color: rgb(73, 73, 73); font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: inherit;"
+        >
+          31
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        1
-      </p>
-      <p
-        style="color: rgb(73, 73, 73); font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: rgb(73, 73, 73);"
+        >
+          1
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        2
-      </p>
-      <p
-        style="color: rgb(73, 73, 73); font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: rgb(73, 73, 73);"
+        >
+          2
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        3
-      </p>
-      <p
-        style="color: rgb(73, 73, 73); font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: rgb(73, 73, 73);"
+        >
+          3
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        4
-      </p>
-      <p
-        style="color: rgb(73, 73, 73); font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: rgb(73, 73, 73);"
+        >
+          4
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        5
-      </p>
-      <p
-        style="color: rgb(73, 73, 73); font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: rgb(73, 73, 73);"
+        >
+          5
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        6
-      </p>
-      <p
-        style="color: rgb(73, 73, 73); font-size: 12px; text-align: center; align-self: center;"
+        <p
+          class="calendarTextLabel"
+          style="color: rgb(73, 73, 73);"
+        >
+          6
+        </p>
+        <div />
+      </div>
+      <div
+        class="calendarDayContainer"
       >
-        7
-      </p>
+        <p
+          class="calendarTextLabel"
+          style="color: rgb(73, 73, 73);"
+        >
+          7
+        </p>
+        <div />
+      </div>
     </div>
+    <button>
+      Refresh
+    </button>
   </div>
 </div>
 `;

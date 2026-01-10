@@ -12,16 +12,22 @@ describe("FolderButton test suite", () => {
         expect(container).toMatchSnapshot();
     });
     test("collapses when clicked", () => {
+        // 1. Assemble
         const title = "test";
         const canOpen = true;
 
         render(<FolderButton title={title} canOpen={canOpen}/>);
 
+        // Expect that the collapsible folder is open
         expect(screen.getByTestId("collapse")).toBeDefined();
         expect(screen.getByTestId("collapse")).not.toHaveStyle("height: 0px");
 
+        // 2. Act
+        // Collapse the folder menu
         fireEvent.click(screen.getByText(title));
 
+        // 3. Assert
+        // Expect that the collapsible folder is closed
         expect(screen.getByTestId("collapse")).toHaveStyle("height: 0px");
     });
     test("doesn't collapse when can't open", () => {

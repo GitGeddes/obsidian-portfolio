@@ -1,14 +1,20 @@
-import { useCallback } from "react";
 import CalendarEntry from "./CalendarEntry";
+import useGithubActivity from "../hooks/useGithubActivity";
 
-const NUM_CALENDAR_ELEMENTS = 42; // 7 days * 6 weeks
+type CalendarProps = {
+    username: string;
+}
 
-export default function Calendar() {
-    const DATE = new Date();
+const DATE = new Date();
 
-    const calendar = useCallback(() => {
-        return generateCalendar(DATE);
-    }, []);
+export default function Calendar(props: CalendarProps) {
+    const {
+        calendar,
+        commits,
+        isLoading,
+        error,
+        handleRefresh
+    } = useGithubActivity(props.username, DATE);
 
     return (
         <div className="calendarContainer">
@@ -22,100 +28,25 @@ export default function Calendar() {
                 >
                     {DATE.getFullYear()}
                 </h1>
+                { isLoading && <h5>Loading GitHub activity...</h5> }
+                { error && <h5>Error loading GitHub activity: {error.message}</h5> }
             </div>
             <div className="calendar">
                 {
-                    calendar().map((val, index) => {
+                    calendar.map((val, index) => {
                         return (
                             <CalendarEntry
                                 date={val.date}
                                 isToday={val.isToday}
                                 isCurrentMonth={val.isCurrentMonth}
+                                commit={commits.contributions[index]}
                                 key={index}
                             />
                         );
                     })
                 }
             </div>
+            <button onClick={handleRefresh}>Refresh</button>
         </div>
     )
-}
-
-type CalendarDateEntryType = {
-    date: number;
-    isToday: boolean;
-    isCurrentMonth: boolean;
-}
-
-function generateCalendar(DATE: Date): CalendarDateEntryType[] {
-    const currentDayOfWeek = DATE.getDay(); // Sunday - Saturday: 0 - 6
-    const currentMonth = DATE.getMonth(); // January = 0
-    const currentDateOfMonth = DATE.getDate();
-    const monthStartDayOfWeek = (7 - (currentDateOfMonth % 7 - currentDayOfWeek - 1)) % 7;
-
-    const year = DATE.getFullYear();
-    const isLeapYear = ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
-
-    const DAYS_PER_MONTH = [
-        31, // Jan
-        (isLeapYear) ? 29 : 28, // Feb
-        31, // Mar
-        30, // Apr
-        31, // May
-        30, // Jun
-        31, // Jul
-        31, // Aug
-        30, // Sep
-        31, // Oct
-        30, // Nov
-        31, // Dec
-    ];
-
-    const currentDaysPerMonth = DAYS_PER_MONTH[currentMonth];
-    const previousDaysPerMonth = DAYS_PER_MONTH[(currentMonth + 12 - 1) % 12];
-
-    const calendar = Array<CalendarDateEntryType>(NUM_CALENDAR_ELEMENTS);
-
-    let isPreviousMonth = true;
-    let isCurrentMonth = false;
-    // isNextMonth implied
-
-    for (let i = 0; i < calendar.length; i++) {
-        if (monthStartDayOfWeek === i) {
-            isPreviousMonth = false;
-            isCurrentMonth = true;
-        } else if (i - monthStartDayOfWeek >= currentDaysPerMonth) {
-            isCurrentMonth = false;
-        }
-
-        if (isPreviousMonth) {
-            calendar[i] = createCalendarDate(
-                previousDaysPerMonth - (monthStartDayOfWeek - i) + 1,
-                false,
-                false
-            );
-        } else if (isCurrentMonth) {
-            calendar[i] = createCalendarDate(
-                i - monthStartDayOfWeek + 1,
-                i - monthStartDayOfWeek + 1 === currentDateOfMonth,
-                true
-            );
-        } else {
-            calendar[i] = createCalendarDate(
-                i - currentDaysPerMonth - monthStartDayOfWeek + 1,
-                false,
-                false
-            );
-        }
-    }
-
-    return calendar;
-}
-
-function createCalendarDate(date: number, isToday: boolean, isCurrentMonth: boolean): CalendarDateEntryType {
-    return {
-        date,
-        isToday,
-        isCurrentMonth
-    };
 }
