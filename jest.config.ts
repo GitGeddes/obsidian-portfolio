@@ -201,6 +201,7 @@ const config: Config = {
   // https://stackoverflow.com/a/54646930/13374873
   moduleNameMapper: {
     '\\.(css|less)$': '<rootDir>/__mocks__/styleMock.js',
+    '@/(.*)$': '<rootDir>/src/$1',
   },
 };
 
