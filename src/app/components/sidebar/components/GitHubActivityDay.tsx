@@ -66,7 +66,7 @@ export default function GitHubActivityDay(props: GitHubActivityDayProps) {
                     (props.commitDay.level === 3) ?
                     CircleLevelThree(props.isCurrentMonth) :
                     CircleLevelFour(props.isCurrentMonth)
-                : null
+                : CircleLevelZero()
             }
         </div>
     );
