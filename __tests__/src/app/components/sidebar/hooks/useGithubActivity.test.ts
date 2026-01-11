@@ -1,7 +1,7 @@
 import useGithubActivity, { mapContributionLevel } from "@/app/components/sidebar/hooks/useGithubActivity";
 import { mockFetch } from "../../../../../../__mocks__/fetchMock";
 import { renderHook, waitFor } from "@testing-library/react";
-import { DATA, TEST_DATA } from "./testData";
+import { DATA, TEST_DATA } from "../../../../../../__setup__/testData";
 
 describe("useGithubActivity test suite:", () => {
     const USERNAME = "username";

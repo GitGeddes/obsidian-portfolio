@@ -1,11 +1,14 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import Calendar from '@/app/components/sidebar/components/Calendar';
+import { mockFetch } from '../../../../../../__mocks__/fetchMock';
+import { SHORT_DATA } from '../../../../../../__setup__/testData';
 
 describe("Calendar test suite:", () => {
     beforeAll(() => {
         const mockDate = new Date(2026, 0, 15); // Jan 15, 2026
         jest.useFakeTimers().setSystemTime(mockDate);
+        mockFetch(SHORT_DATA);
     });
     afterAll(() => {
         jest.restoreAllMocks();

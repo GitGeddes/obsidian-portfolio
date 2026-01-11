@@ -1,8 +1,9 @@
-
 export const TEST_DATA = {
     "data": {
         "user": {
             "contributionsCollection": {
+                "totalCommitContributions": 17,
+                "restrictedContributionsCount": 0,
                 "contributionCalendar": {
                     "weeks": [
                         {
@@ -51,11 +52,27 @@ export const TEST_DATA = {
     }
 }
 
+export const SHORT_DATA = {
+    "data": {
+        "user": {
+            "contributionsCollection": {
+                "totalCommitContributions": 100,
+                "restrictedContributionsCount": 0,
+                "contributionCalendar": {
+                    "weeks": []
+                }
+            }
+        }
+    }
+}
+
 // Real data from 2026-01-10
 export const DATA = {
     "data": {
         "user": {
             "contributionsCollection": {
+                "totalCommitContributions": 66,
+                "restrictedContributionsCount": 0,
                 "contributionCalendar": {
                     "weeks": [
                         {
@@ -293,9 +310,7 @@ export const DATA = {
                         ]
                         }
                     ]
-                },
-                "totalCommitContributions": 66,
-                "restrictedContributionsCount": 0
+                }
             }
         }
     }
