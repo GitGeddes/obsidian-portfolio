@@ -94,7 +94,7 @@ export default function useGithubActivity(username: string, DATE: Date) {
     const handleRefresh = useCallback(async () => {
         invalidateCache(CACHE_KEY);
         await fetchCommits();
-    }, [username]);
+    }, []);
 
     return {
         calendar,

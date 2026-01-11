@@ -1,5 +1,5 @@
 export function mockFetch(data: any) {
-    return jest.fn().mockImplementation(() =>
+    global.fetch = jest.fn().mockImplementationOnce(() =>
         Promise.resolve({
             ok: true,
             json: () => Promise.resolve(data),
