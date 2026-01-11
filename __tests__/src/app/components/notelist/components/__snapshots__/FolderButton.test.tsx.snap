@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`FolderButton test suite snapshot test 1`] = `
+exports[`FolderButton test suite: snapshot test 1`] = `
 <div>
   <div
     class="mt-1"

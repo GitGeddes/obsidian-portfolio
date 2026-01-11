@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import FolderButton from '@/app/components/notelist/components/FolderButton';
 
-describe("FolderButton test suite", () => {
+describe("FolderButton test suite:", () => {
     test("snapshot test", () => {
         const title = "test";
         const canOpen = false;

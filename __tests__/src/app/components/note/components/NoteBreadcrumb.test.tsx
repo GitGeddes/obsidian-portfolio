@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import NoteBreadcrumb from '@/app/components/note/components/NoteBreadcrumb';
 
-describe("NoteBreadcrumb test suite", () => {
+describe("NoteBreadcrumb test suite:", () => {
     test("Breadcrumb renders correctly", () => {
         const testPath = "Test/Note/Breadcrumb";
         render(<NoteBreadcrumb path={testPath}/>);

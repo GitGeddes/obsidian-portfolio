@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`Calendar test suite snapshot test 1`] = `
+exports[`Calendar test suite: snapshot test 1`] = `
 <div>
   <div
     class="calendarContainer"
