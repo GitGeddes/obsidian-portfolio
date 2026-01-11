@@ -1,13 +1,15 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import Calendar from '../Calendar';
+import Calendar from '../../../../../../src/app/components/sidebar/components/Calendar';
+import { mockFetch } from '../../../../../../__mocks__/fetchMock';
 
-describe("FolderButton test suite", () => {
-    beforeEach(() => {
+describe("Calendar test suite", () => {
+    beforeAll(() => {
         const mockDate = new Date(2026, 0, 15); // Jan 15, 2026
-        jest.spyOn(global, 'Date').mockImplementation(() => mockDate);
+        jest.useFakeTimers().setSystemTime(mockDate);
+        window.fetch = mockFetch(undefined);
     });
-    afterEach(() => {
+    afterAll(() => {
         jest.restoreAllMocks();
     });
     test("snapshot test", () => {
@@ -23,9 +25,8 @@ describe("FolderButton test suite", () => {
         expect(screen.getByText("15")).toHaveStyle("color: #8a5cf5");
     });
     test("leap year displays correctly", () => {
-        jest.restoreAllMocks();
         const mockDate = new Date(2024, 1, 29); // Feb 29, 2024, leap year
-        jest.spyOn(global, 'Date').mockImplementation(() => mockDate);
+        jest.useFakeTimers().setSystemTime(mockDate);
         render(<Calendar username={'test'}/>);
 
         expect(screen.getByText("February")).toBeDefined();

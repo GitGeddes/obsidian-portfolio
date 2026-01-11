@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import NoteBreadcrumb from '../NoteBreadcrumb';
+import NoteBreadcrumb from '@/app/components/note/components/NoteBreadcrumb';
 
 describe("NoteBreadcrumb test suite", () => {
     test("Breadcrumb renders correctly", () => {

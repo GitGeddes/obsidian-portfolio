@@ -5,9 +5,8 @@ type CalendarProps = {
     username: string;
 }
 
-const DATE = new Date();
-
 export default function Calendar(props: CalendarProps) {
+    const DATE = new Date();
     const {
         calendar,
         commits,

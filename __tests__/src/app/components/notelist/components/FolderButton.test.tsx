@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
-import FolderButton from '../FolderButton';
+import FolderButton from '@/app/components/notelist/components/FolderButton';
 
 describe("FolderButton test suite", () => {
     test("snapshot test", () => {
