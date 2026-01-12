@@ -2,9 +2,6 @@ import { useCallback, useEffect, useState } from "react";
 import useCache from "@/app/hooks/useCache";
 import useCalendar from "./useCalendar";
 
-const GITHUB_TOKEN = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
-const CACHE_TTL = 3600;
-
 export type ContributionDay = {
     date: string;
     count: number;
@@ -16,7 +13,9 @@ export type GithubActivityData = {
     contributions: ContributionDay[];
 }
 
+const GITHUB_TOKEN = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
 export default function useGithubActivity(username: string, DATE: Date) {
+    const CACHE_TTL = 3600;
     const {
         calendar
     } = useCalendar(DATE);
