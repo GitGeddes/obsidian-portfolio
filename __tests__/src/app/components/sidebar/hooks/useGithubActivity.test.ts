@@ -60,21 +60,20 @@ describe("useGithubActivity test suite:", () => {
             expect(result.current.commits.totalCommits).toBe(17);
         });
     });
-    // test("errors when no token provided", async () => {
-    //     const originalToken = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
-    //     process.env.NEXT_PUBLIC_GITHUB_TOKEN = undefined;
-    //     mockFetch({ errors: [{ message: 'test error' }]});
+    test("errors when no token provided", async () => {
+        const originalToken = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
+        delete process.env.NEXT_PUBLIC_GITHUB_TOKEN;
 
-    //     const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
-    //     const { result } = renderHook(() => useGithubActivity(USERNAME, DATE));
+        const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+        const { result } = renderHook(() => useGithubActivity(USERNAME, DATE));
 
-    //     expect(result.current.isLoading).toBeTruthy();
-    //     await waitFor(() => {
-    //         expect(consoleSpy).toHaveBeenCalledTimes(1);
-    //         expect(consoleSpy.mock.calls[0][0]).toContain('No GitHub token!');
-    //     });
+        expect(result.current.isLoading).toBeTruthy();
+        await waitFor(() => {
+            expect(consoleSpy).toHaveBeenCalledTimes(1);
+            expect(consoleSpy.mock.calls[0][0]).toContain('No GitHub token!');
+        });
 
-    //     // Reset token for other tests
-    //     process.env.NEXT_PUBLIC_GITHUB_TOKEN = originalToken;
-    // });
+        // Reset token for other tests
+        process.env.NEXT_PUBLIC_GITHUB_TOKEN = originalToken;
+    });
 });

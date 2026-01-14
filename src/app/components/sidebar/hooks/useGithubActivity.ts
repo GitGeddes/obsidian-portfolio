@@ -13,7 +13,10 @@ export type GithubActivityData = {
     contributions: ContributionDay[];
 }
 
-const GITHUB_TOKEN = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
+function getToken() {
+    return process.env.NEXT_PUBLIC_GITHUB_TOKEN;
+}
+
 export default function useGithubActivity(username: string, DATE: Date) {
     const CACHE_TTL = 3600;
     const {
@@ -31,7 +34,7 @@ export default function useGithubActivity(username: string, DATE: Date) {
     } = useCache<GithubActivityData>();
 
     const fetchGithubCommits = useCallback(async (username: string): Promise<GithubActivityData> => {
-        if (!GITHUB_TOKEN) {
+        if (getToken() === undefined) {
             console.error("No GitHub token!");
             throw new Error("GitHub token required");
         }
@@ -128,7 +131,7 @@ async function queryGitHub(username: string, startDate: Date, endDate: Date) {
     const response = await fetch("https://api.github.com/graphql", {
         method: "POST",
         headers: {
-            Authorization: `Bearer ${GITHUB_TOKEN}`,
+            Authorization: `Bearer ${getToken()}`,
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
