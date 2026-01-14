@@ -4,12 +4,13 @@
  */
 'use client'
 
-import { PropsWithChildren, useState } from "react";
+import { PropsWithChildren } from "react";
 import ListItemButton from "@mui/material/ListItemButton";
 import Collapse from "@mui/material/Collapse";
 import ListItemText from "@mui/material/ListItemText";
 import styles from '../noteslist.module.css';
 import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
+import useOpenable from "@/app/hooks/useOpenable";
 
 /**
  * The input properties for the {@link FolderButton} function.
@@ -35,11 +36,7 @@ export default function FolderButton({
     canOpen = true,
     children
 }: FolderButtonProps & PropsWithChildren) {
-    const [isOpen, setIsOpen] = useState(canOpen);
-
-    const handleClick = () => {
-        setIsOpen(!isOpen && canOpen);
-    }
+    const { isOpen, handleClick } = useOpenable(canOpen);
 
     return (
         <div className="mt-1">

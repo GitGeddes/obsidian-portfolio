@@ -1,7 +1,5 @@
 'use client'
 
-import { useCallback, useState } from "react";
-
 import { Collapse } from "@mui/material";
 import NotesList from "../notelist/NotesList";
 import SideButtonList from "./components/SideButtonList";
@@ -12,13 +10,10 @@ import ListItemButton from '@mui/material/ListItemButton';
 import SideBarTopButtonsList from "./components/SideBarTopButtonsList";
 import Calendar from "./components/Calendar";
 import NoteListTopBar from "../notelist/components/NoteListTopBar";
+import useOpenable from "@/app/hooks/useOpenable";
 
 export default function SideBar() {
-    const [isOpen, setIsOpen] = useState(true);
-
-    const handleClick = useCallback(() => {
-        setIsOpen(!isOpen);
-    }, [isOpen]);
+    const { isOpen, handleClick } = useOpenable(true);
 
     return (
         <div className="row secondaryBackground">
