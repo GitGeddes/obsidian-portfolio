@@ -1,10 +1,10 @@
 import { useState } from "react";
 
-export default function useOpenable(initialState: boolean = true) {
-    const [isOpen, setIsOpen] = useState(initialState);
+export default function useOpenable(canOpen: boolean = true) {
+    const [isOpen, setIsOpen] = useState(canOpen);
 
     const handleClick = () => {
-        setIsOpen(!isOpen && initialState);
+        setIsOpen(!isOpen && canOpen);
     }
 
     return { isOpen, handleClick };
