@@ -1,7 +1,7 @@
 import useGithubActivity, { mapContributionLevel } from "@/app/components/sidebar/hooks/useGithubActivity";
 import { mockFetch, mockFetchMultiple } from "../../../../../../__mocks__/fetchMock";
 import { renderHook, waitFor } from "@testing-library/react";
-import { DATA, TEST_DATA } from "../../../../../../__setup__/testData";
+import { DATA, ERROR_DATA, TEST_DATA } from "../../../../../../__setup__/testData";
 
 describe("useGithubActivity test suite:", () => {
     const USERNAME = "username";
@@ -18,6 +18,7 @@ describe("useGithubActivity test suite:", () => {
         expect(mapContributionLevel('SECOND_QUARTILE')).toBe(2);
         expect(mapContributionLevel('THIRD_QUARTILE')).toBe(3);
         expect(mapContributionLevel('FOURTH_QUARTILE')).toBe(4);
+        expect(mapContributionLevel('anything else')).toBe(0);
     });
     test("loading process works", async () => {
         mockFetch(DATA);
@@ -33,7 +34,7 @@ describe("useGithubActivity test suite:", () => {
         expect(result.current.error).toBeNull();
     });
     test("query handles errors", async () => {
-        mockFetch({ errors: [{ message: 'test error' }]});
+        mockFetch(ERROR_DATA);
         const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
 
         const { result } = renderHook(() => useGithubActivity(USERNAME, DATE));

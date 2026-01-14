@@ -3,7 +3,7 @@ import { ContributionDay } from '../hooks/useGithubActivity';
 import CircleIcon from '@mui/icons-material/Circle';
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 
-const DOT_HEIGHT = 8;
+export const DOT_HEIGHT = 8;
 
 function CircleLevelZero() {
     return (

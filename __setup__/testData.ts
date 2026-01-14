@@ -66,6 +66,10 @@ export const SHORT_DATA = {
     }
 }
 
+export const ERROR_DATA = {
+    errors: [{ message: 'test error' }]
+}
+
 // Real data from 2026-01-10
 export const DATA = {
     "data": {
