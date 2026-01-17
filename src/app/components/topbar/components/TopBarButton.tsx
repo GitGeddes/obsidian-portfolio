@@ -4,8 +4,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import styles from "../topbar.module.css";
 import ListItemText from "@mui/material/ListItemText";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useCallback } from "react";
+import useCurrentPath from "../hooks/useCurrentPath";
 
 type TopBarButtonProps = {
     title: string;
@@ -13,11 +12,7 @@ type TopBarButtonProps = {
 }
 
 export default function TopBarButton(props: TopBarButtonProps) {
-    const pathname = usePathname();
-
-    const isCurrentPath = useCallback(() => {
-        return pathname === props.href || pathname === '/' + props.title;
-    }, [pathname, props.href, props.title]);
+    const { isCurrentPath } = useCurrentPath({ title: props.title, href: props.href });
 
     return (
         <Link className={styles.tab_button} href={props.href ? props.href : `/${props.title}`}>
