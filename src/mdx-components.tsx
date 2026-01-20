@@ -1,9 +1,11 @@
 import type { MDXComponents } from 'mdx/types'
 import Link from 'next/link';
-import { ComponentPropsWithoutRef, ReactNode } from 'react';
-import LineNumbers from './app/components/LineNumbers';
-import ExternalLink from './app/components/ExternalLink';
-import { notes } from './app/(Notes)/Graph/notes';
+import { ComponentPropsWithoutRef } from 'react';
+import LineNumbers from '@/app/components/LineNumbers';
+import ExternalLink from '@/app/components/ExternalLink';
+import { parseDoubleBrackets } from '@/app/components/parseDoubleBrackets';
+import LocalLink from './app/components/LocalLink';
+import { getNoteByHref } from "./app/hooks/getNoteByHref";
 
 const components: MDXComponents = {}
 
@@ -105,14 +107,33 @@ export function useMDXComponents(): MDXComponents { return {
       </LineNumbers>
     ),
     a: ({ href, children, ...props }: ComponentPropsWithoutRef<"a">) => {
-      const className = " inline-link linkColor linkUnderline";
+      const className = " inline-link linkColor linkUnderline linkCursor";
       if (href?.startsWith("/")) {
-        // Internal link
-        return (
-          <Link href={href} className={className} {...props}>
-            {children}
-          </Link>
-        );
+        const note = getNoteByHref(href);
+        if (note) {
+          // Internal link
+          return (
+            <LocalLink
+              linkTitle={note[0]}
+              noteHref={href}
+              className={className}
+              {...props}
+            >
+              {children}
+            </LocalLink>
+          );
+        } else {
+          return (
+            <LocalLink
+              linkTitle={href.replace('/', '')}
+              noteHref={href}
+              className={className}
+              {...props}
+            >
+              {children}
+            </LocalLink>
+          );
+        }
       }
       if (href?.startsWith("#")) {
         return (
@@ -197,33 +218,4 @@ export function useMDXComponents(): MDXComponents { return {
     ),
     ...components,
   };
-}
-
-function parseDoubleBrackets(paragraph: ReactNode): ReactNode[] {
-  if (!paragraph) return [];
-  const childrenResult: ReactNode[] = [];
-
-  if (typeof paragraph === 'string') {
-    const regex = /(?:\[\[)([^\]]*?)(?:\]\])/g;
-    const className = " inline-link linkColor linkUnderline";
-    let res;
-    let lastIndex = 0;
-    do {
-      res = regex.exec(paragraph);
-      childrenResult.push(paragraph.substring(lastIndex, res?.index));
-      lastIndex = regex.lastIndex;
-      if (res) {
-        const linkText = res[1];
-        const noteLink = notes[linkText].link;
-        childrenResult.push(
-          <Link href={noteLink || ''} key={lastIndex} className={className}>
-            {linkText}
-          </Link>
-        );
-      }
-    } while (res);
-  } else {
-    childrenResult.push(paragraph);
-  }
-  return childrenResult;
 }

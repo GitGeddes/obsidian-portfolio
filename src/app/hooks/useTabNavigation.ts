@@ -18,17 +18,13 @@ export function useTabNavigation() {
         if (existingTab) {
             if (activeTabId !== existingTab.id) {
                 dispatch(setActiveTab(title));
-                console.log('auto nav when active and existing do not match');
-                // router.push(tabHref);
             }
             if (pathname.replace('/', '') !== activeTabId) {
                 // Check that the current route is not already at this tab
-                console.log('auto nav when path and active tab dont match');
                 router.push(tabHref);
             }
         } else {
             dispatch(addTab({ id: title, title: title, href: tabHref }));
-            console.log('auto nav when tab doesnt exist');
             router.push(tabHref);
         }
     };
