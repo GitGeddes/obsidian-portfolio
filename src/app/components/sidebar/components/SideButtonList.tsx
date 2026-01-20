@@ -9,8 +9,11 @@ import List from "@mui/material/List";
 import ListItemButton from '@mui/material/ListItemButton';
 import HoverButton from '../../HoverButton';
 import { GitHub } from '@mui/icons-material';
+import { useTabNavigation } from '@/app/hooks/useTabNavigation';
 
 export default function SideButtonList() {
+    const { navigateToTab } = useTabNavigation();
+
     return (
         <List>
             <HoverButton href='https://github.com/GitGeddes/obsidian-portfolio'>
@@ -20,7 +23,7 @@ export default function SideButtonList() {
                 {/* lol I just HAD to use this one */}
                 <PlagiarismOutlined fontSize='small' />
             </HoverButton>
-            <HoverButton href='Graph'>
+            <HoverButton onClick={() => navigateToTab('Graph', '/Graph')}>
                 <HubOutlinedIcon fontSize='small' />
             </HoverButton>
             <ListItemButton disabled>
