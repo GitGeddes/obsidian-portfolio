@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import TopBarButton from "@/app/components/topbar/components/TopBarButton";
 import { render } from "@testing-library/react";
-import { mockUsePathname } from '../../../../../../__mocks__/usePathnameMock';
+import { mockUsePathname } from '../../../../../../__mocks__/navigationMock';
 
 describe("TopBarButton test suite:", () => {
     afterEach(() => {
