@@ -20,6 +20,8 @@ export default function Calendar(props: CalendarProps) {
             <div className="row" style={{ marginLeft: 10 }}>
                 <h1>{DATE.toLocaleString('default', { month: 'long' })}</h1>
                 <h1
+                    className="linkCursor"
+                    onClick={handleRefresh} // Secret refresh button
                     style={{
                         color: '#8a5cf5',
                         marginLeft: 5
@@ -45,7 +47,6 @@ export default function Calendar(props: CalendarProps) {
                     })
                 }
             </div>
-            <button onClick={handleRefresh}>Refresh</button>
         </div>
     )
 }

@@ -131,6 +131,10 @@ p {
   text-decoration: underline;
 }
 
+.linkCursor {
+  cursor: pointer;
+}
+
 .breadcrumb {
   margin-top: 5;
   margin-bottom: 10;
