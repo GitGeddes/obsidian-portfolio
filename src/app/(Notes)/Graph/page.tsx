@@ -11,6 +11,7 @@ import { useEffect, useRef, useState } from 'react';
 import { notes, NoteType } from './notes';
 import NoteBreadcrumb from '@/app/components/note/components/NoteBreadcrumb';
 import { useRouter } from 'next/navigation';
+import { useTabNavigation } from '@/app/hooks/useTabNavigation';
 
 // https://observablehq.com/@d3/disjoint-force-directed-graph/2
 
@@ -53,6 +54,7 @@ type NodeType = d3.SimulationNodeDatum & {
  */
 export default function Graph() {
     const router = useRouter();
+    const { navigateToTabWithHref } = useTabNavigation();
 
     const ref = useRef<SVGSVGElement>(null);
     const parentRef = useRef<HTMLDivElement>(null);
@@ -296,7 +298,7 @@ export default function Graph() {
     function onMouseClick(event) {
         // Has a valid note
         if (event.target.__data__.path !== undefined) {
-            router.push(event.target.__data__.path);
+            navigateToTabWithHref(event.target.__data__.path);
         }
     }
 

@@ -1,27 +1,34 @@
+'use client'
+
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-import Link from "next/link";
+import { useTabNavigation } from "@/app/hooks/useTabNavigation";
 
 type NoteButtonProps = {
     title: string
 }
 
 export default function NoteButton(props: NoteButtonProps) {
+    const { navigateToTab } = useTabNavigation();
+
+    const handleClick = () => {
+        navigateToTab(props.title);
+    }
+
     return (
-        <Link href={`/${props.title}`}>
-            <ListItemButton
-                className="linkHover"
-                sx={{
-                    height: 25,
-                    marginTop: 1,
-                    marginBottom: 0.5,
-                    ":hover": {
-                        backgroundColor: "#454545"
-                    }
-                }}
-            >
-                <ListItemText primary={props.title} slotProps={{ primary: { fontSize: 14 }}} />
-            </ListItemButton>
-        </Link>
+        <ListItemButton
+            className="linkHover"
+            onClick={handleClick}
+            sx={{
+                height: 25,
+                marginTop: 1,
+                marginBottom: 0.5,
+                ":hover": {
+                    backgroundColor: "#454545"
+                }
+            }}
+        >
+            <ListItemText primary={props.title} slotProps={{ primary: { fontSize: 14 }}} />
+        </ListItemButton>
     );
 }
