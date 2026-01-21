@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import List from "@mui/material/List";
 import ListItemButton from '@mui/material/ListItemButton';
 
@@ -7,21 +6,19 @@ import CreateNewFolderOutlinedIcon from '@mui/icons-material/CreateNewFolderOutl
 import SortByAlphaOutlinedIcon from '@mui/icons-material/SortByAlphaOutlined';
 import ViewDayOutlinedIcon from '@mui/icons-material/ViewDayOutlined';
 import UnfoldLessOutlinedIcon from '@mui/icons-material/UnfoldLessOutlined';
+import { useTabNavigation } from '@/app/hooks/useTabNavigation';
+import HoverButton from "../../HoverButton";
 
 export default function NoteListTopBar() {
+    const { navigateToTab } = useTabNavigation();
+
     return (
         <List className="row">
-            <Link href={"/"}>
-                <ListItemButton
-                    sx={{
-                        ":hover": {
-                            backgroundColor: "#454545"
-                        }
-                    }}
-                >
-                    <EditNoteOutlinedIcon fontSize='small' />
-                </ListItemButton>
-            </Link>
+            <HoverButton
+                onClick={() => navigateToTab('index', '/')}
+            >
+                <EditNoteOutlinedIcon fontSize='small' />
+            </HoverButton>
             <ListItemButton disabled>
                 <CreateNewFolderOutlinedIcon fontSize='small' />
             </ListItemButton>

@@ -1,12 +1,12 @@
 import { usePathname } from "next/navigation";
 import { useCallback } from "react";
 
-export default function useCurrentPath(props: { title: string; href?: string; }) {
+export default function useCurrentPath(props: { id: string; href?: string; }) {
     const pathname = usePathname();
 
     const isCurrentPath = useCallback(() => {
-        return pathname === props.href || pathname === '/' + props.title;
-    }, [pathname, props.href, props.title]);
+        return pathname === props.href || pathname === '/' + props.id;
+    }, [pathname, props.href, props.id]);
 
     return { isCurrentPath };
 }

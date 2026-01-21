@@ -6,11 +6,11 @@ import SideButtonList from "./components/SideButtonList";
 
 import ViewSidebarOutlinedIcon from '@mui/icons-material/ViewSidebarOutlined';
 
-import ListItemButton from '@mui/material/ListItemButton';
 import SideBarTopButtonsList from "./components/SideBarTopButtonsList";
 import Calendar from "./components/Calendar";
 import NoteListTopBar from "../notelist/components/NoteListTopBar";
 import useOpenable from "@/app/hooks/useOpenable";
+import HoverButton from "../HoverButton";
 
 export default function SideBar() {
     const { isOpen, handleClick } = useOpenable(true);
@@ -19,15 +19,9 @@ export default function SideBar() {
         <div className="row secondaryBackground">
             <div className="rightBorder">
                 <div className="topbar row">
-                    <ListItemButton onClick={handleClick}
-                        sx={{
-                            ":hover": {
-                                backgroundColor: "#454545"
-                            }
-                        }}
-                    >
+                    <HoverButton onClick={handleClick}>
                         <ViewSidebarOutlinedIcon fontSize='small'/>
-                    </ListItemButton>
+                    </HoverButton>
                 </div>
                 <SideButtonList />
             </div>

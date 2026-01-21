@@ -7,6 +7,7 @@
  * a note to be used in the Graph page.
  */
 export type NoteType = {
+    title?: string;
     link?: string;
     path: string;
     tags: string[];
@@ -26,6 +27,7 @@ type NotesType = {
  */
 export const notes: NotesType = {
     'index': {
+        title: 'index',
         link: '/',
         path: 'index',
         tags: [],
@@ -37,6 +39,7 @@ export const notes: NotesType = {
         ]
     },
     'Portfolio': {
+        title: 'Portfolio',
         link: 'Portfolio',
         path: 'Notes/Projects/Portfolio',
         tags: [
@@ -49,6 +52,7 @@ export const notes: NotesType = {
         ]
     },
     'VideoClipper': {
+        title: 'VideoClipper',
         link: 'VideoClipper',
         path: 'Notes/Projects/VideoClipper',
         tags: [
@@ -61,6 +65,7 @@ export const notes: NotesType = {
         ]
     },
     'Groupie': {
+        title: 'Groupie',
         link: 'Groupie',
         path: 'Notes/Experience/Groupie',
         tags: [
@@ -73,6 +78,7 @@ export const notes: NotesType = {
         ]
     },
     'Amazon': {
+        title: 'Amazon',
         link: 'Amazon',
         path: 'Notes/Experience/Amazon',
         tags: [
@@ -81,6 +87,7 @@ export const notes: NotesType = {
         links: []
     },
     'React': {
+        title: 'React',
         path: 'Notes/Areas/React',
         tags: [],
         links: [
@@ -88,11 +95,13 @@ export const notes: NotesType = {
         ]
     },
     'Tauri': {
+        title: 'Tauri',
         path: 'Notes/Areas/Tauri',
         tags: [],
         links: []
     },
     'React Native': {
+        title: 'React Native',
         path: 'Notes/Areas/React Native',
         tags: [],
         links: [
@@ -100,11 +109,13 @@ export const notes: NotesType = {
         ]
     },
     'Firebase': {
+        title: 'Firebase',
         path: 'Notes/Areas/Firebase',
         tags: [],
         links: []
     },
     'Next.js': {
+        title: 'Next.js',
         path: 'Notes/Areas/Next.js',
         tags: [],
         links: []

@@ -1,9 +1,11 @@
 process.env.NEXT_PUBLIC_GITHUB_TOKEN = 'test_token_value';
 
 export const mockedPathname = jest.fn();
+export const mockedRouter = jest.fn();
 jest.mock("next/navigation", () => {
     return {
         usePathname: () => mockedPathname(),
+        useRouter: () => mockedRouter(),
     };
 });
 
