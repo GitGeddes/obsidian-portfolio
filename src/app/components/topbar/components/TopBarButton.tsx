@@ -8,8 +8,6 @@ import { useTabNavigation } from "@/app/hooks/useTabNavigation";
 import { Tab } from "@/store/slices/tabSlice";
 
 type TopBarButtonProps = {
-    title: string;
-    href?: string;
     tab: Tab;
     index: number;
     activeTabId: string | null;
@@ -25,12 +23,12 @@ type TopBarButtonProps = {
 }
 
 export default function TopBarButton(props: TopBarButtonProps) {
-    const { isCurrentPath } = useCurrentPath({ title: props.title, href: props.href });
+    const { isCurrentPath } = useCurrentPath({ id: props.tab.id, href: props.tab.href });
     const { navigateToTab } = useTabNavigation();
 
     const handleTabClick = () => {
         props.onTabClick(props.tab.id);
-        navigateToTab(props.title, props.href);
+        navigateToTab(props.tab.id, props.tab.title, props.tab.href);
     }
 
     return (
@@ -51,7 +49,7 @@ export default function TopBarButton(props: TopBarButtonProps) {
                 className={`${'topBarButton'} ${isCurrentPath() ? 'active' : ''}`}
             >
                 <ListItemText
-                    primary={props.title}
+                    primary={props.tab.title}
                     slotProps={{
                         primary: {
                             className: isCurrentPath() ? 'topBarButtonText' : 'topBarButtonTextInactive'

@@ -7,7 +7,10 @@ export function getNoteByHref(href: string) {
     );
 
     if (note) {
-        return note;
+        return {
+            id: note[0],
+            note: note[1]
+        };
     } else {
         return undefined;
     }

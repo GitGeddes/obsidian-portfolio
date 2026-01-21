@@ -40,8 +40,6 @@ export default function TopBar() {
             {tabs.map((tab, index) => (
                 <TopBarButton
                     key={tab.id}
-                    title={tab.title}
-                    href={tab.href}
                     tab={tab}
                     index={index}
                     activeTabId={activeTabId}
@@ -59,7 +57,7 @@ export default function TopBar() {
             {(!tabs.find(tab => tab.id === 'index')) ?
                 <div className={'addButton'}>
                     <ListItemButton
-                        onClick={() => navigateToTab('index', '/')}
+                        onClick={() => navigateToTab('index', 'index', '/')}
                         aria-label={"Add new tab"}
                     >
                         <AddIcon/>

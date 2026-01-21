@@ -20,6 +20,7 @@ export function parseDoubleBrackets(paragraph: ReactNode): ReactNode[] {
         const noteLink = notes[linkText].link;
         childrenResult.push(
           <LocalLink
+            id={linkText}
             key={lastIndex}
             linkTitle={linkText}
             noteHref={noteLink}

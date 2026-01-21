@@ -23,7 +23,7 @@ export default function SideButtonList() {
                 {/* lol I just HAD to use this one */}
                 <PlagiarismOutlined fontSize='small' />
             </HoverButton>
-            <HoverButton onClick={() => navigateToTab('Graph', '/Graph')}>
+            <HoverButton onClick={() => navigateToTab('Graph', 'Graph', '/Graph')}>
                 <HubOutlinedIcon fontSize='small' />
             </HoverButton>
             <ListItemButton disabled>

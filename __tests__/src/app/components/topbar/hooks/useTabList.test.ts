@@ -1,8 +1,13 @@
 import useTabList from '@/app/components/topbar/hooks/useTabList';
-import { act, renderHookWithRedux } from '../../../../__setup__/testUtils';
-import { mockUsePathname, mockUseRouter } from '../../../../__mocks__/navigationMock';
+import { act, renderHookWithRedux } from '../../../../../../__setup__/testUtils';
+import { mockUsePathname, mockUseRouter } from '../../../../../../__mocks__/navigationMock';
+import { Tab } from '@/store/slices/tabSlice';
 
 describe('useTabList test suite:', () => {
+    const TAB_1: Tab = { id: '1', title: 'Tab 1', href: '/1' };
+    const TAB_2: Tab = { id: '2', title: 'Tab 2', href: '/2' };
+    const TAB_3: Tab = { id: '3', title: 'Tab 3', href: '/3' };
+
     beforeEach(() => {
         localStorage.clear();
         mockUsePathname('/');
@@ -20,7 +25,7 @@ describe('useTabList test suite:', () => {
         const { result } = renderHookWithRedux(() => useTabList());
 
         act(() => {
-            result.current.addTab('1', 'Tab 1');
+            result.current.addTab(TAB_1.id, TAB_1.title, TAB_1.href);
         });
 
         expect(result.current.tabs).toHaveLength(1);
@@ -32,8 +37,8 @@ describe('useTabList test suite:', () => {
         const { result } = renderHookWithRedux(() => useTabList());
 
         act(() => {
-            result.current.addTab('1', 'Tab 1');
-            result.current.addTab('2', 'Tab 2');
+            result.current.addTab(TAB_1.id, TAB_1.title, TAB_1.href);
+            result.current.addTab(TAB_2.id, TAB_2.title, TAB_2.href);
         });
 
         act(() => {
@@ -48,8 +53,8 @@ describe('useTabList test suite:', () => {
         const { result } = renderHookWithRedux(() => useTabList());
 
         act(() => {
-            result.current.addTab('1', 'Tab 1');
-            result.current.addTab('2', 'Tab 2');
+            result.current.addTab(TAB_1.id, TAB_1.title, TAB_1.href);
+            result.current.addTab(TAB_2.id, TAB_2.title, TAB_2.href);
         });
 
         act(() => {
@@ -63,9 +68,9 @@ describe('useTabList test suite:', () => {
         const { result } = renderHookWithRedux(() => useTabList());
 
         act(() => {
-            result.current.addTab('1', 'Tab 1');
-            result.current.addTab('2', 'Tab 2');
-            result.current.addTab('3', 'Tab 3');
+            result.current.addTab(TAB_1.id, TAB_1.title, TAB_1.href);
+            result.current.addTab(TAB_2.id, TAB_2.title, TAB_2.href);
+            result.current.addTab(TAB_3.id, TAB_3.title, TAB_3.href);
         });
 
         act(() => {
@@ -79,7 +84,7 @@ describe('useTabList test suite:', () => {
         const { result } = renderHookWithRedux(() => useTabList());
 
         act(() => {
-            result.current.addTab('1', 'Tab 1');
+            result.current.addTab(TAB_1.id, TAB_1.title, TAB_1.href);
         });
 
         await new Promise(resolve => setTimeout(resolve, 0));

@@ -5,14 +5,15 @@ import ListItemText from "@mui/material/ListItemText";
 import { useTabNavigation } from "@/app/hooks/useTabNavigation";
 
 type NoteButtonProps = {
-    title: string
+    id: string;
+    title: string;
 }
 
 export default function NoteButton(props: NoteButtonProps) {
     const { navigateToTab } = useTabNavigation();
 
     const handleClick = () => {
-        navigateToTab(props.title);
+        navigateToTab(props.id, props.title);
     }
 
     return (

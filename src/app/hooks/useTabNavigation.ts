@@ -11,30 +11,32 @@ export function useTabNavigation() {
     const tabs = useSelector((state: RootState) => state.tabs.tabs);
     const activeTabId = useSelector((state: RootState) => state.tabs.activeTabId);
 
-    const navigateToTab = (title: string, href?: string) => {
+    const navigateToTab = (id: string, title: string, href?: string) => {
         const tabHref = href || `/${title}`;
-        const existingTab = tabs.find(tab => tab.id === title);
+        const existingTab = tabs.find(tab => tab.id === id);
 
         if (existingTab) {
             if (activeTabId !== existingTab.id) {
-                dispatch(setActiveTab(title));
+                dispatch(setActiveTab(id));
             }
             if (pathname.replace('/', '') !== activeTabId) {
                 // Check that the current route is not already at this tab
                 router.push(tabHref);
             }
         } else {
-            dispatch(addTab({ id: title, title: title, href: tabHref }));
+            dispatch(addTab({ id: id, title: title, href: tabHref }));
             router.push(tabHref);
         }
     };
 
+    // Only used by the Graph
     const navigateToTabWithHref = (href: string) => {
         const note = getNoteByHref(href);
         if (note) {
-            navigateToTab(note[0], href);
+            // Note exists in the predefined list
+            navigateToTab(note.id, note.note.title || note.id, href);
         } else {
-            navigateToTab(href.replace('/', ''), href);
+            navigateToTab(href.replace('/', ''), href.replace('/', ''), href);
         }
     }
 

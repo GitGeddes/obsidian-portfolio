@@ -14,12 +14,12 @@ export default function NotesList() {
                 <FolderButton title="Notes">
                     <FolderButton title="Areas" canOpen={false}/>
                     <FolderButton title="Experience">
-                        <NoteButton title="Amazon"/>
-                        <NoteButton title="Groupie"/>
+                        <NoteButton id="Amazon" title="Amazon"/>
+                        <NoteButton id="Groupie" title="Groupie"/>
                     </FolderButton>
                     <FolderButton title="Projects">
-                        <NoteButton title="Portfolio"/>
-                        <NoteButton title="VideoClipper"/>
+                        <NoteButton id="Portfolio" title="Portfolio"/>
+                        <NoteButton id="VideoClipper" title="VideoClipper"/>
                     </FolderButton>
                 </FolderButton>
                 <FolderButton title="Templates" canOpen={false}/>

@@ -115,7 +115,11 @@ export default function Graph() {
             // Change styling on hover.
             node.on("mouseover", (event) => onMouseOver(event))
                 .on('mousemove', (event) => onMouseMove(event))
-                .on("mouseout", () => onMouseOut());
+                .on("mouseout", () => onMouseOut())
+                .style("cursor", (n) => {
+                    if (n.path) return "pointer";
+                    else return "auto";
+                });
 
             // Add click behavior
             node.on('click', (event) => onMouseClick(event));

@@ -35,13 +35,13 @@ export default function useTabList() {
         if (activeTabId) {
             const newTab = tabs.find((tab) => tab.id === activeTabId);
             if (newTab) {
-                navigateToTab(newTab.title, newTab.href);
+                navigateToTab(newTab.id, newTab.title, newTab.href);
             }
         }
     }, [activeTabId]);
 
-    const handleAddTab = useCallback((label: string, href: string) => {
-        dispatch(addTab({ id: label, title: label, href }));
+    const handleAddTab = useCallback((id: string, title: string, href?: string) => {
+        dispatch(addTab({ id: id, title: title, href }));
     }, [dispatch, tabs.length]);
 
     const handleCloseTab = useCallback((id: string) => {

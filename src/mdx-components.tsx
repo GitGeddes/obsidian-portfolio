@@ -114,7 +114,8 @@ export function useMDXComponents(): MDXComponents { return {
           // Internal link
           return (
             <LocalLink
-              linkTitle={note[0]}
+              id={note.id}
+              linkTitle={note.note.title}
               noteHref={href}
               className={className}
               {...props}
@@ -125,6 +126,7 @@ export function useMDXComponents(): MDXComponents { return {
         } else {
           return (
             <LocalLink
+              id={href.replace('/', '')}
               linkTitle={href.replace('/', '')}
               noteHref={href}
               className={className}

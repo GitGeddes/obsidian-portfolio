@@ -4,7 +4,8 @@ import { useTabNavigation } from '@/app/hooks/useTabNavigation';
 import { PropsWithChildren } from 'react';
 
 type LocalLinkProps = PropsWithChildren & {
-    linkTitle: string;
+    id: string;
+    linkTitle?: string;
     noteHref?: string;
     className: string;
 };
@@ -14,7 +15,7 @@ export default function LocalLink(props: LocalLinkProps) {
 
     return (
         <a
-            onClick={() => navigateToTab(props.linkTitle, props.noteHref)}
+            onClick={() => navigateToTab(props.id, props.linkTitle || props.id, props.noteHref)}
             className={props.className}
         >
             {props.children}
