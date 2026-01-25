@@ -12,14 +12,13 @@ export function useTabNavigation() {
     const activeTabId = useSelector((state: RootState) => state.tabs.activeTabId);
 
     const navigateToTab = (id: string, title: string, href?: string) => {
-        const tabHref = href || `/${title}`;
+        const tabHref = href || `/${id}`;
         const existingTab = tabs.find(tab => tab.id === id);
 
         if (existingTab) {
             if (activeTabId !== existingTab.id) {
                 dispatch(setActiveTab(id));
-            }
-            if (pathname.replace('/', '') !== activeTabId) {
+            } else if (pathname.replace('/', '') !== existingTab.id) {
                 // Check that the current route is not already at this tab
                 router.push(tabHref);
             }

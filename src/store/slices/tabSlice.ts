@@ -44,7 +44,7 @@ const initialState: TabState = {
             href: '/Graph'
         }
     ],
-    activeTabId: 'index',
+    activeTabId: null,
 };
 
 const tabSlice = createSlice({
