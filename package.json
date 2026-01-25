@@ -9,7 +9,8 @@
     "lint": "eslint ./src",
     "typedoc": "typedoc --options typedoc.json",
     "test": "jest",
-    "update snapshots": "jest -u"
+    "update snapshots": "jest -u",
+    "fun:madge": "madge --image public/graph.svg src --extensions ts,tsx"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -51,5 +52,8 @@
     "tailwindcss": "^4",
     "typedoc": "^0.28.15",
     "typescript": "^5"
+  },
+  "madge": {
+    "tsConfig": "./tsconfig.json"
   }
 }
