@@ -1,4 +1,5 @@
 import '@testing-library/jest-dom';
+import { fireEvent } from '@testing-library/react';
 import TopBarButton from "@/app/components/topbar/components/TopBarButton";
 import { mockUsePathname } from '../../../../../../__mocks__/navigationMock';
 import { Tab } from '@/store/slices/tabSlice';
@@ -16,6 +17,7 @@ describe("TopBarButton test suite:", () => {
         href: '/Project'
     };
 
+    const mockOnTabClose = jest.fn();
     function TopBarButtonWrapper({ tab }: { tab: Tab }) {
         return (
             <TopBarButton
@@ -23,7 +25,7 @@ describe("TopBarButton test suite:", () => {
                 index={0}
                 activeTabId={tab.id}
                 onTabClick={jest.fn()}
-                onTabClose={jest.fn()}
+                onTabClose={mockOnTabClose}
                 draggedIndex={null}
                 dragOverIndex={null}
                 handleDragStart={jest.fn()}
@@ -63,5 +65,13 @@ describe("TopBarButton test suite:", () => {
         expect(textElement).toHaveClass('topBarButtonTextInactive');
     });
 
-    it.todo('closes when the close icon is clicked');
+    test("closes when the close icon is clicked", () => {
+        mockUsePathname("/Project");
+        const { getByLabelText } = renderWithRedux(<TopBarButtonWrapper tab={TAB_PROJECT} />);
+
+        const closeButton = getByLabelText(/Close Project/i);
+        fireEvent.click(closeButton);
+
+        expect(mockOnTabClose).toHaveBeenCalledWith('Project');
+    });
 });

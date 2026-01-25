@@ -3,10 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addTab, closeTab, setActiveTab, reorderTabs, setTabs } from '@/store/slices/tabSlice';
 import { RootState } from '@/store';
 import { useTabNavigation } from '../../../hooks/useTabNavigation';
+import { usePathname } from 'next/navigation';
 
 const TAB_STORAGE_KEY = 'obsidian_portfolio_tabs';
 
 export default function useTabList() {
+    const pathname = usePathname();
     const dispatch = useDispatch();
     const tabs = useSelector((state: RootState) => state.tabs.tabs);
     const activeTabId = useSelector((state: RootState) => state.tabs.activeTabId);
@@ -34,7 +36,7 @@ export default function useTabList() {
         // Navigate to the active tab if it changes
         if (activeTabId) {
             const newTab = tabs.find((tab) => tab.id === activeTabId);
-            if (newTab) {
+            if (newTab && pathname !== newTab.href) {
                 navigateToTab(newTab.id, newTab.title, newTab.href);
             }
         }
