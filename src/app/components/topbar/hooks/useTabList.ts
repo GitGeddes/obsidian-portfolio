@@ -32,8 +32,8 @@ export default function useTabList() {
         localStorage.setItem(TAB_STORAGE_KEY, JSON.stringify({ tabs, activeTabId }));
     }, [tabs, activeTabId]);
 
+    // Navigate to the active tab if it changes
     useEffect(() => {
-        // Navigate to the active tab if it changes
         if (activeTabId) {
             const newTab = tabs.find((tab) => tab.id === activeTabId);
             if (newTab && pathname !== newTab.href) {

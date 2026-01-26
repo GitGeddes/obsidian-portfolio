@@ -5,23 +5,17 @@ tags:
 ---
 # Video Clipper
 Trim ShadowPlay clips and combine the two audio tracks.
-
+####
 **Source code:** [VideoClipper](https://github.com/GitGeddes/VideoClipper)
 
+**Downloads page:** [GitHub Releases](https://github.com/GitGeddes/VideoClipper/releases)
+
 ## Framework
-Created with [[Tauri]] and [[React]].
+Created with [Tauri](https://tauri.app/) and [React](https://react.dev/).
 
----
-
-From GitHub README:
-
-# VideoClipper
-Trim ShadowPlay clips and combine the two audio tracks.
-
-Made with [Tauri](https://tauri.app/) and [React](https://react.dev/).
-
-I made this because I record my ShadowPlay clips with 2 audio tracks: game/desktop audio and microphone audio. The built-in video editor and exporter in ShadowPlay doesn't let me edit clips with 2 tracks. Instead of opening a video editor like Davinci Resolve just to trim one file and combine audio tracks, I built this `ffmpeg` wrapper to do that for me.
-
+## Background
+I made this because I record my ShadowPlay gameplay clips with 2 audio tracks: game/desktop audio and microphone audio. The built-in video editor and exporter in ShadowPlay doesn't let me edit clips with 2 audio tracks. Instead of opening a video editor like Davinci Resolve just to trim one file and combine audio tracks, I built this `ffmpeg` wrapper to do that for me.
+####
 If you don't record ShadowPlay clips with 2 audio tracks, you don't need this program.
 
 ## Installation
@@ -44,7 +38,7 @@ If you don't record ShadowPlay clips with 2 audio tracks, you don't need this pr
 3. Enter a filename for the output file
 4. Choose whether to include the microphone audio track in the output
 5. Process the video
-
+####
 The output file goes into the same folder as the selected input video.
 
 ![screenshot](https://raw.githubusercontent.com/GitGeddes/VideoClipper/refs/heads/main/res/videoclipper_screenshot.png)

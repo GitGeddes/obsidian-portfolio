@@ -32,10 +32,35 @@ export const notes: NotesType = {
         path: 'index',
         tags: [],
         links: [
+            'Groupie',
+            'Amazon',
             'Portfolio',
             'VideoClipper',
-            'Groupie',
-            'Amazon'
+            'FishyGame'
+        ]
+    },
+    'Amazon': {
+        title: 'Amazon',
+        link: 'Amazon',
+        path: 'Notes/Experience/Amazon',
+        tags: [
+            '#experience'
+        ],
+        links: [
+            'AWS'
+        ]
+    },
+    'Groupie': {
+        title: 'Groupie',
+        link: 'Groupie',
+        path: 'Notes/Experience/Groupie',
+        tags: [
+            '#projects',
+            '#experience'
+        ],
+        links: [
+            'React Native',
+            'Firebase'
         ]
     },
     'Portfolio': {
@@ -64,59 +89,68 @@ export const notes: NotesType = {
             'Tauri'
         ]
     },
-    'Groupie': {
-        title: 'Groupie',
-        link: 'Groupie',
-        path: 'Notes/Experience/Groupie',
+    'FishyGame': {
+        title: 'FishyGame',
+        link: 'FishyGame',
+        path: 'Notes/Projects/FishyGame',
         tags: [
             '#projects',
-            '#experience'
+            '#projects/GitHub',
+            '#gamedev'
         ],
         links: [
-            'React Native',
-            'Firebase'
+            'Unity'
         ]
     },
-    'Amazon': {
-        title: 'Amazon',
-        link: 'Amazon',
-        path: 'Notes/Experience/Amazon',
-        tags: [
-            '#experience'
-        ],
+    'AWS': {
+        path: 'Notes/Areas/AWS',
+        tags: [],
+        links: []
+    },
+    'Firebase': {
+        path: 'Notes/Areas/Firebase',
+        tags: [],
         links: []
     },
     'React': {
-        title: 'React',
         path: 'Notes/Areas/React',
-        tags: [],
+        tags: [
+            '#frameworks'
+        ],
         links: [
             'React Native'
         ]
     },
     'Tauri': {
-        title: 'Tauri',
         path: 'Notes/Areas/Tauri',
-        tags: [],
+        tags: [
+            '#frameworks'
+        ],
         links: []
     },
     'React Native': {
-        title: 'React Native',
         path: 'Notes/Areas/React Native',
-        tags: [],
+        tags: [
+            '#frameworks'
+        ],
         links: [
             'React'
         ]
     },
-    'Firebase': {
-        title: 'Firebase',
-        path: 'Notes/Areas/Firebase',
+    'Next.js': {
+        path: 'Notes/Areas/Next.js',
+        tags: [
+            '#frameworks'
+        ],
+        links: []
+    },
+    'Unity': {
+        path: 'Notes/Areas/Unity',
         tags: [],
         links: []
     },
-    'Next.js': {
-        title: 'Next.js',
-        path: 'Notes/Areas/Next.js',
+    '#experience': {
+        path: 'Tags/#experience',
         tags: [],
         links: []
     },
@@ -130,8 +164,13 @@ export const notes: NotesType = {
         tags: [],
         links: []
     },
-    '#experience': {
-        path: 'Tags/#experience',
+    '#frameworks': {
+        path: 'Tags/#frameworks',
+        tags: [],
+        links: []
+    },
+    '#gamedev': {
+        path: 'Tags/#gamedev',
         tags: [],
         links: []
     }

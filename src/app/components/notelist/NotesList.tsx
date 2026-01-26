@@ -20,6 +20,7 @@ export default function NotesList() {
                     <FolderButton title="Projects">
                         <NoteButton id="Portfolio" title="Portfolio"/>
                         <NoteButton id="VideoClipper" title="VideoClipper"/>
+                        <NoteButton id="FishyGame" title="FishyGame"/>
                     </FolderButton>
                 </FolderButton>
                 <FolderButton title="Templates" canOpen={false}/>
