@@ -18,6 +18,3 @@ I started using [Obsidian](https://obsidian.md/) in 2022 and use it daily now. I
 - Check out the [Graph view](/Graph)!
 
 [Video Clipper](/VideoClipper): A desktop app to trim video clips using *ffmpeg*.
-
-#### Small Gamedev Projects:
-[Fishy Game](/FishyGame): A basic 2D game inspired by an old Flash game.

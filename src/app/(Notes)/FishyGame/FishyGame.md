@@ -5,7 +5,7 @@ tags:
   - gamedev
 ---
 # Fishy Game
-A simple clone of the classic Fishy Flash game.
+A simple game inspired by the classic Fishy Flash game. Created to learn how to make a simple game in Unity.
 ####
 **Source code:** [FishyGame](https://github.com/GitGeddes/FishyGame)
 

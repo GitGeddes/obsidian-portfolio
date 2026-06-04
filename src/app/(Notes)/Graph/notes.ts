@@ -35,8 +35,7 @@ export const notes: NotesType = {
             'Groupie',
             'Amazon',
             'Portfolio',
-            'VideoClipper',
-            'FishyGame'
+            'VideoClipper'
         ]
     },
     'Amazon': {
@@ -89,6 +88,16 @@ export const notes: NotesType = {
             'Tauri'
         ]
     },
+    'DupeViewer': {
+        title: 'DupeViewer',
+        link: 'DupeViewer',
+        path: 'Notes/Projects/DupeViewer',
+        tags: [
+            '#projects',
+            '#projects/GitHub'
+        ],
+        links: []
+    },
     'FishyGame': {
         title: 'FishyGame',
         link: 'FishyGame',
@@ -104,12 +113,16 @@ export const notes: NotesType = {
     },
     'AWS': {
         path: 'Notes/Areas/AWS',
-        tags: [],
+        tags: [
+            '#cloud'
+        ],
         links: []
     },
     'Firebase': {
         path: 'Notes/Areas/Firebase',
-        tags: [],
+        tags: [
+            '#cloud'
+        ],
         links: []
     },
     'React': {
@@ -146,7 +159,9 @@ export const notes: NotesType = {
     },
     'Unity': {
         path: 'Notes/Areas/Unity',
-        tags: [],
+        tags: [
+            '#gamedev'
+        ],
         links: []
     },
     '#experience': {
@@ -171,6 +186,11 @@ export const notes: NotesType = {
     },
     '#gamedev': {
         path: 'Tags/#gamedev',
+        tags: [],
+        links: []
+    },
+    '#cloud': {
+        path: 'Tags/#cloud',
         tags: [],
         links: []
     }
