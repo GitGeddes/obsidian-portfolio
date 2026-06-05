@@ -23,7 +23,7 @@ describe("Calendar test suite:", () => {
         mockFetch(SHORT_DATA);
         render(<Calendar username={'test'}/>);
 
-        expect(screen.getByText("January")).toBeDefined();
+        expect(screen.getByText("Jan")).toBeDefined();
         expect(screen.getByText("2026")).toBeDefined();
         expect(screen.getByText("15")).toHaveStyle("color: #8a5cf5");
     });
@@ -33,7 +33,7 @@ describe("Calendar test suite:", () => {
         jest.useFakeTimers().setSystemTime(mockDate);
         render(<Calendar username={'test'}/>);
 
-        expect(screen.getByText("February")).toBeDefined();
+        expect(screen.getByText("Feb")).toBeDefined();
         expect(screen.getByText("2024")).toBeDefined();
         expect(screen.getAllByText("29").length).toBe(2);
         expect(screen.getAllByText("29")[1]).toHaveStyle("color: #8a5cf5");

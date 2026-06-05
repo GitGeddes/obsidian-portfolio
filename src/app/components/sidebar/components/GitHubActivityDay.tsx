@@ -54,7 +54,7 @@ type GitHubActivityDayProps = {
 
 export default function GitHubActivityDay(props: GitHubActivityDayProps) {
     return (
-        <div>
+        <div style={{ height: DOT_HEIGHT * 3 }}>
             {
                 (props.commitDay) ?
                     (props.commitDay.level === 0) ?

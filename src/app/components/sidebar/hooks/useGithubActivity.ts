@@ -17,21 +17,30 @@ function getToken() {
     return process.env.NEXT_PUBLIC_GITHUB_TOKEN;
 }
 
+function getCacheKey(username: string, DATE: Date): string {
+    return `github-commits-${username}-${DATE.getMonth()}-${DATE.getFullYear()}`;
+}
+
 export default function useGithubActivity(username: string, DATE: Date) {
     const CACHE_TTL = 3600;
-    const {
-        calendar
-    } = useCalendar(DATE);
-
-    const [startDate] = useState<Date>(calendar[0].dateTime);
-    const [endDate] = useState<Date>(calendar[calendar.length - 1].dateTime);
-
-    const CACHE_KEY = `github-commits-${username}`;
+    const CACHE_KEY = getCacheKey(username, DATE);
     const {
         getCachedData,
         setCachedData,
         invalidateCache
     } = useCache<GithubActivityData>();
+
+    const {
+        calendar
+    } = useCalendar(DATE);
+
+    const [startDate, setStartDate] = useState<Date>(calendar[0].dateTime);
+    const [endDate, setEndDate] = useState<Date>(calendar[calendar.length - 1].dateTime);
+
+    const resetDates = useCallback(() => {
+        setStartDate(calendar[0].dateTime);
+        setEndDate(calendar[calendar.length - 1].dateTime);
+    }, [calendar]);
 
     const fetchGithubCommits = useCallback(async (username: string): Promise<GithubActivityData> => {
         if (getToken() === undefined) {
@@ -70,7 +79,7 @@ export default function useGithubActivity(username: string, DATE: Date) {
             console.error("Error fetching GitHub commits:", error);
             throw error;
         }
-    }, []);
+    }, [CACHE_KEY, startDate, endDate]);
 
     const [commits, setCommits] = useState<GithubActivityData>({ totalCommits: 0, contributions: [] });
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -90,13 +99,17 @@ export default function useGithubActivity(username: string, DATE: Date) {
     }, [username, fetchGithubCommits]);
 
     useEffect(() => {
+        resetDates();
+    }, [DATE]);
+
+    useEffect(() => {
         fetchCommits();
-    }, []);
+    }, [fetchCommits]);
 
     const handleRefresh = useCallback(async () => {
         invalidateCache(CACHE_KEY);
         await fetchCommits();
-    }, []);
+    }, [CACHE_KEY, fetchCommits]);
 
     return {
         calendar,
